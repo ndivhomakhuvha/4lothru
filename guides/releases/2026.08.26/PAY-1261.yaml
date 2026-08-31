@@ -1,0 +1,20 @@
+id: PAY-1261
+title: Verify Transaction History
+application: demo-bank
+release: 2026.08.26
+
+start:
+  url: http://localhost:3001/transactions
+
+steps:
+  - id: open-history
+    target:
+      text: "Transaction History"
+    action: verify
+    instruction: "Verify the Transaction History page has loaded."
+
+  - id: verify-first-entry
+    target:
+      text: "Jane Doe"
+    action: verify
+    instruction: "Verify the most recent transaction to Jane Doe is listed."

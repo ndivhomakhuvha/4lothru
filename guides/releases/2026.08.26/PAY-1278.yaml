@@ -1,0 +1,27 @@
+id: PAY-1278
+title: Add Beneficiary
+application: demo-bank
+release: 2026.08.26
+
+start:
+  url: http://localhost:3001/beneficiaries/new
+
+steps:
+  - id: name
+    target:
+      testId: beneficiary-name
+    action: input
+    value: "Alex Rivera"
+    instruction: "Enter the beneficiary's name."
+
+  - id: submit
+    target:
+      testId: add-beneficiary-submit
+    action: click
+    instruction: "Add the beneficiary."
+
+  - id: success
+    target:
+      text: "Beneficiary added successfully."
+    action: verify
+    instruction: "Verify that the beneficiary was added successfully."

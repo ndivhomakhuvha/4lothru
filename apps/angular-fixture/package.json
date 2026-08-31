@@ -1,0 +1,27 @@
+{
+  "name": "@test-guide/angular-fixture",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3002",
+    "build": "vite build",
+    "preview": "vite preview --port 3002",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@angular/common": "^18.2.13",
+    "@angular/compiler": "^18.2.13",
+    "@angular/core": "^18.2.13",
+    "@angular/platform-browser": "^18.2.13",
+    "@angular/platform-browser-dynamic": "^18.2.13",
+    "@test-guide/sdk": "workspace:*",
+    "rxjs": "^7.8.1",
+    "zone.js": "^0.14.10"
+  },
+  "devDependencies": {
+    "@test-guide/guide-schema": "workspace:*",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.4"
+  }
+}

@@ -1,0 +1,34 @@
+id: PAY-1245
+title: Create a Payment
+application: demo-bank
+release: 2026.08.26
+
+start:
+  url: http://localhost:3001/payments/new
+
+steps:
+  - id: amount
+    target:
+      label: Amount
+    action: input
+    value: "1000"
+    instruction: "Enter 1000 into the amount field."
+
+  - id: beneficiary
+    target:
+      text: "Beneficiary"
+    action: click
+    instruction: "Select the beneficiary."
+
+  - id: submit
+    target:
+      role: button
+      name: "Submit Payment"
+    action: click
+    instruction: "Submit the payment."
+
+  - id: success
+    target:
+      text: "Payment successful"
+    action: verify
+    instruction: "Verify that the payment was successful."

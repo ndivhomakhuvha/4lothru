@@ -1,0 +1,21 @@
+{
+  "name": "@test-guide/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "test-guide": "./bin/test-guide.js"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@test-guide/guide-schema": "workspace:*",
+    "commander": "^12.1.0",
+    "tsx": "^4.19.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.15",
+    "typescript": "^5.5.4"
+  }
+}

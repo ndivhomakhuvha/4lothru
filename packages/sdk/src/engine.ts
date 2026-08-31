@@ -1,0 +1,190 @@
+import type { Guide, GuideStep, Target } from "@test-guide/guide-schema";
+import { GuideState } from "./state.js";
+import { Overlay } from "./overlay.js";
+import { resolveTarget } from "./target-resolver.js";
+import { waitForElement } from "./dom-watcher.js";
+import { onLocationChange } from "./spa-router.js";
+import { saveCheckpoint, clearCheckpoint } from "./session-storage.js";
+
+const DEFAULT_TARGET_TIMEOUT_MS = 10_000;
+
+export interface EngineOptions {
+  guide: Guide;
+  release: string;
+  startIndex: number;
+  onExit?: () => void;
+}
+
+export interface TestGuideHandle {
+  next: () => void;
+  back: () => void;
+  exit: () => void;
+}
+
+/** Orchestrates step state, target resolution, the overlay, and SPA route changes. */
+export class TestGuideEngine implements TestGuideHandle {
+  private readonly guide: Guide;
+  private readonly release: string;
+  private readonly state: GuideState;
+  private readonly overlay: Overlay;
+  private readonly unsubscribeLocation: () => void;
+  private readonly onExitCallback?: () => void;
+  private cancelWait: (() => void) | null = null;
+  private destroyed = false;
+
+  constructor(options: EngineOptions) {
+    this.guide = options.guide;
+    this.release = options.release;
+    this.state = new GuideState(options.guide, options.startIndex);
+    this.onExitCallback = options.onExit;
+
+    this.overlay = new Overlay({
+      onNext: () => this.next(),
+      onBack: () => this.back(),
+      onExit: () => this.exit(),
+      onRetry: () => this.activateCurrentStep(),
+    });
+
+    // Re-resolve the current step whenever the app's own router changes the URL.
+    this.unsubscribeLocation = onLocationChange(() => this.activateCurrentStep());
+
+    this.activateCurrentStep();
+  }
+
+  next(): void {
+    if (this.destroyed) return;
+    this.cancelWait?.();
+    if (this.state.isLast) {
+      this.complete();
+      return;
+    }
+    this.state.next();
+    this.activateCurrentStep();
+  }
+
+  back(): void {
+    if (this.destroyed) return;
+    this.cancelWait?.();
+    this.state.back();
+    this.activateCurrentStep();
+  }
+
+  exit(): void {
+    if (this.destroyed) return;
+    clearCheckpoint();
+    this.destroy();
+    this.onExitCallback?.();
+  }
+
+  destroy(): void {
+    if (this.destroyed) return;
+    this.destroyed = true;
+    this.cancelWait?.();
+    this.unsubscribeLocation();
+    this.overlay.destroy();
+  }
+
+  private persist(): void {
+    saveCheckpoint({ release: this.release, guideId: this.guide.id, stepIndex: this.state.currentIndex });
+  }
+
+  private activateCurrentStep(): void {
+    if (this.destroyed) return;
+    this.cancelWait?.();
+    this.persist();
+
+    const step = this.state.currentStep;
+
+    if (step.action === "navigate") {
+      this.handleNavigateStep(step);
+      return;
+    }
+
+    const target: Target | undefined = "target" in step ? step.target : undefined;
+
+    if (!target) {
+      this.renderReady(null, step);
+      return;
+    }
+
+    this.overlay.renderLocating({
+      stepNumber: this.state.currentIndex + 1,
+      totalSteps: this.state.total,
+      title: this.guide.title,
+      instruction: step.instruction,
+    });
+
+    const timeoutMs = step.action === "wait" ? step.timeoutMs ?? DEFAULT_TARGET_TIMEOUT_MS : DEFAULT_TARGET_TIMEOUT_MS;
+    const { promise, cancel } = waitForElement(() => resolveTarget(target).element, { timeoutMs });
+    this.cancelWait = cancel;
+
+    promise.then((result) => {
+      if (this.destroyed) return;
+      if (result.timedOut || !result.element) {
+        this.renderMissingTarget(step, target);
+        return;
+      }
+      result.element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
+      this.renderReady(result.element, step);
+    });
+  }
+
+  private handleNavigateStep(step: Extract<GuideStep, { action: "navigate" }>): void {
+    const destination = new URL(step.url, window.location.origin);
+    if (window.location.pathname === destination.pathname) {
+      this.renderReady(null, step);
+      return;
+    }
+
+    // Persist the *next* step so a full page navigation resumes past this one.
+    saveCheckpoint({
+      release: this.release,
+      guideId: this.guide.id,
+      stepIndex: Math.min(this.state.currentIndex + 1, this.state.total - 1),
+    });
+    destination.searchParams.set("testGuide", this.guide.id);
+    destination.searchParams.set("release", this.release);
+    window.location.assign(destination.toString());
+  }
+
+  private renderReady(element: HTMLElement | null, step: GuideStep): void {
+    if (element) {
+      this.overlay.spotlight.attachTo(element);
+    } else {
+      this.overlay.spotlight.hide();
+    }
+    this.overlay.renderStep({
+      stepNumber: this.state.currentIndex + 1,
+      totalSteps: this.state.total,
+      title: this.guide.title,
+      instruction: step.instruction,
+      canGoBack: !this.state.isFirst,
+      canGoNext: true,
+      nextLabel: this.state.isLast ? "Finish" : "Next",
+    });
+  }
+
+  private renderMissingTarget(step: GuideStep, target: Target): void {
+    const { attempts } = resolveTarget(target);
+    const detail = attempts
+      .map((attempt) => `${attempt.strategy}: ${attempt.detail} — ${attempt.found ? "found" : "not found"}`)
+      .join(" | ");
+    this.overlay.renderError({
+      title: "Target Not Found",
+      message:
+        `${step.instruction}\n\nThe application element could not be located. Possible causes: ` +
+        "wrong page, application still loading, UI changed, or the guide is outdated.",
+      detail,
+      showRetry: true,
+    });
+  }
+
+  private complete(): void {
+    this.cancelWait?.();
+    clearCheckpoint();
+    this.overlay.renderComplete(this.guide.title, this.state.total, () => {
+      this.state.reset();
+      this.activateCurrentStep();
+    });
+  }
+}

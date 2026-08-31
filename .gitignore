@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.pnpm-store/
+*.log
+.DS_Store
+coverage/
+playwright-report/
+test-results/
+.vite/
+.angular/
