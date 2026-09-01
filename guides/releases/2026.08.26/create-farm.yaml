@@ -1,0 +1,16 @@
+# guides/releases/2026.08.26/create-farm.yaml
+id: create-farm
+title: Create a farm
+application: browz
+release: 2026.08.26
+
+start:
+  url: http://localhost:4200/farm
+
+steps:
+  - id: add-farm
+    target:
+      label: "Farm Name"
+    action: input
+    value: "MyFarm"
+    instruction: "Verify that the farm name field is present."

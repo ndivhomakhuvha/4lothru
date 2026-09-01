@@ -30,6 +30,8 @@ export class TestGuideEngine implements TestGuideHandle {
   private readonly unsubscribeLocation: () => void;
   private readonly onExitCallback?: () => void;
   private cancelWait: (() => void) | null = null;
+  private cancelStepCompletion: (() => void) | null = null;
+  private currentStepComplete = false;
   private destroyed = false;
 
   constructor(options: EngineOptions) {
@@ -52,7 +54,7 @@ export class TestGuideEngine implements TestGuideHandle {
   }
 
   next(): void {
-    if (this.destroyed) return;
+    if (this.destroyed || !this.currentStepComplete) return;
     this.cancelWait?.();
     if (this.state.isLast) {
       this.complete();
@@ -80,6 +82,7 @@ export class TestGuideEngine implements TestGuideHandle {
     if (this.destroyed) return;
     this.destroyed = true;
     this.cancelWait?.();
+    this.cancelStepCompletion?.();
     this.unsubscribeLocation();
     this.overlay.destroy();
   }
@@ -91,6 +94,9 @@ export class TestGuideEngine implements TestGuideHandle {
   private activateCurrentStep(): void {
     if (this.destroyed) return;
     this.cancelWait?.();
+    this.cancelStepCompletion?.();
+    this.cancelStepCompletion = null;
+    this.currentStepComplete = false;
     this.persist();
 
     const step = this.state.currentStep;
@@ -159,9 +165,39 @@ export class TestGuideEngine implements TestGuideHandle {
       title: this.guide.title,
       instruction: step.instruction,
       canGoBack: !this.state.isFirst,
-      canGoNext: true,
+      canGoNext: this.watchStepCompletion(element, step),
       nextLabel: this.state.isLast ? "Finish" : "Next",
     });
+  }
+
+  private watchStepCompletion(element: HTMLElement | null, step: GuideStep): boolean {
+    if (!element || step.action === "verify" || step.action === "wait" || step.action === "navigate") {
+      this.currentStepComplete = true;
+      return true;
+    }
+
+    const controller = new AbortController();
+    this.cancelStepCompletion = () => controller.abort();
+    const complete = () => {
+      this.currentStepComplete = true;
+      this.overlay.setNextEnabled(true);
+    };
+
+    if (step.action === "input" || step.action === "select") {
+      const isExpectedValue = () =>
+        (element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement) &&
+        element.value === step.value;
+      const updateCompletion = () => {
+        this.currentStepComplete = isExpectedValue();
+        this.overlay.setNextEnabled(this.currentStepComplete);
+      };
+      element.addEventListener("input", updateCompletion, { signal: controller.signal });
+      element.addEventListener("change", updateCompletion, { signal: controller.signal });
+      return isExpectedValue();
+    }
+
+    element.addEventListener("click", complete, { once: true, signal: controller.signal });
+    return false;
   }
 
   private renderMissingTarget(step: GuideStep, target: Target): void {

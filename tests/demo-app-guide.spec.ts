@@ -18,15 +18,26 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     expect(Math.abs(spotlightBox!.x - amountBox!.x)).toBeLessThan(20);
   });
 
-  test("Back and Next navigate between steps (spec #8, #9)", async ({ page }) => {
+  test("Next remains disabled until the required action is completed", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
     await expect(page.locator(".tg-back-btn")).toBeDisabled();
+    await expect(page.locator(".tg-next-btn")).toBeDisabled();
+
+    await page.locator("#amount").fill("999");
+    await expect(page.locator(".tg-next-btn")).toBeDisabled();
+
+    await page.locator("#amount").fill("1000");
+    await expect(page.locator(".tg-next-btn")).toBeEnabled();
 
     await page.locator(".tg-next-btn").click();
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
     await expect(page.locator(".tg-instruction")).toHaveText("Select the beneficiary.");
+
+    await expect(page.locator(".tg-next-btn")).toBeDisabled();
+    await page.getByRole("button", { name: "Beneficiary" }).click();
+    await expect(page.locator(".tg-next-btn")).toBeEnabled();
 
     await page.locator(".tg-back-btn").click();
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");

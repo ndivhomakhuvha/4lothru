@@ -16,7 +16,7 @@ function Layout({ children }: { children: ReactNode }) {
       <aside className="sidebar">
         <div className="brand">Demo Bank</div>
         <nav>
-          <NavLink to="/" end>
+          <NavLink to="/" id="view-dashboard" end>
             Dashboard
           </NavLink>
           <NavLink to="/payments">Payments</NavLink>

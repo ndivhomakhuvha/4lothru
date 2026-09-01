@@ -26,6 +26,11 @@ export function guideDevServerPlugin(): Plugin {
 
         const [, release, guideId] = match as [string, string, string];
         const filePath = path.join(GUIDES_ROOT, release, `${guideId}.yaml`);
+        const origin = req.headers.origin;
+
+        if (origin === "http://localhost:4200") {
+          res.setHeader("Access-Control-Allow-Origin", origin);
+        }
 
         if (!existsSync(filePath)) {
           res.statusCode = 404;

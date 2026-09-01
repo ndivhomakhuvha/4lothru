@@ -10,6 +10,7 @@
     "postinstall": "pnpm --filter @test-guide/guide-schema build && pnpm --filter @test-guide/sdk build",
     "dev": "concurrently -k -n viewer,demo -c blue,green \"pnpm --filter @test-guide/viewer dev\" \"pnpm --filter @test-guide/demo-app dev\"",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
+    "predev": "pnpm --filter @test-guide/guide-schema build && pnpm --filter @test-guide/sdk build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

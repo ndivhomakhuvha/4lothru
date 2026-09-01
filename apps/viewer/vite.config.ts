@@ -4,6 +4,12 @@ import { guideDevServerPlugin } from "../../scripts/vite-guide-plugin";
 
 export default defineConfig({
   plugins: [react(), guideDevServerPlugin()],
-  server: { port: 5173 },
+  server: {
+    port: 5173,
+    strictPort: true,
+    cors: {
+      origin: "http://localhost:4200",
+    },
+  },
   preview: { port: 5173 },
 });

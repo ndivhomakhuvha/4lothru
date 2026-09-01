@@ -1,0 +1,22 @@
+id: Dashboard
+title: See Dashboard
+application: demo-bank
+release: 2026.08.26
+
+
+start:
+  url: http://localhost:3001
+
+steps:
+  - id: farm-name
+    target:
+      text: "MyFarm"
+    action: verify
+    instruction: "Verify the MyFarm page has loaded."
+
+  - id: view-transaction-history
+    target:
+      role: link
+      name: "View Transaction History"
+    action: click
+    instruction: "Click on transaction history"

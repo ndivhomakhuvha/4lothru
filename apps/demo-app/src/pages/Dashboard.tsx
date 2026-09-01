@@ -26,7 +26,7 @@ export default function Dashboard() {
           <Link className="btn btn-primary" to="/payments/new">
             New Payment
           </Link>
-          <Link className="btn" to="/transactions">
+          <Link className="btn" to="/transactions" id="view-transaction-history">
             View Transaction History
           </Link>
         </div>

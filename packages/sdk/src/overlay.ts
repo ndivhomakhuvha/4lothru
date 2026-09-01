@@ -17,6 +17,7 @@ const STYLES = `
   position: fixed;
   right: 20px;
   bottom: 20px;
+  z-index: 1;
   width: 320px;
   max-width: calc(100vw - 40px);
   background: #12131a;
@@ -151,6 +152,11 @@ export class Overlay {
     this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());
 
     this.focusPanel();
+  }
+
+  setNextEnabled(enabled: boolean): void {
+    const nextBtn = this.panel.querySelector<HTMLButtonElement>(".tg-next-btn");
+    if (nextBtn) nextBtn.disabled = !enabled;
   }
 
   renderLocating(model: Pick<StepViewModel, "stepNumber" | "totalSteps" | "title" | "instruction">): void {
