@@ -1,0 +1,22 @@
+id: PAY-PAYMENT-SUBMISSION
+title: Submit a Payment
+application: demo-bank
+release: 2026.08.26
+
+start:
+  url: http://localhost:3001/payments/new
+
+steps:
+  - id: submit
+    target:
+      role: button
+      name: "Submit Payment"
+    action: click
+    autoAdvance: true
+    instruction: "Submit the payment."
+
+  - id: success
+    target:
+      text: "Payment successful"
+    action: verify
+    instruction: "Verify that the payment was successful."

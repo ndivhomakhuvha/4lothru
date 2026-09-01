@@ -1,7 +1,13 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseGuideYaml, type GuideValidationIssue } from "@test-guide/guide-schema";
+import {
+  parseAuthorGuideYaml,
+  resolveGuide,
+  type AuthorGuide,
+  type Guide,
+  type GuideValidationIssue,
+} from "@test-guide/guide-schema";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = path.resolve(here, "../../../");
@@ -37,13 +43,59 @@ export interface ValidationResult {
   issues?: GuideValidationIssue[];
 }
 
+export type ResolvedGuideResult =
+  | { source: DiscoveredGuide; success: true; guide: Guide }
+  | { source: DiscoveredGuide; success: false; issues: GuideValidationIssue[] };
+
+/** Parses and resolves all guides per release, so extensions can only reference local bases. */
+export function resolveDiscoveredGuides(): ResolvedGuideResult[] {
+  const parsed = discoverGuides().map((source) => ({
+    source,
+    result: parseAuthorGuideYaml(readFileSync(source.filePath, "utf-8")),
+  }));
+  const releases = new Map<string, typeof parsed>();
+  for (const entry of parsed) {
+    const release = releases.get(entry.source.release) ?? [];
+    release.push(entry);
+    releases.set(entry.source.release, release);
+  }
+
+  const results: ResolvedGuideResult[] = [];
+  for (const [release, entries] of releases) {
+    const guidesById = new Map<string, AuthorGuide>();
+    const duplicateIds = new Set<string>();
+    for (const { result } of entries) {
+      if (!result.success) continue;
+      if (guidesById.has(result.guide.id)) duplicateIds.add(result.guide.id);
+      else guidesById.set(result.guide.id, result.guide);
+    }
+
+    for (const { source, result } of entries) {
+      if (!result.success) {
+        results.push({ source, success: false, issues: result.issues });
+      } else if (duplicateIds.has(result.guide.id)) {
+        results.push({
+          source,
+          success: false,
+          issues: [{ path: "id", message: `Duplicate guide id in release ${release}: ${result.guide.id}.` }],
+        });
+      } else {
+        const resolved = resolveGuide(result.guide, guidesById);
+        results.push(
+          resolved.success
+            ? { source, success: true, guide: resolved.guide }
+            : { source, success: false, issues: resolved.issues },
+        );
+      }
+    }
+  }
+  return results;
+}
+
 export function validateGuides(): { results: ValidationResult[] } {
-  const guides = discoverGuides();
-  const results = guides.map((guide): ValidationResult => {
-    const yamlText = readFileSync(guide.filePath, "utf-8");
-    const result = parseGuideYaml(yamlText);
-    const label = `${guide.release}/${guide.file}`;
-    return result.success ? { file: label, success: true } : { file: label, success: false, issues: result.issues };
+  const results = resolveDiscoveredGuides().map((result): ValidationResult => {
+    const file = `${result.source.release}/${result.source.file}`;
+    return result.success ? { file, success: true } : { file, success: false, issues: result.issues };
   });
   return { results };
 }

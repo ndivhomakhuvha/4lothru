@@ -2,6 +2,7 @@ id: PAY-1245
 title: Create a Payment
 application: demo-bank
 release: 2026.08.26
+extends: PAY-PAYMENT-SUBMISSION
 
 start:
   url: http://localhost:3001/payments/new
@@ -13,6 +14,7 @@ steps:
     action: input
     value: "1000"
     autoAdvance: true
+    before: submit
     instruction: "Enter 1000 into the amount field."
 
   - id: beneficiary
@@ -20,19 +22,5 @@ steps:
       text: "Beneficiary"
     action: click
     autoAdvance: true
+    after: amount
     instruction: "Select the beneficiary."
-
-  - id: submit
-    target:
-      role: button
-      name: "Submit Payment"
-    action: click
-    autoAdvance: true
-    instruction: "Submit the payment."
-
-  - id: success
-    target:
-      text: "Payment successful"
-    action: verify
-    autoAdvance: true
-    instruction: "Verify that the payment was successful."

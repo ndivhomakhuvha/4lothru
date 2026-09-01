@@ -1,12 +1,11 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { parseGuideYaml } from "@test-guide/guide-schema";
-import { discoverGuides, REPO_ROOT } from "./validate.js";
+import { REPO_ROOT, resolveDiscoveredGuides } from "./validate.js";
 
 const OUTPUT_ROOT = path.join(REPO_ROOT, "dist", "releases");
 
 export function runBuild(): void {
-  const guides = discoverGuides();
+  const guides = resolveDiscoveredGuides();
 
   if (guides.length === 0) {
     console.log("No guides found under guides/releases/.");
@@ -15,24 +14,21 @@ export function runBuild(): void {
 
   let hasErrors = false;
 
-  for (const guide of guides) {
-    const yamlText = readFileSync(guide.filePath, "utf-8");
-    const result = parseGuideYaml(yamlText);
-
+  for (const result of guides) {
     if (!result.success) {
       hasErrors = true;
-      console.error(`✗ ${guide.release}/${guide.file}`);
+      console.error(`✗ ${result.source.release}/${result.source.file}`);
       for (const issue of result.issues) {
         console.error(`  ${issue.path}: ${issue.message}`);
       }
       continue;
     }
 
-    const outDir = path.join(OUTPUT_ROOT, guide.release);
+    const outDir = path.join(OUTPUT_ROOT, result.source.release);
     mkdirSync(outDir, { recursive: true });
-    const outFile = path.join(outDir, guide.file.replace(/\.ya?ml$/, ".json"));
+    const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
     writeFileSync(outFile, JSON.stringify(result.guide, null, 2));
-    console.log(`✓ built ${guide.release}/${path.basename(outFile)}`);
+    console.log(`✓ built ${result.source.release}/${path.basename(outFile)}`);
   }
 
   if (hasErrors) {

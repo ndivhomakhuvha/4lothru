@@ -1,6 +1,6 @@
 import { parse as parseYamlText } from "yaml";
 import type { ZodError } from "zod";
-import { GuideSchema, type Guide } from "./guide.js";
+import { AuthorGuideSchema, GuideSchema, type AuthorGuide, type Guide } from "./guide.js";
 
 export interface GuideValidationIssue {
   path: string;
@@ -9,6 +9,10 @@ export interface GuideValidationIssue {
 
 export type GuideParseResult =
   | { success: true; guide: Guide }
+  | { success: false; issues: GuideValidationIssue[] };
+
+export type AuthorGuideParseResult =
+  | { success: true; guide: AuthorGuide }
   | { success: false; issues: GuideValidationIssue[] };
 
 function formatPath(path: (string | number)[]): string {
@@ -44,6 +48,14 @@ function parseData(raw: unknown): GuideParseResult {
   return { success: true, guide: result.data };
 }
 
+function parseAuthorData(raw: unknown): AuthorGuideParseResult {
+  const result = AuthorGuideSchema.safeParse(raw);
+  if (!result.success) {
+    return { success: false, issues: issuesFromZodError(result.error) };
+  }
+  return { success: true, guide: result.data };
+}
+
 export function parseGuideYaml(yamlText: string): GuideParseResult {
   let raw: unknown;
   try {
@@ -57,6 +69,21 @@ export function parseGuideYaml(yamlText: string): GuideParseResult {
     };
   }
   return parseData(raw);
+}
+
+export function parseAuthorGuideYaml(yamlText: string): AuthorGuideParseResult {
+  let raw: unknown;
+  try {
+    raw = parseYamlText(yamlText);
+  } catch (error) {
+    return {
+      success: false,
+      issues: [
+        { path: "(yaml)", message: error instanceof Error ? error.message : "Invalid YAML." },
+      ],
+    };
+  }
+  return parseAuthorData(raw);
 }
 
 export function parseGuideJson(jsonText: string): GuideParseResult {

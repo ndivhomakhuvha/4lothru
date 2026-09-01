@@ -1,9 +1,9 @@
 import type { Plugin } from "vite";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseGuideYaml } from "@test-guide/guide-schema";
+import { parseAuthorGuideYaml, resolveGuide, type AuthorGuide } from "@test-guide/guide-schema";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const GUIDES_ROOT = path.resolve(here, "../guides/releases");
@@ -25,7 +25,8 @@ export function guideDevServerPlugin(): Plugin {
         }
 
         const [, release, guideId] = match as [string, string, string];
-        const filePath = path.join(GUIDES_ROOT, release, `${guideId}.yaml`);
+        const releasePath = path.join(GUIDES_ROOT, release);
+        const filePath = path.join(releasePath, `${guideId}.yaml`);
         const origin = req.headers.origin;
 
         if (origin === "http://localhost:4200") {
@@ -39,13 +40,28 @@ export function guideDevServerPlugin(): Plugin {
           return;
         }
 
-        const yamlText = await readFile(filePath, "utf-8");
-        const result = parseGuideYaml(yamlText);
+        const guideFiles = await readdir(releasePath);
+        const parsedGuides = await Promise.all(
+          guideFiles
+            .filter((file) => file.endsWith(".yaml") || file.endsWith(".yml"))
+            .map(async (file) => ({
+              file,
+              result: parseAuthorGuideYaml(await readFile(path.join(releasePath, file), "utf-8")),
+            })),
+        );
+        const requested = parsedGuides.find((entry) => entry.file === `${guideId}.yaml`);
+        const authorGuides = new Map<string, AuthorGuide>();
+        for (const { result } of parsedGuides) {
+          if (result.success) authorGuides.set(result.guide.id, result.guide);
+        }
+        const result = requested?.result.success
+          ? resolveGuide(requested.result.guide, authorGuides)
+          : requested?.result;
 
-        if (!result.success) {
+        if (!result || !result.success) {
           res.statusCode = 422;
           res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify({ error: "Invalid guide", issues: result.issues }));
+          res.end(JSON.stringify({ error: "Invalid guide", issues: result?.issues }));
           return;
         }
 

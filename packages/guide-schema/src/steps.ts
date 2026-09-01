@@ -67,3 +67,20 @@ export type NavigateStep = z.infer<typeof NavigateStepSchema>;
 export type WaitStep = z.infer<typeof WaitStepSchema>;
 export type GuideStep = z.infer<typeof GuideStepSchema>;
 export type GuideActionType = GuideStep["action"];
+
+const placementFields = {
+  before: z.string().min(1).optional(),
+  after: z.string().min(1).optional(),
+};
+
+/** A source-only step that is inserted relative to a step inherited from a base guide. */
+export const AuthorGuideStepSchema = z.discriminatedUnion("action", [
+  ClickStepSchema.extend(placementFields),
+  InputStepSchema.extend(placementFields),
+  SelectStepSchema.extend(placementFields),
+  VerifyStepSchema.extend(placementFields),
+  NavigateStepSchema.extend(placementFields),
+  WaitStepSchema.extend(placementFields),
+]);
+
+export type AuthorGuideStep = z.infer<typeof AuthorGuideStepSchema>;

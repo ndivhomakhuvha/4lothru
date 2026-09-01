@@ -139,6 +139,52 @@ steps:
 
 Supported actions: `click`, `input`, `select`, `verify`, `navigate`, `wait`. Set `autoAdvance: true` on an `input`, `select`, or `click` step to continue as soon as its required value or action is completed. Guides are declarative — the SDK never executes guide content as code.
 
+## Reusable scenarios
+
+A guide may be a runnable shared scenario that other guides extend. This keeps stable workflow steps in one place while a ticket guide adds only its feature-specific setup. Base guides and extensions must live in the same release and application; the CLI resolves them into ordinary standalone JSON before the SDK loads them.
+
+```yaml
+# PAY-PAYMENT-SUBMISSION.yaml — also runnable on its own
+id: PAY-PAYMENT-SUBMISSION
+title: Submit a Payment
+application: demo-bank
+release: 2026.08.26
+start: { url: http://localhost:3001/payments/new }
+steps:
+  - id: submit
+    action: click
+    target: { role: button, name: "Submit Payment" }
+    instruction: "Submit the payment."
+  - id: success
+    action: verify
+    target: { text: "Payment successful" }
+    instruction: "Verify that the payment was successful."
+```
+
+```yaml
+# PAY-1245.yaml — inserts feature-specific steps around stable step IDs
+id: PAY-1245
+title: Create a Payment
+application: demo-bank
+release: 2026.08.26
+extends: PAY-PAYMENT-SUBMISSION
+start: { url: http://localhost:3001/payments/new }
+steps:
+  - id: amount
+    action: input
+    target: { label: Amount }
+    value: "1000"
+    before: submit
+    instruction: "Enter 1000 into the amount field."
+  - id: beneficiary
+    action: click
+    target: { text: Beneficiary }
+    after: amount
+    instruction: "Select the beneficiary."
+```
+
+Extension steps are additive: each one declares exactly one `before` or `after` anchor using a stable step ID. They cannot replace or remove inherited steps. Use a new base or a standalone guide when a workflow genuinely diverges.
+
 ## Install the SDK
 
 ```bash
