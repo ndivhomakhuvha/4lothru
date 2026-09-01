@@ -114,6 +114,7 @@ steps:
       label: Amount
     action: input
     value: "1000"
+    autoAdvance: true
     instruction: "Enter 1000 into the amount field."
 
   - id: beneficiary
@@ -136,7 +137,7 @@ steps:
     instruction: "Verify that the payment was successful."
 ```
 
-Supported actions: `click`, `input`, `select`, `verify`, `navigate`, `wait`. Guides are declarative — the SDK never executes guide content as code.
+Supported actions: `click`, `input`, `select`, `verify`, `navigate`, `wait`. Set `autoAdvance: true` on an `input`, `select`, or `click` step to continue as soon as its required value or action is completed. Guides are declarative — the SDK never executes guide content as code.
 
 ## Install the SDK
 

@@ -12,12 +12,14 @@ steps:
       label: Amount
     action: input
     value: "1000"
+    autoAdvance: true
     instruction: "Enter 1000 into the amount field."
 
   - id: beneficiary
     target:
       text: "Beneficiary"
     action: click
+    autoAdvance: true
     instruction: "Select the beneficiary."
 
   - id: submit
@@ -25,10 +27,12 @@ steps:
       role: button
       name: "Submit Payment"
     action: click
+    autoAdvance: true
     instruction: "Submit the payment."
 
   - id: success
     target:
       text: "Payment successful"
     action: verify
+    autoAdvance: true
     instruction: "Verify that the payment was successful."

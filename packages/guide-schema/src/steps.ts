@@ -3,9 +3,10 @@ import { TargetSchema } from "./target.js";
 
 const id = z.string().min(1);
 const instruction = z.string().min(1);
+const autoAdvance = z.boolean().optional();
 
 export const ClickStepSchema = z
-  .object({ id, action: z.literal("click"), target: TargetSchema, instruction })
+  .object({ id, action: z.literal("click"), target: TargetSchema, instruction, autoAdvance })
   .strict();
 
 export const InputStepSchema = z
@@ -15,6 +16,7 @@ export const InputStepSchema = z
     target: TargetSchema,
     value: z.string(),
     instruction,
+    autoAdvance,
   })
   .strict();
 
@@ -25,6 +27,7 @@ export const SelectStepSchema = z
     target: TargetSchema,
     value: z.string(),
     instruction,
+    autoAdvance,
   })
   .strict();
 

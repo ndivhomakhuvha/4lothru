@@ -47,8 +47,10 @@ export class TestGuideEngine implements TestGuideHandle {
       onRetry: () => this.activateCurrentStep(),
     });
 
-    // Re-resolve the current step whenever the app's own router changes the URL.
-    this.unsubscribeLocation = onLocationChange(() => this.activateCurrentStep());
+    // A completed action may trigger navigation before the tester presses Next.
+    this.unsubscribeLocation = onLocationChange(() => {
+      if (!this.currentStepComplete) this.activateCurrentStep();
+    });
 
     this.activateCurrentStep();
   }
@@ -181,6 +183,7 @@ export class TestGuideEngine implements TestGuideHandle {
     const complete = () => {
       this.currentStepComplete = true;
       this.overlay.setNextEnabled(true);
+      if (step.autoAdvance) this.next();
     };
 
     if (step.action === "input" || step.action === "select") {
@@ -188,8 +191,12 @@ export class TestGuideEngine implements TestGuideHandle {
         (element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement) &&
         element.value === step.value;
       const updateCompletion = () => {
-        this.currentStepComplete = isExpectedValue();
-        this.overlay.setNextEnabled(this.currentStepComplete);
+        if (isExpectedValue()) {
+          complete();
+          return;
+        }
+        this.currentStepComplete = false;
+        this.overlay.setNextEnabled(false);
       };
       element.addEventListener("input", updateCompletion, { signal: controller.signal });
       element.addEventListener("change", updateCompletion, { signal: controller.signal });
@@ -218,9 +225,20 @@ export class TestGuideEngine implements TestGuideHandle {
   private complete(): void {
     this.cancelWait?.();
     clearCheckpoint();
-    this.overlay.renderComplete(this.guide.title, this.state.total, () => {
+    this.overlay.renderComplete(this.guide.title, this.state.total, () => this.restart());
+  }
+
+  private restart(): void {
+    const destination = new URL(this.guide.start.url, window.location.origin);
+    destination.searchParams.set("testGuide", this.guide.id);
+    destination.searchParams.set("release", this.release);
+
+    if (window.location.href === destination.toString()) {
       this.state.reset();
       this.activateCurrentStep();
-    });
+      return;
+    }
+
+    window.location.assign(destination.toString());
   }
 }

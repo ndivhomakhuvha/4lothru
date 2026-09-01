@@ -18,6 +18,17 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     expect(Math.abs(spotlightBox!.x - amountBox!.x)).toBeLessThan(20);
   });
 
+  test("blocks interaction outside the highlighted target", async ({ page }) => {
+    await page.goto(GUIDE_URL);
+
+    const dashboard = page.getByRole("link", { name: "Dashboard" });
+    const dashboardBox = await dashboard.boundingBox();
+    expect(dashboardBox).not.toBeNull();
+
+    await page.mouse.click(dashboardBox!.x + 5, dashboardBox!.y + 5);
+    await expect(page).toHaveURL(/\/payments\/new/);
+  });
+
   test("Next remains disabled until the required action is completed", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
@@ -71,9 +82,15 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
 
     // Finish the guide.
     await expect(page.locator(".tg-next-btn")).toHaveText("Finish");
+    await expect(page.locator(".tg-next-btn")).toBeEnabled();
     await page.locator(".tg-next-btn").click();
 
     await expect(page.getByText("Test Guide Complete")).toBeVisible();
     await expect(page.getByText("4 of 4 steps completed.")).toBeVisible();
+
+    await page.getByRole("button", { name: "Restart" }).click();
+    await expect(page).toHaveURL(/\/payments\/new\?testGuide=PAY-1245&release=2026\.08\.26/);
+    await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
+    await expect(page.locator(".tg-instruction")).toHaveText("Enter 1000 into the amount field.");
   });
 });

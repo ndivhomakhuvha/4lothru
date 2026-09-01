@@ -13,6 +13,18 @@ describe("GuideStepSchema", () => {
     expect(result.success).toBe(true);
   });
 
+  it("accepts an action configured to advance automatically", () => {
+    const result = GuideStepSchema.safeParse({
+      id: "s-auto",
+      action: "input",
+      target: { selector: "#amount" },
+      value: "1000",
+      instruction: "Enter the amount.",
+      autoAdvance: true,
+    });
+    expect(result.success).toBe(true);
+  });
+
   it("accepts a navigate action with a url and no target", () => {
     const result = GuideStepSchema.safeParse({
       id: "s2",

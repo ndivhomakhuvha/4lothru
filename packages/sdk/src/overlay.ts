@@ -13,11 +13,12 @@ const STYLES = `
   pointer-events: none;
   transition: top 120ms ease, left 120ms ease, width 120ms ease, height 120ms ease;
 }
+.tg-blocker { position: fixed; z-index: 0; pointer-events: auto; }
 .tg-panel {
   position: fixed;
   right: 20px;
   bottom: 20px;
-  z-index: 1;
+  z-index: 2;
   width: 320px;
   max-width: calc(100vw - 40px);
   background: #12131a;
