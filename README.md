@@ -1,19 +1,19 @@
-# Test Guide
+# Trail
 
 Interactive manual-testing guides for the features you build — no database, no backend, no auth. Git + YAML is the source of truth.
 
-## What is Test Guide?
+## What is Trail?
 
 When you ship a feature, testers need to know how to test it. Today that usually means a wiki page, a Jira comment, or a Slack message that goes stale the moment the UI changes.
 
-Test Guide lets you describe how to test a feature once, as a YAML file committed alongside your code. Testers open a URL, click **Start Test**, and get an interactive, step-by-step guide rendered *inside the application itself* — highlighting the exact element to interact with at every step.
+Trail lets you describe how to test a feature once, as a YAML file committed alongside your code. Testers open a URL, click **Start Test**, and get an interactive, step-by-step guide rendered *inside the application itself* — highlighting the exact element to interact with at every step.
 
 ```
 Developer builds feature
         ↓
 Developer writes guides/releases/<release>/<TICKET>.yaml
         ↓
-test-guide validate
+trail validate
         ↓
 Commit → PR → Merge → CI builds guides → Deploy
         ↓
@@ -49,7 +49,7 @@ Click **Start Test** — the demo app opens with the guide running inside it.
 ## Architecture
 
 ```
-                 Test Guide
+                 Trail
                      │
           ┌──────────┴──────────┐
           │                     │
@@ -65,7 +65,7 @@ Click **Start Test** — the demo app opens with the guide running inside it.
 ```
 
 - **Viewer** (`apps/viewer`) is the tester-facing page that describes a guide (title, release, step count) and links to the application with a **Start Test** button. It never touches the application's DOM.
-- **SDK** (`packages/sdk`) is a zero-dependency-on-frameworks TypeScript package that runs *inside* the application under test. It reads `?testGuide=&release=` from the URL, loads the guide, and drives the tester through it with a self-contained DOM overlay.
+- **SDK** (`packages/sdk`) is a zero-dependency-on-frameworks TypeScript package that runs *inside* the application under test. It reads `?trail=&release=` from the URL, loads the guide, and drives the tester through it with a self-contained DOM overlay.
 - The viewer and the application under test may be on different origins — the viewer only ever opens the application's URL; it never reaches into a cross-origin iframe. The SDK must be installed inside the target application itself.
 
 Guides are plain YAML committed to Git:
@@ -89,9 +89,9 @@ apps/
   demo-app/           React demo banking app with the SDK installed
   angular-fixture/    Minimal Angular app proving SDK framework independence
 packages/
-  sdk/                @test-guide/sdk — pure TypeScript, runs inside the app under test
-  guide-schema/       @test-guide/guide-schema — Zod schema + types for guides
-  cli/                @test-guide/cli — validate / build / preview
+  sdk/                @trail/sdk — pure TypeScript, runs inside the app under test
+  guide-schema/       @trail/guide-schema — Zod schema + types for guides
+  cli/                @trail/cli — validate / build / preview
 guides/
   releases/<release>/<TICKET>.yaml
 tests/                Playwright end-to-end tests
@@ -188,18 +188,18 @@ Extension steps are additive: each one declares exactly one `before` or `after` 
 ## Install the SDK
 
 ```bash
-npm install @test-guide/sdk
+npm install @trail/sdk
 ```
 
 The smallest integration, run once at app startup:
 
 ```ts
-import { TestGuide } from "@test-guide/sdk";
+import { Trail } from "@trail/sdk";
 
-TestGuide.init();
+Trail.init();
 ```
 
-That's it. `init()` is a no-op unless the page was opened with `?testGuide=<id>&release=<release>` (or you pass `guideUrl` explicitly), so it has negligible overhead when no guide is active. The SDK has no dependency on React, Angular, Vue, or Svelte — it works against the raw DOM.
+That's it. `init()` is a no-op unless the page was opened with `?trail=<id>&release=<release>` (or you pass `guideUrl` explicitly), so it has negligible overhead when no guide is active. The SDK has no dependency on React, Angular, Vue, or Svelte — it works against the raw DOM.
 
 ## Target elements
 
@@ -230,7 +230,7 @@ A guide's URL (`/g/<release>/<TICKET>`) is immutable — release + ticket unique
 The SDK is pure TypeScript with zero framework dependencies. It works identically in:
 
 - **React** — see `apps/demo-app`
-- **Angular** — see `apps/angular-fixture` (same `@test-guide/sdk` package, no Angular-specific code)
+- **Angular** — see `apps/angular-fixture` (same `@trail/sdk` package, no Angular-specific code)
 - **Vue**, **Svelte**, **plain HTML/JS** — the SDK only touches `document`/`window`; the plain global build (`dist/index.global.js`) can be dropped in with a `<script>` tag
 
 SPA route changes (React Router, Vue Router, Angular Router, or anything else) are detected generically by wrapping `history.pushState`/`replaceState` and listening for `popstate` — no framework-specific router integration is required.
@@ -238,13 +238,13 @@ SPA route changes (React Router, Vue Router, Angular Router, or anything else) a
 ## CLI
 
 ```bash
-npm install -g @test-guide/cli   # or use it from the workspace directly
+npm install -g @trail/cli   # or use it from the workspace directly
 ```
 
 ```bash
-test-guide validate   # validates every YAML guide under guides/releases/
-test-guide build       # converts YAML guides into static JSON under dist/releases/
-test-guide preview     # starts a local viewer server for manual testing
+trail validate   # validates every YAML guide under guides/releases/
+trail build       # converts YAML guides into static JSON under dist/releases/
+trail preview     # starts a local viewer server for manual testing
 ```
 
 `validate` output:

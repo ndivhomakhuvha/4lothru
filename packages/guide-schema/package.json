@@ -1,5 +1,5 @@
 {
-  "name": "@test-guide/guide-schema",
+  "name": "@trail/guide-schema",
   "version": "0.1.0",
   "private": true,
   "type": "module",

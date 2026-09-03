@@ -1,4 +1,4 @@
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@test-guide/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/guide-schema";
 
 export type LoadGuideResult =
   | { success: true; guide: Guide }
@@ -6,7 +6,7 @@ export type LoadGuideResult =
 
 /**
  * Fetches a built guide JSON asset and validates it. The SDK only ever consumes the
- * static JSON produced by `test-guide build`, so the (larger) YAML parser stays out
+ * static JSON produced by `trail build`, so the (larger) YAML parser stays out
  * of the runtime bundle — keeping the SDK lightweight per spec #34.
  */
 export async function loadGuide(url: string): Promise<LoadGuideResult> {

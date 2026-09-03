@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const GUIDE_URL = "http://localhost:3001/payments/new?testGuide=PAY-1245&release=2026.08.26";
+const GUIDE_URL = "http://localhost:3001/payments/new?trail=PAY-1245&release=2026.08.26";
 
 test.describe("Demo app — PAY-1245 guided flow", () => {
   test("SDK detects the guide and highlights the first target (spec #5, #6, #7)", async ({ page }) => {
@@ -85,11 +85,11 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
     await page.locator(".tg-next-btn").click();
 
-    await expect(page.getByText("Test Guide Complete")).toBeVisible();
+    await expect(page.getByText("Trail Guide Complete")).toBeVisible();
     await expect(page.getByText("4 of 4 steps completed.")).toBeVisible();
 
     await page.getByRole("button", { name: "Restart" }).click();
-    await expect(page).toHaveURL(/\/payments\/new\?testGuide=PAY-1245&release=2026\.08\.26/);
+    await expect(page).toHaveURL(/\/payments\/new\?trail=PAY-1245&release=2026\.08\.26/);
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
     await expect(page.locator(".tg-instruction")).toHaveText("Enter 1000 into the amount field.");
   });

@@ -12,19 +12,19 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: [
     {
-      command: "pnpm --filter @test-guide/demo-app dev",
+      command: "pnpm --filter @trail/demo-app dev",
       url: "http://localhost:3001",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
     },
     {
-      command: "pnpm --filter @test-guide/viewer dev",
+      command: "pnpm --filter @trail/viewer dev",
       url: "http://localhost:5173",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
     },
     {
-      command: "pnpm --filter @test-guide/angular-fixture dev",
+      command: "pnpm --filter @trail/angular-fixture dev",
       url: "http://localhost:3002",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,

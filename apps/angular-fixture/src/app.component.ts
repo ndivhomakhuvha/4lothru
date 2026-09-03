@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, signal } from "@angular/core";
-import { TestGuide } from "@test-guide/sdk";
+import { Trail } from "@trail/sdk";
 
 @Component({
   selector: "app-root",
@@ -7,7 +7,7 @@ import { TestGuide } from "@test-guide/sdk";
   template: `
     <div class="shell">
       <h1>Angular Payments</h1>
-      <p class="hint">SDK compatibility fixture — same &#64;test-guide/sdk package as the React demo app.</p>
+      <p class="hint">SDK compatibility fixture — same &#64;trail/sdk package as the React demo app.</p>
 
       <div class="panel">
         <label for="amount">Amount</label>
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // No-op unless the page was opened with ?testGuide=&release= (see spec #14/#34).
-    void TestGuide.init();
+    // No-op unless the page was opened with ?trail=&release= (see spec #14/#34).
+    void Trail.init();
   }
 }

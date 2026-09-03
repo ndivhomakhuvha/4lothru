@@ -13,7 +13,7 @@ export default defineConfig([
     // Bundled + minified global build for plain HTML/JS pages with no module loader.
     entry: { index: "src/index.ts" },
     format: ["iife"],
-    globalName: "TestGuideSDK",
+    globalName: "TrailSDK",
     target: "es2019",
     dts: false,
     sourcemap: true,

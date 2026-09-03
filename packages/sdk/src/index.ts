@@ -1,15 +1,15 @@
 import { loadGuide } from "./guide-loader.js";
 import { loadCheckpoint } from "./session-storage.js";
-import { TestGuideEngine, type TestGuideHandle } from "./engine.js";
+import { TrailEngine, type TrailHandle } from "./engine.js";
 import { Overlay } from "./overlay.js";
 
-export type { TestGuideHandle } from "./engine.js";
-export type { Guide, GuideStep, Target } from "@test-guide/guide-schema";
+export type { TrailHandle } from "./engine.js";
+export type { Guide, GuideStep, Target } from "@trail/guide-schema";
 
-export interface TestGuideInitOptions {
+export interface TrailInitOptions {
   /** Explicit URL to a guide document (JSON or YAML). Overrides URL-based auto-detection. */
   guideUrl?: string;
-  /** Base path used to resolve `?testGuide=&release=` query params. Defaults to "/guides". */
+  /** Base path used to resolve `?trail=&release=` query params. Defaults to "/guides". */
   guideBaseUrl?: string;
 }
 
@@ -19,18 +19,18 @@ interface ResolvedGuideRequest {
   release: string;
 }
 
-export function resolveGuideRequest(options: TestGuideInitOptions): ResolvedGuideRequest | null {
+export function resolveGuideRequest(options: TrailInitOptions): ResolvedGuideRequest | null {
   if (options.guideUrl) {
     const params = new URLSearchParams(new URL(options.guideUrl, window.location.href).search);
     return {
       url: options.guideUrl,
-      guideId: params.get("testGuide") ?? "unknown",
+      guideId: params.get("trail") ?? "unknown",
       release: params.get("release") ?? "unknown",
     };
   }
 
   const params = new URLSearchParams(window.location.search);
-  const guideId = params.get("testGuide");
+  const guideId = params.get("trail");
   const release = params.get("release");
   if (!guideId || !release) return null;
 
@@ -51,33 +51,33 @@ function showStandaloneError(title: string, message: string, detail?: string): v
 /**
  * Entry point installed inside the application under test. No-ops (negligible
  * overhead, per spec #34) unless a guide has actually been requested via
- * `options.guideUrl` or the `?testGuide=&release=` query params.
+ * `options.guideUrl` or the `?trail=&release=` query params.
  */
-async function init(options: TestGuideInitOptions = {}): Promise<TestGuideHandle | null> {
+async function init(options: TrailInitOptions = {}): Promise<TrailHandle | null> {
   const request = resolveGuideRequest(options);
   if (!request) return null;
 
   const result = await loadGuide(request.url);
 
   if (!result.success && result.kind === "not-found") {
-    showStandaloneError("Test Guide Not Found", `${request.guideId}\nRelease ${request.release}`);
+    showStandaloneError("Trail Guide Not Found", `${request.guideId}\nRelease ${request.release}`);
     return null;
   }
 
   if (!result.success) {
     const detail = result.issues?.map((issue) => `${issue.path}: ${issue.message}`).join(" | ");
-    showStandaloneError("Invalid Test Guide", `${request.guideId} failed validation.`, detail);
+    showStandaloneError("Invalid Trail Guide", `${request.guideId} failed validation.`, detail);
     return null;
   }
 
   const checkpoint = loadCheckpoint(request.release, result.guide.id);
   const startIndex = checkpoint?.stepIndex ?? 0;
 
-  return new TestGuideEngine({
+  return new TrailEngine({
     guide: result.guide,
     release: request.release,
     startIndex,
   });
 }
 
-export const TestGuide = { init };
+export const Trail = { init };

@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
 
-const GUIDE_URL = "http://localhost:3002/?testGuide=NG-1&release=2026.08.26";
+const GUIDE_URL = "http://localhost:3002/?trail=NG-1&release=2026.08.26";
 
 test.describe("Angular compatibility (spec #17)", () => {
-  test("the same @test-guide/sdk drives a guide inside an Angular app", async ({ page }) => {
+  test("the same @trail/sdk drives a guide inside an Angular app", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
@@ -23,6 +23,6 @@ test.describe("Angular compatibility (spec #17)", () => {
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 4 of 4");
 
     await page.locator(".tg-next-btn").click();
-    await expect(page.getByText("Test Guide Complete")).toBeVisible();
+    await expect(page.getByText("Trail Guide Complete")).toBeVisible();
   });
 });

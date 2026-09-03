@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
-import { TestGuide } from "@test-guide/sdk";
+import { Trail } from "@trail/sdk";
 import { guardOnce } from "./sdk-init";
 import Dashboard from "./pages/Dashboard";
 import Payments from "./pages/Payments";
@@ -30,8 +30,8 @@ function Layout({ children }: { children: ReactNode }) {
 
 export default function App() {
   useEffect(() => {
-    // No-op unless the page was opened with ?testGuide=&release= (see spec #14/#34).
-    guardOnce(() => void TestGuide.init());
+    // No-op unless the page was opened with ?trail=&release= (see spec #14/#34).
+    guardOnce(() => void Trail.init());
   }, []);
 
   return (

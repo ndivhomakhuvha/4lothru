@@ -1,5 +1,5 @@
-import type { Target } from "@test-guide/guide-schema";
-import { TARGET_STRATEGY_ORDER } from "@test-guide/guide-schema";
+import type { Target } from "@trail/guide-schema";
+import { TARGET_STRATEGY_ORDER } from "@trail/guide-schema";
 
 export interface ResolveAttempt {
   strategy: string;

@@ -1,4 +1,4 @@
-const LOCATION_CHANGE_EVENT = "testguide:locationchange";
+const LOCATION_CHANGE_EVENT = "trail:locationchange";
 
 let patched = false;
 

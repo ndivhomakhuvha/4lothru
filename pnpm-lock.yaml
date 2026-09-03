@@ -145,7 +145,7 @@ importers:
       '@angular/platform-browser-dynamic':
         specifier: ^18.2.13
         version: 18.2.14(@angular/common@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/compiler@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(@angular/platform-browser@18.2.14(@angular/common@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))
-      '@test-guide/sdk':
+      '@trail/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       rxjs:
@@ -155,7 +155,7 @@ importers:
         specifier: ^0.14.10
         version: 0.14.10
     devDependencies:
-      '@test-guide/guide-schema':
+      '@trail/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       typescript:
@@ -167,7 +167,7 @@ importers:
 
   apps/demo-app:
     dependencies:
-      '@test-guide/sdk':
+      '@trail/sdk':
         specifier: workspace:*
         version: link:../../packages/sdk
       react:
@@ -180,7 +180,7 @@ importers:
         specifier: ^6.26.2
         version: 6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
-      '@test-guide/guide-schema':
+      '@trail/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       '@types/react':
@@ -201,7 +201,7 @@ importers:
 
   apps/viewer:
     dependencies:
-      '@test-guide/guide-schema':
+      '@trail/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       react:
@@ -232,7 +232,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@test-guide/guide-schema':
+      '@trail/guide-schema':
         specifier: workspace:*
         version: link:../guide-schema
       commander:
@@ -267,7 +267,7 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@test-guide/guide-schema':
+      '@trail/guide-schema':
         specifier: workspace:*
         version: link:../guide-schema
     devDependencies:

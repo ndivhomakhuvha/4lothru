@@ -1,5 +1,5 @@
 {
-  "name": "@test-guide/sdk",
+  "name": "@trail/sdk",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@test-guide/guide-schema": "workspace:*"
+    "@trail/guide-schema": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^24.1.3",

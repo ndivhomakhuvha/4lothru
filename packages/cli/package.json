@@ -1,16 +1,16 @@
 {
-  "name": "@test-guide/cli",
+  "name": "@trail/cli",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "bin": {
-    "test-guide": "./bin/test-guide.js"
+    "trail": "./bin/trail.js"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@test-guide/guide-schema": "workspace:*",
+    "@trail/guide-schema": "workspace:*",
     "commander": "^12.1.0",
     "tsx": "^4.19.1"
   },

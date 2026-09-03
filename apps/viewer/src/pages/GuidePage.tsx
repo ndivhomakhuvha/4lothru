@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@test-guide/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/guide-schema";
 
 type LoadState = "loading" | "found" | "not-found" | "invalid";
 
@@ -54,7 +54,7 @@ export default function GuidePage() {
     if (!guide || !release) return;
     setStarting(true);
     const url = new URL(guide.start.url);
-    url.searchParams.set("testGuide", guide.id);
+    url.searchParams.set("trail", guide.id);
     url.searchParams.set("release", release);
     window.location.href = url.toString();
   }
@@ -66,7 +66,7 @@ export default function GuidePage() {
   if (state === "not-found") {
     return (
       <div className="guide-card error-card">
-        <h1>Test Guide Not Found</h1>
+        <h1>Trail Guide Not Found</h1>
         <p>{guideId}</p>
         <p>Release {release}</p>
       </div>
@@ -76,7 +76,7 @@ export default function GuidePage() {
   if (state === "invalid") {
     return (
       <div className="guide-card error-card">
-        <h1>Invalid Test Guide</h1>
+        <h1>Invalid Trail Guide</h1>
         <p>{guideId} failed validation.</p>
         <ul className="issue-list">
           {issues.map((issue, i) => (

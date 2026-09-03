@@ -5,7 +5,7 @@ import { runPreview } from "./preview.js";
 
 const program = new Command();
 
-program.name("test-guide").description("Test Guide CLI").version("0.1.0");
+program.name("trail").description("Trail CLI").version("0.1.0");
 
 program
   .command("validate")

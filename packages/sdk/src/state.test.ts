@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Guide } from "@test-guide/guide-schema";
+import type { Guide } from "@trail/guide-schema";
 import { GuideState } from "./state.js";
 
 function makeGuide(stepCount: number): Guide {

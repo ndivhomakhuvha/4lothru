@@ -1,4 +1,4 @@
-import type { Guide } from "@test-guide/guide-schema";
+import type { Guide } from "@trail/guide-schema";
 
 export class GuideState {
   readonly guide: Guide;

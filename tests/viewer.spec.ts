@@ -14,12 +14,12 @@ test.describe("Viewer", () => {
     await page.goto("http://localhost:5173/g/2026.08.26/PAY-1245");
     await page.getByRole("button", { name: "Start Test" }).click();
 
-    await page.waitForURL(/localhost:3001\/payments\/new\?.*testGuide=PAY-1245/);
+    await page.waitForURL(/localhost:3001\/payments\/new\?.*trail=PAY-1245/);
     expect(page.url()).toContain("release=2026.08.26");
   });
 
   test("shows a clear error for a guide that doesn't exist (spec #26)", async ({ page }) => {
     await page.goto("http://localhost:5173/g/2026.08.26/DOES-NOT-EXIST");
-    await expect(page.getByRole("heading", { name: "Test Guide Not Found" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Trail Guide Not Found" })).toBeVisible();
   });
 });

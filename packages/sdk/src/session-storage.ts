@@ -4,7 +4,7 @@ export interface GuideCheckpoint {
   stepIndex: number;
 }
 
-const STORAGE_KEY = "test-guide:checkpoint";
+const STORAGE_KEY = "trail:checkpoint";
 
 function safeSessionStorage(): Storage | null {
   try {

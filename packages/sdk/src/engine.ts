@@ -1,4 +1,4 @@
-import type { Guide, GuideStep, Target } from "@test-guide/guide-schema";
+import type { Guide, GuideStep, Target } from "@trail/guide-schema";
 import { GuideState } from "./state.js";
 import { Overlay } from "./overlay.js";
 import { resolveTarget } from "./target-resolver.js";
@@ -15,14 +15,14 @@ export interface EngineOptions {
   onExit?: () => void;
 }
 
-export interface TestGuideHandle {
+export interface TrailHandle {
   next: () => void;
   back: () => void;
   exit: () => void;
 }
 
 /** Orchestrates step state, target resolution, the overlay, and SPA route changes. */
-export class TestGuideEngine implements TestGuideHandle {
+export class TrailEngine implements TrailHandle {
   private readonly guide: Guide;
   private readonly release: string;
   private readonly state: GuideState;
@@ -150,7 +150,7 @@ export class TestGuideEngine implements TestGuideHandle {
       guideId: this.guide.id,
       stepIndex: Math.min(this.state.currentIndex + 1, this.state.total - 1),
     });
-    destination.searchParams.set("testGuide", this.guide.id);
+    destination.searchParams.set("trail", this.guide.id);
     destination.searchParams.set("release", this.release);
     window.location.assign(destination.toString());
   }
@@ -230,7 +230,7 @@ export class TestGuideEngine implements TestGuideHandle {
 
   private restart(): void {
     const destination = new URL(this.guide.start.url, window.location.origin);
-    destination.searchParams.set("testGuide", this.guide.id);
+    destination.searchParams.set("trail", this.guide.id);
     destination.searchParams.set("release", this.release);
 
     if (window.location.href === destination.toString()) {

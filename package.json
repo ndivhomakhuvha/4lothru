@@ -1,5 +1,5 @@
 {
-  "name": "test-guide",
+  "name": "trail",
   "private": true,
   "version": "0.1.0",
   "engines": {
@@ -7,16 +7,16 @@
   },
   "packageManager": "pnpm@12.1.0",
   "scripts": {
-    "postinstall": "pnpm --filter @test-guide/guide-schema build && pnpm --filter @test-guide/sdk build",
-    "dev": "concurrently -k -n viewer,demo -c blue,green \"pnpm --filter @test-guide/viewer dev\" \"pnpm --filter @test-guide/demo-app dev\"",
+    "postinstall": "pnpm --filter @trail/guide-schema build && pnpm --filter @trail/sdk build",
+    "dev": "concurrently -k -n viewer,demo -c blue,green \"pnpm --filter @trail/viewer dev\" \"pnpm --filter @trail/demo-app dev\"",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
-    "predev": "pnpm --filter @test-guide/guide-schema build && pnpm --filter @test-guide/sdk build",
+    "predev": "pnpm --filter @trail/guide-schema build && pnpm --filter @trail/sdk build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "guides:validate": "node packages/cli/bin/test-guide.js validate",
-    "guides:build": "node packages/cli/bin/test-guide.js build",
-    "guides:preview": "node packages/cli/bin/test-guide.js preview",
+    "guides:validate": "node packages/cli/bin/trail.js validate",
+    "guides:build": "node packages/cli/bin/trail.js build",
+    "guides:preview": "node packages/cli/bin/trail.js preview",
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {

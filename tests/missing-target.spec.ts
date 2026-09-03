@@ -5,7 +5,7 @@ test.describe("Missing target handling (spec #11, #15, #26)", () => {
     test.setTimeout(20_000);
 
     // Guide expects the "Amount" field, but we land on the Dashboard, which doesn't have one.
-    await page.goto("http://localhost:3001/?testGuide=PAY-1245&release=2026.08.26");
+    await page.goto("http://localhost:3001/?trail=PAY-1245&release=2026.08.26");
 
     await expect(page.getByRole("heading", { name: "Target Not Found" })).toBeVisible({ timeout: 15_000 });
     await expect(page.locator(".tg-instruction")).toContainText("could not be located");
