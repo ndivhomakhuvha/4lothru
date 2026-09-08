@@ -87,12 +87,16 @@ export interface OverlayCallbacks {
 }
 
 /** Owns the SDK's self-contained DOM overlay: spotlight highlight + instruction panel. */
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export class Overlay {
   private readonly root: HTMLDivElement;
   private readonly panel: HTMLDivElement;
   readonly spotlight: Spotlight;
   private readonly callbacks: OverlayCallbacks;
   private keydownHandler: ((event: KeyboardEvent) => void) | null = null;
+  private readonly previousBodyOverflow: string;
 
   constructor(callbacks: OverlayCallbacks) {
     injectStyles();
@@ -104,6 +108,7 @@ export class Overlay {
     this.panel = document.createElement("div");
     this.panel.className = "tg-panel";
     this.panel.setAttribute("role", "dialog");
+    this.panel.setAttribute("aria-modal", "true");
     this.panel.setAttribute("aria-label", "Trail guide");
     this.panel.setAttribute("aria-live", "polite");
     this.panel.tabIndex = -1;
@@ -112,13 +117,51 @@ export class Overlay {
     this.spotlight = new Spotlight(this.root);
     document.body.appendChild(this.root);
 
+    this.previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     this.keydownHandler = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
         this.callbacks.onExit();
+        return;
+      }
+      if (event.key === "Tab") {
+        this.trapTabFocus(event);
       }
     };
-    document.addEventListener("keydown", this.keydownHandler);
+    document.addEventListener("keydown", this.keydownHandler, true);
+  }
+
+  /** Keeps focus cycling within the panel so background controls stay unreachable. */
+  private trapTabFocus(event: KeyboardEvent): void {
+    const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+      (el) => el.offsetParent !== null || el === document.activeElement,
+    );
+
+    if (focusable.length === 0) {
+      event.preventDefault();
+      this.focusPanel();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (!this.panel.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   renderStep(model: StepViewModel): void {
@@ -230,8 +273,9 @@ export class Overlay {
   destroy(): void {
     this.spotlight.destroy();
     if (this.keydownHandler) {
-      document.removeEventListener("keydown", this.keydownHandler);
+      document.removeEventListener("keydown", this.keydownHandler, true);
     }
+    document.body.style.overflow = this.previousBodyOverflow;
     this.root.remove();
   }
 }
