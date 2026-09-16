@@ -79,7 +79,7 @@ guides/
         └── PAY-1278.yaml
 ```
 
-A guide's URL — `/g/<release>/<TICKET>` — uniquely and immutably identifies that guide version. There's no "latest" alias in the MVP.
+A guide's URL — `/g/<release>/<TICKET>` — uniquely and immutably identifies that guide version. The YAML `id` is canonical: generated JSON is written as `<id>.json`, and the source filename does not need to match it. There's no "latest" alias in the MVP.
 
 ## Repository structure
 
@@ -223,6 +223,8 @@ Releases are directories, not database rows:
 guides/releases/<release>/<TICKET>.yaml
 ```
 
+Source filenames are for organization only. Each guide's `id` must be unique within its release and is used for the viewer URL and generated JSON filename.
+
 A guide's URL (`/g/<release>/<TICKET>`) is immutable — release + ticket uniquely identifies that guide version.
 
 ## Framework compatibility
@@ -256,6 +258,8 @@ trail preview     # starts a local viewer server for manual testing
 
 3 guides valid.
 ```
+
+`build` writes each resolved guide to `dist/releases/<release>/<id>.json`, using the YAML `id` rather than the source filename.
 
 Errors point at the exact file, step, and field:
 

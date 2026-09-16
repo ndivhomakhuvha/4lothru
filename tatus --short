@@ -1,0 +1,1336 @@
+packages/cli/src/build.ts:7: trailing whitespace.
+[32m+[m[32mexport function getGuideOutputFileName(guideId: string): string {[m[41m[m
+packages/cli/src/build.ts:8: trailing whitespace.
+[32m+[m[32m  return `${guideId}.json`;[m[41m[m
+packages/cli/src/build.ts:9: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/build.ts:10: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/build.ts:33: trailing whitespace.
+[32m+[m[32m    const outFile = path.join(outDir, getGuideOutputFileName(result.guide.id));[m[41m[m
+packages/cli/src/validate.ts:1: trailing whitespace.
+[32m+[m[32mimport { existsSync, readdirSync, readFileSync } from "node:fs";[m[41m[m
+packages/cli/src/validate.ts:2: trailing whitespace.
+[32m+[m[32mimport path from "node:path";[m[41m[m
+packages/cli/src/validate.ts:3: trailing whitespace.
+[32m+[m[32mimport { fileURLToPath } from "node:url";[m[41m[m
+packages/cli/src/validate.ts:4: trailing whitespace.
+[32m+[m[32mimport {[m[41m[m
+packages/cli/src/validate.ts:5: trailing whitespace.
+[32m+[m[32m  parseAuthorGuideYaml,[m[41m[m
+packages/cli/src/validate.ts:6: trailing whitespace.
+[32m+[m[32m  resolveGuide,[m[41m[m
+packages/cli/src/validate.ts:7: trailing whitespace.
+[32m+[m[32m  type AuthorGuide,[m[41m[m
+packages/cli/src/validate.ts:8: trailing whitespace.
+[32m+[m[32m  type Guide,[m[41m[m
+packages/cli/src/validate.ts:9: trailing whitespace.
+[32m+[m[32m  type GuideValidationIssue,[m[41m[m
+packages/cli/src/validate.ts:10: trailing whitespace.
+[32m+[m[32m} from "@trail/guide-schema";[m[41m[m
+packages/cli/src/validate.ts:11: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:12: trailing whitespace.
+[32m+[m[32mconst here = path.dirname(fileURLToPath(import.meta.url));[m[41m[m
+packages/cli/src/validate.ts:13: trailing whitespace.
+[32m+[m[32mexport const REPO_ROOT = path.resolve(here, "../../../");[m[41m[m
+packages/cli/src/validate.ts:14: trailing whitespace.
+[32m+[m[32mexport const GUIDES_ROOT = path.join(REPO_ROOT, "guides", "releases");[m[41m[m
+packages/cli/src/validate.ts:15: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:16: trailing whitespace.
+[32m+[m[32mexport interface DiscoveredGuide {[m[41m[m
+packages/cli/src/validate.ts:17: trailing whitespace.
+[32m+[m[32m  release: string;[m[41m[m
+packages/cli/src/validate.ts:18: trailing whitespace.
+[32m+[m[32m  file: string;[m[41m[m
+packages/cli/src/validate.ts:19: trailing whitespace.
+[32m+[m[32m  filePath: string;[m[41m[m
+packages/cli/src/validate.ts:20: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/validate.ts:21: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:22: trailing whitespace.
+[32m+[m[32m/** Walks `guides/releases/<release>/*.yaml`. Returns an empty list if the directory doesn't exist. */[m[41m[m
+packages/cli/src/validate.ts:23: trailing whitespace.
+[32m+[m[32mexport function discoverGuides(): DiscoveredGuide[] {[m[41m[m
+packages/cli/src/validate.ts:24: trailing whitespace.
+[32m+[m[32m  if (!existsSync(GUIDES_ROOT)) return [];[m[41m[m
+packages/cli/src/validate.ts:25: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:26: trailing whitespace.
+[32m+[m[32m  const guides: DiscoveredGuide[] = [];[m[41m[m
+packages/cli/src/validate.ts:27: trailing whitespace.
+[32m+[m[32m  const releases = readdirSync(GUIDES_ROOT, { withFileTypes: true }).filter((entry) => entry.isDirectory());[m[41m[m
+packages/cli/src/validate.ts:28: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:29: trailing whitespace.
+[32m+[m[32m  for (const release of releases) {[m[41m[m
+packages/cli/src/validate.ts:30: trailing whitespace.
+[32m+[m[32m    const releaseDir = path.join(GUIDES_ROOT, release.name);[m[41m[m
+packages/cli/src/validate.ts:31: trailing whitespace.
+[32m+[m[32m    const files = readdirSync(releaseDir).filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));[m[41m[m
+packages/cli/src/validate.ts:32: trailing whitespace.
+[32m+[m[32m    for (const file of files.sort()) {[m[41m[m
+packages/cli/src/validate.ts:33: trailing whitespace.
+[32m+[m[32m      guides.push({ release: release.name, file, filePath: path.join(releaseDir, file) });[m[41m[m
+packages/cli/src/validate.ts:34: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/cli/src/validate.ts:35: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:36: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:37: trailing whitespace.
+[32m+[m[32m  return guides;[m[41m[m
+packages/cli/src/validate.ts:38: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/validate.ts:39: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:40: trailing whitespace.
+[32m+[m[32mexport interface ValidationResult {[m[41m[m
+packages/cli/src/validate.ts:41: trailing whitespace.
+[32m+[m[32m  file: string;[m[41m[m
+packages/cli/src/validate.ts:42: trailing whitespace.
+[32m+[m[32m  success: boolean;[m[41m[m
+packages/cli/src/validate.ts:43: trailing whitespace.
+[32m+[m[32m  issues?: GuideValidationIssue[];[m[41m[m
+packages/cli/src/validate.ts:44: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/validate.ts:45: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:46: trailing whitespace.
+[32m+[m[32mexport type ResolvedGuideResult =[m[41m[m
+packages/cli/src/validate.ts:47: trailing whitespace.
+[32m+[m[32m  | { source: DiscoveredGuide; success: true; guide: Guide }[m[41m[m
+packages/cli/src/validate.ts:48: trailing whitespace.
+[32m+[m[32m  | { source: DiscoveredGuide; success: false; issues: GuideValidationIssue[] };[m[41m[m
+packages/cli/src/validate.ts:49: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:50: trailing whitespace.
+[32m+[m[32m/** Parses and resolves all guides per release, so extensions can only reference local bases. */[m[41m[m
+packages/cli/src/validate.ts:51: trailing whitespace.
+[32m+[m[32mexport function resolveDiscoveredGuides(): ResolvedGuideResult[] {[m[41m[m
+packages/cli/src/validate.ts:52: trailing whitespace.
+[32m+[m[32m  const parsed = discoverGuides().map((source) => ({[m[41m[m
+packages/cli/src/validate.ts:53: trailing whitespace.
+[32m+[m[32m    source,[m[41m[m
+packages/cli/src/validate.ts:54: trailing whitespace.
+[32m+[m[32m    result: parseAuthorGuideYaml(readFileSync(source.filePath, "utf-8")),[m[41m[m
+packages/cli/src/validate.ts:55: trailing whitespace.
+[32m+[m[32m  }));[m[41m[m
+packages/cli/src/validate.ts:56: trailing whitespace.
+[32m+[m[32m  const releases = new Map<string, typeof parsed>();[m[41m[m
+packages/cli/src/validate.ts:57: trailing whitespace.
+[32m+[m[32m  for (const entry of parsed) {[m[41m[m
+packages/cli/src/validate.ts:58: trailing whitespace.
+[32m+[m[32m    const release = releases.get(entry.source.release) ?? [];[m[41m[m
+packages/cli/src/validate.ts:59: trailing whitespace.
+[32m+[m[32m    release.push(entry);[m[41m[m
+packages/cli/src/validate.ts:60: trailing whitespace.
+[32m+[m[32m    releases.set(entry.source.release, release);[m[41m[m
+packages/cli/src/validate.ts:61: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:62: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:63: trailing whitespace.
+[32m+[m[32m  const results: ResolvedGuideResult[] = [];[m[41m[m
+packages/cli/src/validate.ts:64: trailing whitespace.
+[32m+[m[32m  for (const [release, entries] of releases) {[m[41m[m
+packages/cli/src/validate.ts:65: trailing whitespace.
+[32m+[m[32m    const guidesById = new Map<string, AuthorGuide>();[m[41m[m
+packages/cli/src/validate.ts:66: trailing whitespace.
+[32m+[m[32m    const duplicateIds = new Set<string>();[m[41m[m
+packages/cli/src/validate.ts:67: trailing whitespace.
+[32m+[m[32m    for (const { result } of entries) {[m[41m[m
+packages/cli/src/validate.ts:68: trailing whitespace.
+[32m+[m[32m      if (!result.success) continue;[m[41m[m
+packages/cli/src/validate.ts:69: trailing whitespace.
+[32m+[m[32m      if (guidesById.has(result.guide.id)) duplicateIds.add(result.guide.id);[m[41m[m
+packages/cli/src/validate.ts:70: trailing whitespace.
+[32m+[m[32m      else guidesById.set(result.guide.id, result.guide);[m[41m[m
+packages/cli/src/validate.ts:71: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/cli/src/validate.ts:72: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:73: trailing whitespace.
+[32m+[m[32m    for (const { source, result } of entries) {[m[41m[m
+packages/cli/src/validate.ts:74: trailing whitespace.
+[32m+[m[32m      if (!result.success) {[m[41m[m
+packages/cli/src/validate.ts:75: trailing whitespace.
+[32m+[m[32m        results.push({ source, success: false, issues: result.issues });[m[41m[m
+packages/cli/src/validate.ts:76: trailing whitespace.
+[32m+[m[32m      } else if (duplicateIds.has(result.guide.id)) {[m[41m[m
+packages/cli/src/validate.ts:77: trailing whitespace.
+[32m+[m[32m        results.push({[m[41m[m
+packages/cli/src/validate.ts:78: trailing whitespace.
+[32m+[m[32m          source,[m[41m[m
+packages/cli/src/validate.ts:79: trailing whitespace.
+[32m+[m[32m          success: false,[m[41m[m
+packages/cli/src/validate.ts:80: trailing whitespace.
+[32m+[m[32m          issues: [{ path: "id", message: `Duplicate guide id in release ${release}: ${result.guide.id}.` }],[m[41m[m
+packages/cli/src/validate.ts:81: trailing whitespace.
+[32m+[m[32m        });[m[41m[m
+packages/cli/src/validate.ts:82: trailing whitespace.
+[32m+[m[32m      } else {[m[41m[m
+packages/cli/src/validate.ts:83: trailing whitespace.
+[32m+[m[32m        const resolved = resolveGuide(result.guide, guidesById);[m[41m[m
+packages/cli/src/validate.ts:84: trailing whitespace.
+[32m+[m[32m        results.push([m[41m[m
+packages/cli/src/validate.ts:85: trailing whitespace.
+[32m+[m[32m          resolved.success[m[41m[m
+packages/cli/src/validate.ts:86: trailing whitespace.
+[32m+[m[32m            ? { source, success: true, guide: resolved.guide }[m[41m[m
+packages/cli/src/validate.ts:87: trailing whitespace.
+[32m+[m[32m            : { source, success: false, issues: resolved.issues },[m[41m[m
+packages/cli/src/validate.ts:88: trailing whitespace.
+[32m+[m[32m        );[m[41m[m
+packages/cli/src/validate.ts:89: trailing whitespace.
+[32m+[m[32m      }[m[41m[m
+packages/cli/src/validate.ts:90: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/cli/src/validate.ts:91: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:92: trailing whitespace.
+[32m+[m[32m  return results;[m[41m[m
+packages/cli/src/validate.ts:93: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/validate.ts:94: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:95: trailing whitespace.
+[32m+[m[32mexport function validateGuides(): { results: ValidationResult[] } {[m[41m[m
+packages/cli/src/validate.ts:96: trailing whitespace.
+[32m+[m[32m  const results = resolveDiscoveredGuides().map((result): ValidationResult => {[m[41m[m
+packages/cli/src/validate.ts:97: trailing whitespace.
+[32m+[m[32m    const file = `${result.source.release}/${result.source.file}`;[m[41m[m
+packages/cli/src/validate.ts:98: trailing whitespace.
+[32m+[m[32m    return result.success ? { file, success: true } : { file, success: false, issues: result.issues };[m[41m[m
+packages/cli/src/validate.ts:99: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/cli/src/validate.ts:100: trailing whitespace.
+[32m+[m[32m  return { results };[m[41m[m
+packages/cli/src/validate.ts:101: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/cli/src/validate.ts:102: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:103: trailing whitespace.
+[32m+[m[32mexport function runValidate(): void {[m[41m[m
+packages/cli/src/validate.ts:104: trailing whitespace.
+[32m+[m[32m  const { results } = validateGuides();[m[41m[m
+packages/cli/src/validate.ts:105: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:106: trailing whitespace.
+[32m+[m[32m  if (results.length === 0) {[m[41m[m
+packages/cli/src/validate.ts:107: trailing whitespace.
+[32m+[m[32m    console.log("No guides found under guides/releases/.");[m[41m[m
+packages/cli/src/validate.ts:108: trailing whitespace.
+[32m+[m[32m    return;[m[41m[m
+packages/cli/src/validate.ts:109: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:110: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:111: trailing whitespace.
+[32m+[m[32m  const failures = results.filter((r) => !r.success);[m[41m[m
+packages/cli/src/validate.ts:112: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:113: trailing whitespace.
+[32m+[m[32m  for (const result of results) {[m[41m[m
+packages/cli/src/validate.ts:114: trailing whitespace.
+[32m+[m[32m    if (result.success) {[m[41m[m
+packages/cli/src/validate.ts:115: trailing whitespace.
+[32m+[m[32m      console.log(`✓ ${result.file}`);[m[41m[m
+packages/cli/src/validate.ts:116: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/cli/src/validate.ts:117: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:118: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:119: trailing whitespace.
+[32m+[m[32m  if (failures.length > 0) {[m[41m[m
+packages/cli/src/validate.ts:120: trailing whitespace.
+[32m+[m[32m    for (const failure of failures) {[m[41m[m
+packages/cli/src/validate.ts:121: trailing whitespace.
+[32m+[m[32m      console.log("");[m[41m[m
+packages/cli/src/validate.ts:122: trailing whitespace.
+[32m+[m[32m      console.log(`✗ ${failure.file}`);[m[41m[m
+packages/cli/src/validate.ts:123: trailing whitespace.
+[32m+[m[32m      console.log("");[m[41m[m
+packages/cli/src/validate.ts:124: trailing whitespace.
+[32m+[m[32m      for (const issue of failure.issues ?? []) {[m[41m[m
+packages/cli/src/validate.ts:125: trailing whitespace.
+[32m+[m[32m        console.log(`${issue.path}:`);[m[41m[m
+packages/cli/src/validate.ts:126: trailing whitespace.
+[32m+[m[32m        console.log(issue.message);[m[41m[m
+packages/cli/src/validate.ts:127: trailing whitespace.
+[32m+[m[32m      }[m[41m[m
+packages/cli/src/validate.ts:128: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/cli/src/validate.ts:129: trailing whitespace.
+[32m+[m[32m    console.log("");[m[41m[m
+packages/cli/src/validate.ts:130: trailing whitespace.
+[32m+[m[32m    console.error(`${failures.length} of ${results.length} guide(s) invalid.`);[m[41m[m
+packages/cli/src/validate.ts:131: trailing whitespace.
+[32m+[m[32m    process.exitCode = 1;[m[41m[m
+packages/cli/src/validate.ts:132: trailing whitespace.
+[32m+[m[32m    return;[m[41m[m
+packages/cli/src/validate.ts:133: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/cli/src/validate.ts:134: trailing whitespace.
+[32m+[m[41m[m
+packages/cli/src/validate.ts:135: trailing whitespace.
+[32m+[m[32m  console.log("");[m[41m[m
+packages/cli/src/validate.ts:136: trailing whitespace.
+[32m+[m[32m  console.log(`${results.length} guides valid.`);[m[41m[m
+packages/cli/src/validate.ts:137: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/engine.ts:1: trailing whitespace.
+[32m+[m[32mimport type { Guide, GuideStep, Target } from "@trail/guide-schema";[m[41m[m
+packages/sdk/src/engine.ts:2: trailing whitespace.
+[32m+[m[32mimport { GuideState } from "./state.js";[m[41m[m
+packages/sdk/src/engine.ts:3: trailing whitespace.
+[32m+[m[32mimport { Overlay } from "./overlay.js";[m[41m[m
+packages/sdk/src/engine.ts:4: trailing whitespace.
+[32m+[m[32mimport { resolveTarget } from "./target-resolver.js";[m[41m[m
+packages/sdk/src/engine.ts:5: trailing whitespace.
+[32m+[m[32mimport { waitForElement } from "./dom-watcher.js";[m[41m[m
+packages/sdk/src/engine.ts:6: trailing whitespace.
+[32m+[m[32mimport { onLocationChange } from "./spa-router.js";[m[41m[m
+packages/sdk/src/engine.ts:7: trailing whitespace.
+[32m+[m[32mimport { saveCheckpoint, clearCheckpoint } from "./session-storage.js";[m[41m[m
+packages/sdk/src/engine.ts:8: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:9: trailing whitespace.
+[32m+[m[32mconst DEFAULT_TARGET_TIMEOUT_MS = 10_000;[m[41m[m
+packages/sdk/src/engine.ts:10: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:11: trailing whitespace.
+[32m+[m[32mexport interface EngineOptions {[m[41m[m
+packages/sdk/src/engine.ts:12: trailing whitespace.
+[32m+[m[32m  guide: Guide;[m[41m[m
+packages/sdk/src/engine.ts:13: trailing whitespace.
+[32m+[m[32m  release: string;[m[41m[m
+packages/sdk/src/engine.ts:14: trailing whitespace.
+[32m+[m[32m  startIndex: number;[m[41m[m
+packages/sdk/src/engine.ts:15: trailing whitespace.
+[32m+[m[32m  onExit?: () => void;[m[41m[m
+packages/sdk/src/engine.ts:16: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/engine.ts:17: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:18: trailing whitespace.
+[32m+[m[32mexport interface TrailHandle {[m[41m[m
+packages/sdk/src/engine.ts:19: trailing whitespace.
+[32m+[m[32m  next: () => void;[m[41m[m
+packages/sdk/src/engine.ts:20: trailing whitespace.
+[32m+[m[32m  back: () => void;[m[41m[m
+packages/sdk/src/engine.ts:21: trailing whitespace.
+[32m+[m[32m  exit: () => void;[m[41m[m
+packages/sdk/src/engine.ts:22: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/engine.ts:23: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:24: trailing whitespace.
+[32m+[m[32m/** Orchestrates step state, target resolution, the overlay, and SPA route changes. */[m[41m[m
+packages/sdk/src/engine.ts:25: trailing whitespace.
+[32m+[m[32mexport class TrailEngine implements TrailHandle {[m[41m[m
+packages/sdk/src/engine.ts:26: trailing whitespace.
+[32m+[m[32m  private readonly guide: Guide;[m[41m[m
+packages/sdk/src/engine.ts:27: trailing whitespace.
+[32m+[m[32m  private readonly release: string;[m[41m[m
+packages/sdk/src/engine.ts:28: trailing whitespace.
+[32m+[m[32m  private readonly state: GuideState;[m[41m[m
+packages/sdk/src/engine.ts:29: trailing whitespace.
+[32m+[m[32m  private readonly overlay: Overlay;[m[41m[m
+packages/sdk/src/engine.ts:30: trailing whitespace.
+[32m+[m[32m  private readonly unsubscribeLocation: () => void;[m[41m[m
+packages/sdk/src/engine.ts:31: trailing whitespace.
+[32m+[m[32m  private readonly onExitCallback?: () => void;[m[41m[m
+packages/sdk/src/engine.ts:32: trailing whitespace.
+[32m+[m[32m  private cancelWait: (() => void) | null = null;[m[41m[m
+packages/sdk/src/engine.ts:33: trailing whitespace.
+[32m+[m[32m  private cancelStepCompletion: (() => void) | null = null;[m[41m[m
+packages/sdk/src/engine.ts:34: trailing whitespace.
+[32m+[m[32m  private currentStepComplete = false;[m[41m[m
+packages/sdk/src/engine.ts:35: trailing whitespace.
+[32m+[m[32m  private destroyed = false;[m[41m[m
+packages/sdk/src/engine.ts:36: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:37: trailing whitespace.
+[32m+[m[32m  constructor(options: EngineOptions) {[m[41m[m
+packages/sdk/src/engine.ts:38: trailing whitespace.
+[32m+[m[32m    this.guide = options.guide;[m[41m[m
+packages/sdk/src/engine.ts:39: trailing whitespace.
+[32m+[m[32m    this.release = options.release;[m[41m[m
+packages/sdk/src/engine.ts:40: trailing whitespace.
+[32m+[m[32m    this.state = new GuideState(options.guide, options.startIndex);[m[41m[m
+packages/sdk/src/engine.ts:41: trailing whitespace.
+[32m+[m[32m    this.onExitCallback = options.onExit;[m[41m[m
+packages/sdk/src/engine.ts:42: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:43: trailing whitespace.
+[32m+[m[32m    this.overlay = new Overlay({[m[41m[m
+packages/sdk/src/engine.ts:44: trailing whitespace.
+[32m+[m[32m      onNext: () => this.next(),[m[41m[m
+packages/sdk/src/engine.ts:45: trailing whitespace.
+[32m+[m[32m      onBack: () => this.back(),[m[41m[m
+packages/sdk/src/engine.ts:46: trailing whitespace.
+[32m+[m[32m      onExit: () => this.exit(),[m[41m[m
+packages/sdk/src/engine.ts:47: trailing whitespace.
+[32m+[m[32m      onRetry: () => this.activateCurrentStep(),[m[41m[m
+packages/sdk/src/engine.ts:48: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:49: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:50: trailing whitespace.
+[32m+[m[32m    // A completed action may trigger navigation before the tester presses Next.[m[41m[m
+packages/sdk/src/engine.ts:51: trailing whitespace.
+[32m+[m[32m    this.unsubscribeLocation = onLocationChange(() => {[m[41m[m
+packages/sdk/src/engine.ts:52: trailing whitespace.
+[32m+[m[32m      if (!this.currentStepComplete) this.activateCurrentStep();[m[41m[m
+packages/sdk/src/engine.ts:53: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:54: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:55: trailing whitespace.
+[32m+[m[32m    this.activateCurrentStep();[m[41m[m
+packages/sdk/src/engine.ts:56: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:57: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:58: trailing whitespace.
+[32m+[m[32m  next(): void {[m[41m[m
+packages/sdk/src/engine.ts:59: trailing whitespace.
+[32m+[m[32m    if (this.destroyed || !this.currentStepComplete) return;[m[41m[m
+packages/sdk/src/engine.ts:60: trailing whitespace.
+[32m+[m[32m    this.cancelWait?.();[m[41m[m
+packages/sdk/src/engine.ts:61: trailing whitespace.
+[32m+[m[32m    if (this.state.isLast) {[m[41m[m
+packages/sdk/src/engine.ts:62: trailing whitespace.
+[32m+[m[32m      this.complete();[m[41m[m
+packages/sdk/src/engine.ts:63: trailing whitespace.
+[32m+[m[32m      return;[m[41m[m
+packages/sdk/src/engine.ts:64: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:65: trailing whitespace.
+[32m+[m[32m    this.state.next();[m[41m[m
+packages/sdk/src/engine.ts:66: trailing whitespace.
+[32m+[m[32m    this.activateCurrentStep();[m[41m[m
+packages/sdk/src/engine.ts:67: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:68: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:69: trailing whitespace.
+[32m+[m[32m  back(): void {[m[41m[m
+packages/sdk/src/engine.ts:70: trailing whitespace.
+[32m+[m[32m    if (this.destroyed) return;[m[41m[m
+packages/sdk/src/engine.ts:71: trailing whitespace.
+[32m+[m[32m    this.cancelWait?.();[m[41m[m
+packages/sdk/src/engine.ts:72: trailing whitespace.
+[32m+[m[32m    this.state.back();[m[41m[m
+packages/sdk/src/engine.ts:73: trailing whitespace.
+[32m+[m[32m    this.activateCurrentStep();[m[41m[m
+packages/sdk/src/engine.ts:74: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:75: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:76: trailing whitespace.
+[32m+[m[32m  exit(): void {[m[41m[m
+packages/sdk/src/engine.ts:77: trailing whitespace.
+[32m+[m[32m    if (this.destroyed) return;[m[41m[m
+packages/sdk/src/engine.ts:78: trailing whitespace.
+[32m+[m[32m    clearCheckpoint();[m[41m[m
+packages/sdk/src/engine.ts:79: trailing whitespace.
+[32m+[m[32m    this.destroy();[m[41m[m
+packages/sdk/src/engine.ts:80: trailing whitespace.
+[32m+[m[32m    this.onExitCallback?.();[m[41m[m
+packages/sdk/src/engine.ts:81: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:82: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:83: trailing whitespace.
+[32m+[m[32m  destroy(): void {[m[41m[m
+packages/sdk/src/engine.ts:84: trailing whitespace.
+[32m+[m[32m    if (this.destroyed) return;[m[41m[m
+packages/sdk/src/engine.ts:85: trailing whitespace.
+[32m+[m[32m    this.destroyed = true;[m[41m[m
+packages/sdk/src/engine.ts:86: trailing whitespace.
+[32m+[m[32m    this.cancelWait?.();[m[41m[m
+packages/sdk/src/engine.ts:87: trailing whitespace.
+[32m+[m[32m    this.cancelStepCompletion?.();[m[41m[m
+packages/sdk/src/engine.ts:88: trailing whitespace.
+[32m+[m[32m    this.unsubscribeLocation();[m[41m[m
+packages/sdk/src/engine.ts:89: trailing whitespace.
+[32m+[m[32m    this.overlay.destroy();[m[41m[m
+packages/sdk/src/engine.ts:90: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:91: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:92: trailing whitespace.
+[32m+[m[32m  private persist(): void {[m[41m[m
+packages/sdk/src/engine.ts:93: trailing whitespace.
+[32m+[m[32m    saveCheckpoint({ release: this.release, guideId: this.guide.id, stepIndex: this.state.currentIndex });[m[41m[m
+packages/sdk/src/engine.ts:94: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:95: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:96: trailing whitespace.
+[32m+[m[32m  private activateCurrentStep(): void {[m[41m[m
+packages/sdk/src/engine.ts:97: trailing whitespace.
+[32m+[m[32m    if (this.destroyed) return;[m[41m[m
+packages/sdk/src/engine.ts:98: trailing whitespace.
+[32m+[m[32m    this.cancelWait?.();[m[41m[m
+packages/sdk/src/engine.ts:99: trailing whitespace.
+[32m+[m[32m    this.cancelStepCompletion?.();[m[41m[m
+packages/sdk/src/engine.ts:100: trailing whitespace.
+[32m+[m[32m    this.cancelStepCompletion = null;[m[41m[m
+packages/sdk/src/engine.ts:101: trailing whitespace.
+[32m+[m[32m    this.currentStepComplete = false;[m[41m[m
+packages/sdk/src/engine.ts:102: trailing whitespace.
+[32m+[m[32m    this.persist();[m[41m[m
+packages/sdk/src/engine.ts:103: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:104: trailing whitespace.
+[32m+[m[32m    const step = this.state.currentStep;[m[41m[m
+packages/sdk/src/engine.ts:105: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:106: trailing whitespace.
+[32m+[m[32m    if (step.action === "navigate") {[m[41m[m
+packages/sdk/src/engine.ts:107: trailing whitespace.
+[32m+[m[32m      this.handleNavigateStep(step);[m[41m[m
+packages/sdk/src/engine.ts:108: trailing whitespace.
+[32m+[m[32m      return;[m[41m[m
+packages/sdk/src/engine.ts:109: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:110: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:111: trailing whitespace.
+[32m+[m[32m    const target: Target | undefined = "target" in step ? step.target : undefined;[m[41m[m
+packages/sdk/src/engine.ts:112: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:113: trailing whitespace.
+[32m+[m[32m    if (!target) {[m[41m[m
+packages/sdk/src/engine.ts:114: trailing whitespace.
+[32m+[m[32m      this.renderReady(null, step);[m[41m[m
+packages/sdk/src/engine.ts:115: trailing whitespace.
+[32m+[m[32m      return;[m[41m[m
+packages/sdk/src/engine.ts:116: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:117: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:118: trailing whitespace.
+[32m+[m[32m    this.overlay.renderLocating({[m[41m[m
+packages/sdk/src/engine.ts:119: trailing whitespace.
+[32m+[m[32m      stepNumber: this.state.currentIndex + 1,[m[41m[m
+packages/sdk/src/engine.ts:120: trailing whitespace.
+[32m+[m[32m      totalSteps: this.state.total,[m[41m[m
+packages/sdk/src/engine.ts:121: trailing whitespace.
+[32m+[m[32m      title: this.guide.title,[m[41m[m
+packages/sdk/src/engine.ts:122: trailing whitespace.
+[32m+[m[32m      instruction: step.instruction,[m[41m[m
+packages/sdk/src/engine.ts:123: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:124: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:125: trailing whitespace.
+[32m+[m[32m    const timeoutMs = step.action === "wait" ? step.timeoutMs ?? DEFAULT_TARGET_TIMEOUT_MS : DEFAULT_TARGET_TIMEOUT_MS;[m[41m[m
+packages/sdk/src/engine.ts:126: trailing whitespace.
+[32m+[m[32m    const { promise, cancel } = waitForElement(() => resolveTarget(target).element, { timeoutMs });[m[41m[m
+packages/sdk/src/engine.ts:127: trailing whitespace.
+[32m+[m[32m    this.cancelWait = cancel;[m[41m[m
+packages/sdk/src/engine.ts:128: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:129: trailing whitespace.
+[32m+[m[32m    promise.then((result) => {[m[41m[m
+packages/sdk/src/engine.ts:130: trailing whitespace.
+[32m+[m[32m      if (this.destroyed) return;[m[41m[m
+packages/sdk/src/engine.ts:131: trailing whitespace.
+[32m+[m[32m      if (result.timedOut || !result.element) {[m[41m[m
+packages/sdk/src/engine.ts:132: trailing whitespace.
+[32m+[m[32m        this.renderMissingTarget(step, target);[m[41m[m
+packages/sdk/src/engine.ts:133: trailing whitespace.
+[32m+[m[32m        return;[m[41m[m
+packages/sdk/src/engine.ts:134: trailing whitespace.
+[32m+[m[32m      }[m[41m[m
+packages/sdk/src/engine.ts:135: trailing whitespace.
+[32m+[m[32m      result.element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });[m[41m[m
+packages/sdk/src/engine.ts:136: trailing whitespace.
+[32m+[m[32m      this.renderReady(result.element, step);[m[41m[m
+packages/sdk/src/engine.ts:137: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:138: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:139: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:140: trailing whitespace.
+[32m+[m[32m  private handleNavigateStep(step: Extract<GuideStep, { action: "navigate" }>): void {[m[41m[m
+packages/sdk/src/engine.ts:141: trailing whitespace.
+[32m+[m[32m    const destination = new URL(step.url, window.location.origin);[m[41m[m
+packages/sdk/src/engine.ts:142: trailing whitespace.
+[32m+[m[32m    if (window.location.pathname === destination.pathname) {[m[41m[m
+packages/sdk/src/engine.ts:143: trailing whitespace.
+[32m+[m[32m      this.renderReady(null, step);[m[41m[m
+packages/sdk/src/engine.ts:144: trailing whitespace.
+[32m+[m[32m      return;[m[41m[m
+packages/sdk/src/engine.ts:145: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:146: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:147: trailing whitespace.
+[32m+[m[32m    // Persist the *next* step so a full page navigation resumes past this one.[m[41m[m
+packages/sdk/src/engine.ts:148: trailing whitespace.
+[32m+[m[32m    saveCheckpoint({[m[41m[m
+packages/sdk/src/engine.ts:149: trailing whitespace.
+[32m+[m[32m      release: this.release,[m[41m[m
+packages/sdk/src/engine.ts:150: trailing whitespace.
+[32m+[m[32m      guideId: this.guide.id,[m[41m[m
+packages/sdk/src/engine.ts:151: trailing whitespace.
+[32m+[m[32m      stepIndex: Math.min(this.state.currentIndex + 1, this.state.total - 1),[m[41m[m
+packages/sdk/src/engine.ts:152: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:153: trailing whitespace.
+[32m+[m[32m    destination.searchParams.set("trail", this.guide.id);[m[41m[m
+packages/sdk/src/engine.ts:154: trailing whitespace.
+[32m+[m[32m    destination.searchParams.set("release", this.release);[m[41m[m
+packages/sdk/src/engine.ts:155: trailing whitespace.
+[32m+[m[32m    window.location.assign(destination.toString());[m[41m[m
+packages/sdk/src/engine.ts:156: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:157: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:158: trailing whitespace.
+[32m+[m[32m  private renderReady(element: HTMLElement | null, step: GuideStep): void {[m[41m[m
+packages/sdk/src/engine.ts:159: trailing whitespace.
+[32m+[m[32m    if (element) {[m[41m[m
+packages/sdk/src/engine.ts:160: trailing whitespace.
+[32m+[m[32m      this.overlay.spotlight.attachTo(element);[m[41m[m
+packages/sdk/src/engine.ts:161: trailing whitespace.
+[32m+[m[32m    } else {[m[41m[m
+packages/sdk/src/engine.ts:162: trailing whitespace.
+[32m+[m[32m      this.overlay.spotlight.hide();[m[41m[m
+packages/sdk/src/engine.ts:163: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:164: trailing whitespace.
+[32m+[m[32m    this.overlay.renderStep({[m[41m[m
+packages/sdk/src/engine.ts:165: trailing whitespace.
+[32m+[m[32m      stepNumber: this.state.currentIndex + 1,[m[41m[m
+packages/sdk/src/engine.ts:166: trailing whitespace.
+[32m+[m[32m      totalSteps: this.state.total,[m[41m[m
+packages/sdk/src/engine.ts:167: trailing whitespace.
+[32m+[m[32m      title: this.guide.title,[m[41m[m
+packages/sdk/src/engine.ts:168: trailing whitespace.
+[32m+[m[32m      instruction: step.instruction,[m[41m[m
+packages/sdk/src/engine.ts:169: trailing whitespace.
+[32m+[m[32m      canGoBack: !this.state.isFirst,[m[41m[m
+packages/sdk/src/engine.ts:170: trailing whitespace.
+[32m+[m[32m      canGoNext: this.watchStepCompletion(element, step),[m[41m[m
+packages/sdk/src/engine.ts:171: trailing whitespace.
+[32m+[m[32m      nextLabel: this.state.isLast ? "Finish" : "Next",[m[41m[m
+packages/sdk/src/engine.ts:172: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:173: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:174: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:175: trailing whitespace.
+[32m+[m[32m  private watchStepCompletion(element: HTMLElement | null, step: GuideStep): boolean {[m[41m[m
+packages/sdk/src/engine.ts:176: trailing whitespace.
+[32m+[m[32m    if (!element || step.action === "verify" || step.action === "wait" || step.action === "navigate") {[m[41m[m
+packages/sdk/src/engine.ts:177: trailing whitespace.
+[32m+[m[32m      this.currentStepComplete = true;[m[41m[m
+packages/sdk/src/engine.ts:178: trailing whitespace.
+[32m+[m[32m      return true;[m[41m[m
+packages/sdk/src/engine.ts:179: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:180: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:181: trailing whitespace.
+[32m+[m[32m    const controller = new AbortController();[m[41m[m
+packages/sdk/src/engine.ts:182: trailing whitespace.
+[32m+[m[32m    this.cancelStepCompletion = () => controller.abort();[m[41m[m
+packages/sdk/src/engine.ts:183: trailing whitespace.
+[32m+[m[32m    const complete = () => {[m[41m[m
+packages/sdk/src/engine.ts:184: trailing whitespace.
+[32m+[m[32m      this.currentStepComplete = true;[m[41m[m
+packages/sdk/src/engine.ts:185: trailing whitespace.
+[32m+[m[32m      this.overlay.setNextEnabled(true);[m[41m[m
+packages/sdk/src/engine.ts:186: trailing whitespace.
+[32m+[m[32m      if (step.autoAdvance) this.next();[m[41m[m
+packages/sdk/src/engine.ts:187: trailing whitespace.
+[32m+[m[32m    };[m[41m[m
+packages/sdk/src/engine.ts:188: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:189: trailing whitespace.
+[32m+[m[32m    if (step.action === "input" || step.action === "select") {[m[41m[m
+packages/sdk/src/engine.ts:190: trailing whitespace.
+[32m+[m[32m      const isExpectedValue = () =>[m[41m[m
+packages/sdk/src/engine.ts:191: trailing whitespace.
+[32m+[m[32m        (element instanceof HTMLInputElement || element instanceof HTMLSelectElement || element instanceof HTMLTextAreaElement) &&[m[41m[m
+packages/sdk/src/engine.ts:192: trailing whitespace.
+[32m+[m[32m        element.value === step.value;[m[41m[m
+packages/sdk/src/engine.ts:193: trailing whitespace.
+[32m+[m[32m      const updateCompletion = () => {[m[41m[m
+packages/sdk/src/engine.ts:194: trailing whitespace.
+[32m+[m[32m        if (isExpectedValue()) {[m[41m[m
+packages/sdk/src/engine.ts:195: trailing whitespace.
+[32m+[m[32m          complete();[m[41m[m
+packages/sdk/src/engine.ts:196: trailing whitespace.
+[32m+[m[32m          return;[m[41m[m
+packages/sdk/src/engine.ts:197: trailing whitespace.
+[32m+[m[32m        }[m[41m[m
+packages/sdk/src/engine.ts:198: trailing whitespace.
+[32m+[m[32m        this.currentStepComplete = false;[m[41m[m
+packages/sdk/src/engine.ts:199: trailing whitespace.
+[32m+[m[32m        this.overlay.setNextEnabled(false);[m[41m[m
+packages/sdk/src/engine.ts:200: trailing whitespace.
+[32m+[m[32m      };[m[41m[m
+packages/sdk/src/engine.ts:201: trailing whitespace.
+[32m+[m[32m      element.addEventListener("input", updateCompletion, { signal: controller.signal });[m[41m[m
+packages/sdk/src/engine.ts:202: trailing whitespace.
+[32m+[m[32m      element.addEventListener("change", updateCompletion, { signal: controller.signal });[m[41m[m
+packages/sdk/src/engine.ts:203: trailing whitespace.
+[32m+[m[32m      return isExpectedValue();[m[41m[m
+packages/sdk/src/engine.ts:204: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:205: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:206: trailing whitespace.
+[32m+[m[32m    element.addEventListener("click", complete, { once: true, signal: controller.signal });[m[41m[m
+packages/sdk/src/engine.ts:207: trailing whitespace.
+[32m+[m[32m    return false;[m[41m[m
+packages/sdk/src/engine.ts:208: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:209: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:210: trailing whitespace.
+[32m+[m[32m  private renderMissingTarget(step: GuideStep, target: Target): void {[m[41m[m
+packages/sdk/src/engine.ts:211: trailing whitespace.
+[32m+[m[32m    const { attempts } = resolveTarget(target);[m[41m[m
+packages/sdk/src/engine.ts:212: trailing whitespace.
+[32m+[m[32m    const detail = attempts[m[41m[m
+packages/sdk/src/engine.ts:213: trailing whitespace.
+[32m+[m[32m      .map((attempt) => `${attempt.strategy}: ${attempt.detail} — ${attempt.found ? "found" : "not found"}`)[m[41m[m
+packages/sdk/src/engine.ts:214: trailing whitespace.
+[32m+[m[32m      .join(" | ");[m[41m[m
+packages/sdk/src/engine.ts:215: trailing whitespace.
+[32m+[m[32m    this.overlay.renderError({[m[41m[m
+packages/sdk/src/engine.ts:216: trailing whitespace.
+[32m+[m[32m      title: "Target Not Found",[m[41m[m
+packages/sdk/src/engine.ts:217: trailing whitespace.
+[32m+[m[32m      message:[m[41m[m
+packages/sdk/src/engine.ts:218: trailing whitespace.
+[32m+[m[32m        `${step.instruction}\n\nThe application element could not be located. Possible causes: ` +[m[41m[m
+packages/sdk/src/engine.ts:219: trailing whitespace.
+[32m+[m[32m        "wrong page, application still loading, UI changed, or the guide is outdated.",[m[41m[m
+packages/sdk/src/engine.ts:220: trailing whitespace.
+[32m+[m[32m      detail,[m[41m[m
+packages/sdk/src/engine.ts:221: trailing whitespace.
+[32m+[m[32m      showRetry: true,[m[41m[m
+packages/sdk/src/engine.ts:222: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/engine.ts:223: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:224: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:225: trailing whitespace.
+[32m+[m[32m  private complete(): void {[m[41m[m
+packages/sdk/src/engine.ts:226: trailing whitespace.
+[32m+[m[32m    this.cancelWait?.();[m[41m[m
+packages/sdk/src/engine.ts:227: trailing whitespace.
+[32m+[m[32m    clearCheckpoint();[m[41m[m
+packages/sdk/src/engine.ts:228: trailing whitespace.
+[32m+[m[32m    this.overlay.renderComplete(this.guide.title, this.state.total, () => this.restart());[m[41m[m
+packages/sdk/src/engine.ts:229: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:230: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:231: trailing whitespace.
+[32m+[m[32m  private restart(): void {[m[41m[m
+packages/sdk/src/engine.ts:232: trailing whitespace.
+[32m+[m[32m    const destination = new URL(this.guide.start.url, window.location.origin);[m[41m[m
+packages/sdk/src/engine.ts:233: trailing whitespace.
+[32m+[m[32m    destination.searchParams.set("trail", this.guide.id);[m[41m[m
+packages/sdk/src/engine.ts:234: trailing whitespace.
+[32m+[m[32m    destination.searchParams.set("release", this.release);[m[41m[m
+packages/sdk/src/engine.ts:235: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:236: trailing whitespace.
+[32m+[m[32m    if (window.location.href === destination.toString()) {[m[41m[m
+packages/sdk/src/engine.ts:237: trailing whitespace.
+[32m+[m[32m      this.state.reset();[m[41m[m
+packages/sdk/src/engine.ts:238: trailing whitespace.
+[32m+[m[32m      this.activateCurrentStep();[m[41m[m
+packages/sdk/src/engine.ts:239: trailing whitespace.
+[32m+[m[32m      return;[m[41m[m
+packages/sdk/src/engine.ts:240: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/engine.ts:241: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/engine.ts:242: trailing whitespace.
+[32m+[m[32m    window.location.assign(destination.toString());[m[41m[m
+packages/sdk/src/engine.ts:243: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/engine.ts:244: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/index.test.ts:1: trailing whitespace.
+[32m+[m[32mimport { afterEach, describe, expect, it } from "vitest";[m[41m[m
+packages/sdk/src/index.test.ts:2: trailing whitespace.
+[32m+[m[32mimport { resolveGuideRequest } from "./index.js";[m[41m[m
+packages/sdk/src/index.test.ts:3: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:4: trailing whitespace.
+[32m+[m[32mconst originalLocation = window.location;[m[41m[m
+packages/sdk/src/index.test.ts:5: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:6: trailing whitespace.
+[32m+[m[32mfunction setLocation(url: string) {[m[41m[m
+packages/sdk/src/index.test.ts:7: trailing whitespace.
+[32m+[m[32m  Object.defineProperty(window, "location", {[m[41m[m
+packages/sdk/src/index.test.ts:8: trailing whitespace.
+[32m+[m[32m    value: new URL(url),[m[41m[m
+packages/sdk/src/index.test.ts:9: trailing whitespace.
+[32m+[m[32m    writable: true,[m[41m[m
+packages/sdk/src/index.test.ts:10: trailing whitespace.
+[32m+[m[32m    configurable: true,[m[41m[m
+packages/sdk/src/index.test.ts:11: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:12: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/index.test.ts:13: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:14: trailing whitespace.
+[32m+[m[32mdescribe("resolveGuideRequest", () => {[m[41m[m
+packages/sdk/src/index.test.ts:15: trailing whitespace.
+[32m+[m[32m  afterEach(() => {[m[41m[m
+packages/sdk/src/index.test.ts:16: trailing whitespace.
+[32m+[m[32m    Object.defineProperty(window, "location", { value: originalLocation, configurable: true });[m[41m[m
+packages/sdk/src/index.test.ts:17: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:18: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:19: trailing whitespace.
+[32m+[m[32m  it("returns null when no guide has been requested", () => {[m[41m[m
+packages/sdk/src/index.test.ts:20: trailing whitespace.
+[32m+[m[32m    setLocation("http://localhost:3001/payments/new");[m[41m[m
+packages/sdk/src/index.test.ts:21: trailing whitespace.
+[32m+[m[32m    expect(resolveGuideRequest({})).toBeNull();[m[41m[m
+packages/sdk/src/index.test.ts:22: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:23: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:24: trailing whitespace.
+[32m+[m[32m  it("builds a guide URL from query params", () => {[m[41m[m
+packages/sdk/src/index.test.ts:25: trailing whitespace.
+[32m+[m[32m    setLocation("http://localhost:3001/payments/new?trail=PAY-1245&release=2026.08.26");[m[41m[m
+packages/sdk/src/index.test.ts:26: trailing whitespace.
+[32m+[m[32m    const result = resolveGuideRequest({});[m[41m[m
+packages/sdk/src/index.test.ts:27: trailing whitespace.
+[32m+[m[32m    expect(result).toEqual({[m[41m[m
+packages/sdk/src/index.test.ts:28: trailing whitespace.
+[32m+[m[32m      url: "/guides/releases/2026.08.26/PAY-1245.json",[m[41m[m
+packages/sdk/src/index.test.ts:29: trailing whitespace.
+[32m+[m[32m      guideId: "PAY-1245",[m[41m[m
+packages/sdk/src/index.test.ts:30: trailing whitespace.
+[32m+[m[32m      release: "2026.08.26",[m[41m[m
+packages/sdk/src/index.test.ts:31: trailing whitespace.
+[32m+[m[32m    });[m[41m[m
+packages/sdk/src/index.test.ts:32: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:33: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:34: trailing whitespace.
+[32m+[m[32m  it("respects a custom guideBaseUrl", () => {[m[41m[m
+packages/sdk/src/index.test.ts:35: trailing whitespace.
+[32m+[m[32m    setLocation("http://localhost:3001/payments/new?trail=PAY-1245&release=2026.08.26");[m[41m[m
+packages/sdk/src/index.test.ts:36: trailing whitespace.
+[32m+[m[32m    const result = resolveGuideRequest({ guideBaseUrl: "https://cdn.example.com/guides/" });[m[41m[m
+packages/sdk/src/index.test.ts:37: trailing whitespace.
+[32m+[m[32m    expect(result?.url).toBe("https://cdn.example.com/guides/releases/2026.08.26/PAY-1245.json");[m[41m[m
+packages/sdk/src/index.test.ts:38: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:39: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/index.test.ts:40: trailing whitespace.
+[32m+[m[32m  it("prefers an explicit guideUrl override", () => {[m[41m[m
+packages/sdk/src/index.test.ts:41: trailing whitespace.
+[32m+[m[32m    setLocation("http://localhost:3001/payments/new");[m[41m[m
+packages/sdk/src/index.test.ts:42: trailing whitespace.
+[32m+[m[32m    const result = resolveGuideRequest({ guideUrl: "/custom/guide.json?trail=X&release=Y" });[m[41m[m
+packages/sdk/src/index.test.ts:43: trailing whitespace.
+[32m+[m[32m    expect(result).toEqual({ url: "/custom/guide.json?trail=X&release=Y", guideId: "X", release: "Y" });[m[41m[m
+packages/sdk/src/index.test.ts:44: trailing whitespace.
+[32m+[m[32m  });[m[41m[m
+packages/sdk/src/index.test.ts:45: trailing whitespace.
+[32m+[m[32m});[m[41m[m
+packages/sdk/src/overlay.ts:1: trailing whitespace.
+[32m+[m[32mimport { Spotlight } from "./highlight.js";[m[41m[m
+packages/sdk/src/overlay.ts:2: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:3: trailing whitespace.
+[32m+[m[32mconst STYLE_ID = "trail-sdk-styles";[m[41m[m
+packages/sdk/src/overlay.ts:4: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:5: trailing whitespace.
+[32m+[m[32mconst STYLES = `[m[41m[m
+packages/sdk/src/overlay.ts:6: trailing whitespace.
+[32m+[m[32m.tg-root { position: fixed; inset: 0; z-index: 2147483647; pointer-events: none; }[m[41m[m
+packages/sdk/src/overlay.ts:7: trailing whitespace.
+[32m+[m[32m.tg-spotlight {[m[41m[m
+packages/sdk/src/overlay.ts:8: trailing whitespace.
+[32m+[m[32m  position: fixed;[m[41m[m
+packages/sdk/src/overlay.ts:9: trailing whitespace.
+[32m+[m[32m  display: none;[m[41m[m
+packages/sdk/src/overlay.ts:10: trailing whitespace.
+[32m+[m[32m  border: 2px solid #4f7cff;[m[41m[m
+packages/sdk/src/overlay.ts:11: trailing whitespace.
+[32m+[m[32m  border-radius: 6px;[m[41m[m
+packages/sdk/src/overlay.ts:12: trailing whitespace.
+[32m+[m[32m  box-shadow: 0 0 0 9999px rgba(15, 17, 26, 0.55);[m[41m[m
+packages/sdk/src/overlay.ts:13: trailing whitespace.
+[32m+[m[32m  pointer-events: none;[m[41m[m
+packages/sdk/src/overlay.ts:14: trailing whitespace.
+[32m+[m[32m  transition: top 120ms ease, left 120ms ease, width 120ms ease, height 120ms ease;[m[41m[m
+packages/sdk/src/overlay.ts:15: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:16: trailing whitespace.
+[32m+[m[32m.tg-blocker { position: fixed; z-index: 0; pointer-events: auto; }[m[41m[m
+packages/sdk/src/overlay.ts:17: trailing whitespace.
+[32m+[m[32m.tg-panel {[m[41m[m
+packages/sdk/src/overlay.ts:18: trailing whitespace.
+[32m+[m[32m  position: fixed;[m[41m[m
+packages/sdk/src/overlay.ts:19: trailing whitespace.
+[32m+[m[32m  right: 20px;[m[41m[m
+packages/sdk/src/overlay.ts:20: trailing whitespace.
+[32m+[m[32m  bottom: 20px;[m[41m[m
+packages/sdk/src/overlay.ts:21: trailing whitespace.
+[32m+[m[32m  z-index: 2;[m[41m[m
+packages/sdk/src/overlay.ts:22: trailing whitespace.
+[32m+[m[32m  width: 320px;[m[41m[m
+packages/sdk/src/overlay.ts:23: trailing whitespace.
+[32m+[m[32m  max-width: calc(100vw - 40px);[m[41m[m
+packages/sdk/src/overlay.ts:24: trailing whitespace.
+[32m+[m[32m  background: #12131a;[m[41m[m
+packages/sdk/src/overlay.ts:25: trailing whitespace.
+[32m+[m[32m  color: #f4f5f7;[m[41m[m
+packages/sdk/src/overlay.ts:26: trailing whitespace.
+[32m+[m[32m  border-radius: 12px;[m[41m[m
+packages/sdk/src/overlay.ts:27: trailing whitespace.
+[32m+[m[32m  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);[m[41m[m
+packages/sdk/src/overlay.ts:28: trailing whitespace.
+[32m+[m[32m  padding: 16px 18px;[m[41m[m
+packages/sdk/src/overlay.ts:29: trailing whitespace.
+[32m+[m[32m  font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;[m[41m[m
+packages/sdk/src/overlay.ts:30: trailing whitespace.
+[32m+[m[32m  pointer-events: auto;[m[41m[m
+packages/sdk/src/overlay.ts:31: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:32: trailing whitespace.
+[32m+[m[32m.tg-panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }[m[41m[m
+packages/sdk/src/overlay.ts:33: trailing whitespace.
+[32m+[m[32m.tg-progress-text { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #9aa1b5; }[m[41m[m
+packages/sdk/src/overlay.ts:34: trailing whitespace.
+[32m+[m[32m.tg-exit-btn {[m[41m[m
+packages/sdk/src/overlay.ts:35: trailing whitespace.
+[32m+[m[32m  background: transparent; border: none; color: #9aa1b5; font-size: 18px; line-height: 1; cursor: pointer;[m[41m[m
+packages/sdk/src/overlay.ts:36: trailing whitespace.
+[32m+[m[32m  padding: 4px; border-radius: 6px;[m[41m[m
+packages/sdk/src/overlay.ts:37: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:38: trailing whitespace.
+[32m+[m[32m.tg-exit-btn:hover, .tg-exit-btn:focus-visible { color: #f4f5f7; background: rgba(255,255,255,0.08); }[m[41m[m
+packages/sdk/src/overlay.ts:39: trailing whitespace.
+[32m+[m[32m.tg-progress-bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,0.12); overflow: hidden; margin-bottom: 12px; }[m[41m[m
+packages/sdk/src/overlay.ts:40: trailing whitespace.
+[32m+[m[32m.tg-progress-fill { height: 100%; background: #4f7cff; transition: width 160ms ease; }[m[41m[m
+packages/sdk/src/overlay.ts:41: trailing whitespace.
+[32m+[m[32m.tg-title { margin: 0 0 6px; font-size: 15px; font-weight: 700; }[m[41m[m
+packages/sdk/src/overlay.ts:42: trailing whitespace.
+[32m+[m[32m.tg-instruction { margin: 0 0 16px; color: #d4d7e2; white-space: pre-line; }[m[41m[m
+packages/sdk/src/overlay.ts:43: trailing whitespace.
+[32m+[m[32m.tg-panel-footer { display: flex; justify-content: space-between; gap: 8px; }[m[41m[m
+packages/sdk/src/overlay.ts:44: trailing whitespace.
+[32m+[m[32m.tg-btn {[m[41m[m
+packages/sdk/src/overlay.ts:45: trailing whitespace.
+[32m+[m[32m  appearance: none; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.06);[m[41m[m
+packages/sdk/src/overlay.ts:46: trailing whitespace.
+[32m+[m[32m  color: #f4f5f7; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;[m[41m[m
+packages/sdk/src/overlay.ts:47: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:48: trailing whitespace.
+[32m+[m[32m.tg-btn:hover { background: rgba(255,255,255,0.14); }[m[41m[m
+packages/sdk/src/overlay.ts:49: trailing whitespace.
+[32m+[m[32m.tg-btn:focus-visible { outline: 2px solid #4f7cff; outline-offset: 2px; }[m[41m[m
+packages/sdk/src/overlay.ts:50: trailing whitespace.
+[32m+[m[32m.tg-btn:disabled { opacity: 0.4; cursor: not-allowed; }[m[41m[m
+packages/sdk/src/overlay.ts:51: trailing whitespace.
+[32m+[m[32m.tg-btn-primary { background: #4f7cff; border-color: #4f7cff; }[m[41m[m
+packages/sdk/src/overlay.ts:52: trailing whitespace.
+[32m+[m[32m.tg-btn-primary:hover { background: #3f6ce0; }[m[41m[m
+packages/sdk/src/overlay.ts:53: trailing whitespace.
+[32m+[m[32m.tg-error .tg-title { color: #ff6b6b; }[m[41m[m
+packages/sdk/src/overlay.ts:54: trailing whitespace.
+[32m+[m[32m.tg-error-detail { font-size: 12px; color: #9aa1b5; margin: -8px 0 16px; }[m[41m[m
+packages/sdk/src/overlay.ts:55: trailing whitespace.
+[32m+[m[32m`;[m[41m[m
+packages/sdk/src/overlay.ts:56: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:57: trailing whitespace.
+[32m+[m[32mfunction injectStyles(): void {[m[41m[m
+packages/sdk/src/overlay.ts:58: trailing whitespace.
+[32m+[m[32m  if (document.getElementById(STYLE_ID)) return;[m[41m[m
+packages/sdk/src/overlay.ts:59: trailing whitespace.
+[32m+[m[32m  const style = document.createElement("style");[m[41m[m
+packages/sdk/src/overlay.ts:60: trailing whitespace.
+[32m+[m[32m  style.id = STYLE_ID;[m[41m[m
+packages/sdk/src/overlay.ts:61: trailing whitespace.
+[32m+[m[32m  style.textContent = STYLES;[m[41m[m
+packages/sdk/src/overlay.ts:62: trailing whitespace.
+[32m+[m[32m  document.head.appendChild(style);[m[41m[m
+packages/sdk/src/overlay.ts:63: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:64: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:65: trailing whitespace.
+[32m+[m[32mexport interface StepViewModel {[m[41m[m
+packages/sdk/src/overlay.ts:66: trailing whitespace.
+[32m+[m[32m  stepNumber: number;[m[41m[m
+packages/sdk/src/overlay.ts:67: trailing whitespace.
+[32m+[m[32m  totalSteps: number;[m[41m[m
+packages/sdk/src/overlay.ts:68: trailing whitespace.
+[32m+[m[32m  title: string;[m[41m[m
+packages/sdk/src/overlay.ts:69: trailing whitespace.
+[32m+[m[32m  instruction: string;[m[41m[m
+packages/sdk/src/overlay.ts:70: trailing whitespace.
+[32m+[m[32m  canGoBack: boolean;[m[41m[m
+packages/sdk/src/overlay.ts:71: trailing whitespace.
+[32m+[m[32m  canGoNext: boolean;[m[41m[m
+packages/sdk/src/overlay.ts:72: trailing whitespace.
+[32m+[m[32m  nextLabel: string;[m[41m[m
+packages/sdk/src/overlay.ts:73: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:74: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:75: trailing whitespace.
+[32m+[m[32mexport interface ErrorViewModel {[m[41m[m
+packages/sdk/src/overlay.ts:76: trailing whitespace.
+[32m+[m[32m  title: string;[m[41m[m
+packages/sdk/src/overlay.ts:77: trailing whitespace.
+[32m+[m[32m  message: string;[m[41m[m
+packages/sdk/src/overlay.ts:78: trailing whitespace.
+[32m+[m[32m  detail?: string;[m[41m[m
+packages/sdk/src/overlay.ts:79: trailing whitespace.
+[32m+[m[32m  showRetry: boolean;[m[41m[m
+packages/sdk/src/overlay.ts:80: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:81: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:82: trailing whitespace.
+[32m+[m[32mexport interface OverlayCallbacks {[m[41m[m
+packages/sdk/src/overlay.ts:83: trailing whitespace.
+[32m+[m[32m  onNext: () => void;[m[41m[m
+packages/sdk/src/overlay.ts:84: trailing whitespace.
+[32m+[m[32m  onBack: () => void;[m[41m[m
+packages/sdk/src/overlay.ts:85: trailing whitespace.
+[32m+[m[32m  onExit: () => void;[m[41m[m
+packages/sdk/src/overlay.ts:86: trailing whitespace.
+[32m+[m[32m  onRetry: () => void;[m[41m[m
+packages/sdk/src/overlay.ts:87: trailing whitespace.
+[32m+[m[32m}[m[41m[m
+packages/sdk/src/overlay.ts:88: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:89: trailing whitespace.
+[32m+[m[32m/** Owns the SDK's self-contained DOM overlay: spotlight highlight + instruction panel. */[m[41m[m
+packages/sdk/src/overlay.ts:90: trailing whitespace.
+[32m+[m[32mexport class Overlay {[m[41m[m
+packages/sdk/src/overlay.ts:91: trailing whitespace.
+[32m+[m[32m  private readonly root: HTMLDivElement;[m[41m[m
+packages/sdk/src/overlay.ts:92: trailing whitespace.
+[32m+[m[32m  private readonly panel: HTMLDivElement;[m[41m[m
+packages/sdk/src/overlay.ts:93: trailing whitespace.
+[32m+[m[32m  readonly spotlight: Spotlight;[m[41m[m
+packages/sdk/src/overlay.ts:94: trailing whitespace.
+[32m+[m[32m  private readonly callbacks: OverlayCallbacks;[m[41m[m
+packages/sdk/src/overlay.ts:95: trailing whitespace.
+[32m+[m[32m  private keydownHandler: ((event: KeyboardEvent) => void) | null = null;[m[41m[m
+packages/sdk/src/overlay.ts:96: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:97: trailing whitespace.
+[32m+[m[32m  constructor(callbacks: OverlayCallbacks) {[m[41m[m
+packages/sdk/src/overlay.ts:98: trailing whitespace.
+[32m+[m[32m    injectStyles();[m[41m[m
+packages/sdk/src/overlay.ts:99: trailing whitespace.
+[32m+[m[32m    this.callbacks = callbacks;[m[41m[m
+packages/sdk/src/overlay.ts:100: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:101: trailing whitespace.
+[32m+[m[32m    this.root = document.createElement("div");[m[41m[m
+packages/sdk/src/overlay.ts:102: trailing whitespace.
+[32m+[m[32m    this.root.className = "tg-root";[m[41m[m
+packages/sdk/src/overlay.ts:103: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:104: trailing whitespace.
+[32m+[m[32m    this.panel = document.createElement("div");[m[41m[m
+packages/sdk/src/overlay.ts:105: trailing whitespace.
+[32m+[m[32m    this.panel.className = "tg-panel";[m[41m[m
+packages/sdk/src/overlay.ts:106: trailing whitespace.
+[32m+[m[32m    this.panel.setAttribute("role", "dialog");[m[41m[m
+packages/sdk/src/overlay.ts:107: trailing whitespace.
+[32m+[m[32m    this.panel.setAttribute("aria-label", "Trail guide");[m[41m[m
+packages/sdk/src/overlay.ts:108: trailing whitespace.
+[32m+[m[32m    this.panel.setAttribute("aria-live", "polite");[m[41m[m
+packages/sdk/src/overlay.ts:109: trailing whitespace.
+[32m+[m[32m    this.panel.tabIndex = -1;[m[41m[m
+packages/sdk/src/overlay.ts:110: trailing whitespace.
+[32m+[m[32m    this.root.appendChild(this.panel);[m[41m[m
+packages/sdk/src/overlay.ts:111: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:112: trailing whitespace.
+[32m+[m[32m    this.spotlight = new Spotlight(this.root);[m[41m[m
+packages/sdk/src/overlay.ts:113: trailing whitespace.
+[32m+[m[32m    document.body.appendChild(this.root);[m[41m[m
+packages/sdk/src/overlay.ts:114: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:115: trailing whitespace.
+[32m+[m[32m    this.keydownHandler = (event: KeyboardEvent) => {[m[41m[m
+packages/sdk/src/overlay.ts:116: trailing whitespace.
+[32m+[m[32m      if (event.key === "Escape") {[m[41m[m
+packages/sdk/src/overlay.ts:117: trailing whitespace.
+[32m+[m[32m        event.preventDefault();[m[41m[m
+packages/sdk/src/overlay.ts:118: trailing whitespace.
+[32m+[m[32m        this.callbacks.onExit();[m[41m[m
+packages/sdk/src/overlay.ts:119: trailing whitespace.
+[32m+[m[32m      }[m[41m[m
+packages/sdk/src/overlay.ts:120: trailing whitespace.
+[32m+[m[32m    };[m[41m[m
+packages/sdk/src/overlay.ts:121: trailing whitespace.
+[32m+[m[32m    document.addEventListener("keydown", this.keydownHandler);[m[41m[m
+packages/sdk/src/overlay.ts:122: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:123: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:124: trailing whitespace.
+[32m+[m[32m  renderStep(model: StepViewModel): void {[m[41m[m
+packages/sdk/src/overlay.ts:125: trailing whitespace.
+[32m+[m[32m    const progressPct = Math.round((model.stepNumber / model.totalSteps) * 100);[m[41m[m
+packages/sdk/src/overlay.ts:126: trailing whitespace.
+[32m+[m[32m    this.panel.className = "tg-panel";[m[41m[m
+packages/sdk/src/overlay.ts:127: trailing whitespace.
+[32m+[m[32m    this.panel.innerHTML = `[m[41m[m
+packages/sdk/src/overlay.ts:128: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-header">[m[41m[m
+packages/sdk/src/overlay.ts:129: trailing whitespace.
+[32m+[m[32m        <span class="tg-progress-text">Step ${model.stepNumber} of ${model.totalSteps}</span>[m[41m[m
+packages/sdk/src/overlay.ts:130: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>[m[41m[m
+packages/sdk/src/overlay.ts:131: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:132: trailing whitespace.
+[32m+[m[32m      <div class="tg-progress-bar"><div class="tg-progress-fill" style="width:${progressPct}%"></div></div>[m[41m[m
+packages/sdk/src/overlay.ts:133: trailing whitespace.
+[32m+[m[32m      <h2 class="tg-title"></h2>[m[41m[m
+packages/sdk/src/overlay.ts:134: trailing whitespace.
+[32m+[m[32m      <p class="tg-instruction"></p>[m[41m[m
+packages/sdk/src/overlay.ts:135: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-footer">[m[41m[m
+packages/sdk/src/overlay.ts:136: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-btn tg-back-btn">Back</button>[m[41m[m
+packages/sdk/src/overlay.ts:137: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-btn tg-btn-primary tg-next-btn"></button>[m[41m[m
+packages/sdk/src/overlay.ts:138: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:139: trailing whitespace.
+[32m+[m[32m    `;[m[41m[m
+packages/sdk/src/overlay.ts:140: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:141: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-title")!.textContent = model.title;[m[41m[m
+packages/sdk/src/overlay.ts:142: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-instruction")!.textContent = model.instruction;[m[41m[m
+packages/sdk/src/overlay.ts:143: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:144: trailing whitespace.
+[32m+[m[32m    const backBtn = this.panel.querySelector<HTMLButtonElement>(".tg-back-btn")!;[m[41m[m
+packages/sdk/src/overlay.ts:145: trailing whitespace.
+[32m+[m[32m    backBtn.disabled = !model.canGoBack;[m[41m[m
+packages/sdk/src/overlay.ts:146: trailing whitespace.
+[32m+[m[32m    backBtn.addEventListener("click", () => this.callbacks.onBack());[m[41m[m
+packages/sdk/src/overlay.ts:147: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:148: trailing whitespace.
+[32m+[m[32m    const nextBtn = this.panel.querySelector<HTMLButtonElement>(".tg-next-btn")!;[m[41m[m
+packages/sdk/src/overlay.ts:149: trailing whitespace.
+[32m+[m[32m    nextBtn.disabled = !model.canGoNext;[m[41m[m
+packages/sdk/src/overlay.ts:150: trailing whitespace.
+[32m+[m[32m    nextBtn.textContent = model.nextLabel;[m[41m[m
+packages/sdk/src/overlay.ts:151: trailing whitespace.
+[32m+[m[32m    nextBtn.addEventListener("click", () => this.callbacks.onNext());[m[41m[m
+packages/sdk/src/overlay.ts:152: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:153: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());[m[41m[m
+packages/sdk/src/overlay.ts:154: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:155: trailing whitespace.
+[32m+[m[32m    this.focusPanel();[m[41m[m
+packages/sdk/src/overlay.ts:156: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:157: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:158: trailing whitespace.
+[32m+[m[32m  setNextEnabled(enabled: boolean): void {[m[41m[m
+packages/sdk/src/overlay.ts:159: trailing whitespace.
+[32m+[m[32m    const nextBtn = this.panel.querySelector<HTMLButtonElement>(".tg-next-btn");[m[41m[m
+packages/sdk/src/overlay.ts:160: trailing whitespace.
+[32m+[m[32m    if (nextBtn) nextBtn.disabled = !enabled;[m[41m[m
+packages/sdk/src/overlay.ts:161: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:162: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:163: trailing whitespace.
+[32m+[m[32m  renderLocating(model: Pick<StepViewModel, "stepNumber" | "totalSteps" | "title" | "instruction">): void {[m[41m[m
+packages/sdk/src/overlay.ts:164: trailing whitespace.
+[32m+[m[32m    this.spotlight.hide();[m[41m[m
+packages/sdk/src/overlay.ts:165: trailing whitespace.
+[32m+[m[32m    this.panel.className = "tg-panel";[m[41m[m
+packages/sdk/src/overlay.ts:166: trailing whitespace.
+[32m+[m[32m    this.panel.innerHTML = `[m[41m[m
+packages/sdk/src/overlay.ts:167: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-header">[m[41m[m
+packages/sdk/src/overlay.ts:168: trailing whitespace.
+[32m+[m[32m        <span class="tg-progress-text">Step ${model.stepNumber} of ${model.totalSteps}</span>[m[41m[m
+packages/sdk/src/overlay.ts:169: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>[m[41m[m
+packages/sdk/src/overlay.ts:170: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:171: trailing whitespace.
+[32m+[m[32m      <h2 class="tg-title"></h2>[m[41m[m
+packages/sdk/src/overlay.ts:172: trailing whitespace.
+[32m+[m[32m      <p class="tg-instruction"></p>[m[41m[m
+packages/sdk/src/overlay.ts:173: trailing whitespace.
+[32m+[m[32m      <p class="tg-error-detail">Locating element on the page&hellip;</p>[m[41m[m
+packages/sdk/src/overlay.ts:174: trailing whitespace.
+[32m+[m[32m    `;[m[41m[m
+packages/sdk/src/overlay.ts:175: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-title")!.textContent = model.title;[m[41m[m
+packages/sdk/src/overlay.ts:176: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-instruction")!.textContent = model.instruction;[m[41m[m
+packages/sdk/src/overlay.ts:177: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());[m[41m[m
+packages/sdk/src/overlay.ts:178: trailing whitespace.
+[32m+[m[32m    this.focusPanel();[m[41m[m
+packages/sdk/src/overlay.ts:179: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:180: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:181: trailing whitespace.
+[32m+[m[32m  renderError(model: ErrorViewModel): void {[m[41m[m
+packages/sdk/src/overlay.ts:182: trailing whitespace.
+[32m+[m[32m    this.spotlight.hide();[m[41m[m
+packages/sdk/src/overlay.ts:183: trailing whitespace.
+[32m+[m[32m    this.panel.className = "tg-panel tg-error";[m[41m[m
+packages/sdk/src/overlay.ts:184: trailing whitespace.
+[32m+[m[32m    this.panel.innerHTML = `[m[41m[m
+packages/sdk/src/overlay.ts:185: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-header">[m[41m[m
+packages/sdk/src/overlay.ts:186: trailing whitespace.
+[32m+[m[32m        <span class="tg-progress-text">Trail</span>[m[41m[m
+packages/sdk/src/overlay.ts:187: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>[m[41m[m
+packages/sdk/src/overlay.ts:188: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:189: trailing whitespace.
+[32m+[m[32m      <h2 class="tg-title"></h2>[m[41m[m
+packages/sdk/src/overlay.ts:190: trailing whitespace.
+[32m+[m[32m      <p class="tg-instruction"></p>[m[41m[m
+packages/sdk/src/overlay.ts:191: trailing whitespace.
+[32m+[m[32m      ${model.detail ? `<p class="tg-error-detail"></p>` : ""}[m[41m[m
+packages/sdk/src/overlay.ts:192: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-footer">[m[41m[m
+packages/sdk/src/overlay.ts:193: trailing whitespace.
+[32m+[m[32m        ${model.showRetry ? '<button type="button" class="tg-btn tg-retry-btn">Retry</button>' : "<span></span>"}[m[41m[m
+packages/sdk/src/overlay.ts:194: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-btn tg-btn-primary tg-exit-btn2">Exit</button>[m[41m[m
+packages/sdk/src/overlay.ts:195: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:196: trailing whitespace.
+[32m+[m[32m    `;[m[41m[m
+packages/sdk/src/overlay.ts:197: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-title")!.textContent = model.title;[m[41m[m
+packages/sdk/src/overlay.ts:198: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-instruction")!.textContent = model.message;[m[41m[m
+packages/sdk/src/overlay.ts:199: trailing whitespace.
+[32m+[m[32m    if (model.detail) {[m[41m[m
+packages/sdk/src/overlay.ts:200: trailing whitespace.
+[32m+[m[32m      this.panel.querySelector(".tg-error-detail")!.textContent = model.detail;[m[41m[m
+packages/sdk/src/overlay.ts:201: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/overlay.ts:202: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());[m[41m[m
+packages/sdk/src/overlay.ts:203: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn2")!.addEventListener("click", () => this.callbacks.onExit());[m[41m[m
+packages/sdk/src/overlay.ts:204: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-retry-btn")?.addEventListener("click", () => this.callbacks.onRetry());[m[41m[m
+packages/sdk/src/overlay.ts:205: trailing whitespace.
+[32m+[m[32m    this.focusPanel();[m[41m[m
+packages/sdk/src/overlay.ts:206: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:207: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:208: trailing whitespace.
+[32m+[m[32m  renderComplete(title: string, totalSteps: number, onRestart: () => void): void {[m[41m[m
+packages/sdk/src/overlay.ts:209: trailing whitespace.
+[32m+[m[32m    this.spotlight.hide();[m[41m[m
+packages/sdk/src/overlay.ts:210: trailing whitespace.
+[32m+[m[32m    this.panel.className = "tg-panel";[m[41m[m
+packages/sdk/src/overlay.ts:211: trailing whitespace.
+[32m+[m[32m    this.panel.innerHTML = `[m[41m[m
+packages/sdk/src/overlay.ts:212: trailing whitespace.
+[32m+[m[32m      <h2 class="tg-title">Trail Guide Complete</h2>[m[41m[m
+packages/sdk/src/overlay.ts:213: trailing whitespace.
+[32m+[m[32m      <p class="tg-instruction"></p>[m[41m[m
+packages/sdk/src/overlay.ts:214: trailing whitespace.
+[32m+[m[32m      <div class="tg-panel-footer">[m[41m[m
+packages/sdk/src/overlay.ts:215: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-btn tg-restart-btn">Restart</button>[m[41m[m
+packages/sdk/src/overlay.ts:216: trailing whitespace.
+[32m+[m[32m        <button type="button" class="tg-btn tg-btn-primary tg-exit-btn">Exit</button>[m[41m[m
+packages/sdk/src/overlay.ts:217: trailing whitespace.
+[32m+[m[32m      </div>[m[41m[m
+packages/sdk/src/overlay.ts:218: trailing whitespace.
+[32m+[m[32m    `;[m[41m[m
+packages/sdk/src/overlay.ts:219: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector(".tg-instruction")!.textContent =[m[41m[m
+packages/sdk/src/overlay.ts:220: trailing whitespace.
+[32m+[m[32m      `${title} — ${totalSteps} of ${totalSteps} steps completed.`;[m[41m[m
+packages/sdk/src/overlay.ts:221: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-restart-btn")!.addEventListener("click", onRestart);[m[41m[m
+packages/sdk/src/overlay.ts:222: trailing whitespace.
+[32m+[m[32m    this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());[m[41m[m
+packages/sdk/src/overlay.ts:223: trailing whitespace.
+[32m+[m[32m    this.focusPanel();[m[41m[m
+packages/sdk/src/overlay.ts:224: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:225: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:226: trailing whitespace.
+[32m+[m[32m  private focusPanel(): void {[m[41m[m
+packages/sdk/src/overlay.ts:227: trailing whitespace.
+[32m+[m[32m    this.panel.focus({ preventScroll: true });[m[41m[m
+packages/sdk/src/overlay.ts:228: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:229: trailing whitespace.
+[32m+[m[41m[m
+packages/sdk/src/overlay.ts:230: trailing whitespace.
+[32m+[m[32m  destroy(): void {[m[41m[m
+packages/sdk/src/overlay.ts:231: trailing whitespace.
+[32m+[m[32m    this.spotlight.destroy();[m[41m[m
+packages/sdk/src/overlay.ts:232: trailing whitespace.
+[32m+[m[32m    if (this.keydownHandler) {[m[41m[m
+packages/sdk/src/overlay.ts:233: trailing whitespace.
+[32m+[m[32m      document.removeEventListener("keydown", this.keydownHandler);[m[41m[m
+packages/sdk/src/overlay.ts:234: trailing whitespace.
+[32m+[m[32m    }[m[41m[m
+packages/sdk/src/overlay.ts:235: trailing whitespace.
+[32m+[m[32m    this.root.remove();[m[41m[m
+packages/sdk/src/overlay.ts:236: trailing whitespace.
+[32m+[m[32m  }[m[41m[m
+packages/sdk/src/overlay.ts:237: trailing whitespace.
+[32m+[m[32m}[m[41m[m

@@ -4,6 +4,10 @@ import { REPO_ROOT, resolveDiscoveredGuides } from "./validate.js";
 
 const OUTPUT_ROOT = path.join(REPO_ROOT, "dist", "releases");
 
+export function getGuideOutputFileName(guideId: string): string {
+  return `${guideId}.json`;
+}
+
 export function runBuild(): void {
   const guides = resolveDiscoveredGuides();
 
@@ -26,7 +30,7 @@ export function runBuild(): void {
 
     const outDir = path.join(OUTPUT_ROOT, result.source.release);
     mkdirSync(outDir, { recursive: true });
-    const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
+    const outFile = path.join(outDir, getGuideOutputFileName(result.guide.id));
     writeFileSync(outFile, JSON.stringify(result.guide, null, 2));
     console.log(`✓ built ${result.source.release}/${path.basename(outFile)}`);
   }
