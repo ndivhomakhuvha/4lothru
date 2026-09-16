@@ -1,11 +1,19 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { REPO_ROOT, resolveDiscoveredGuides } from "./validate.js";
 
 const OUTPUT_ROOT = path.join(REPO_ROOT, "dist", "releases");
 
-export function runBuild(): void {
-  const guides = resolveDiscoveredGuides();
+export interface BuildOptions {
+  guidesRoot?: string;
+  outputRoot?: string;
+}
+
+export function runBuild(options: BuildOptions = {}): void {
+  const outputRoot = options.outputRoot ?? OUTPUT_ROOT;
+  rmSync(outputRoot, { recursive: true, force: true });
+
+  const guides = resolveDiscoveredGuides(options.guidesRoot);
 
   if (guides.length === 0) {
     console.log("No guides found under guides/releases/.");
@@ -24,7 +32,7 @@ export function runBuild(): void {
       continue;
     }
 
-    const outDir = path.join(OUTPUT_ROOT, result.source.release);
+    const outDir = path.join(outputRoot, result.source.release);
     mkdirSync(outDir, { recursive: true });
     const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
     writeFileSync(outFile, JSON.stringify(result.guide, null, 2));

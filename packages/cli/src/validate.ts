@@ -20,14 +20,14 @@ export interface DiscoveredGuide {
 }
 
 /** Walks `guides/releases/<release>/*.yaml`. Returns an empty list if the directory doesn't exist. */
-export function discoverGuides(): DiscoveredGuide[] {
-  if (!existsSync(GUIDES_ROOT)) return [];
+export function discoverGuides(guidesRoot = GUIDES_ROOT): DiscoveredGuide[] {
+  if (!existsSync(guidesRoot)) return [];
 
   const guides: DiscoveredGuide[] = [];
-  const releases = readdirSync(GUIDES_ROOT, { withFileTypes: true }).filter((entry) => entry.isDirectory());
+  const releases = readdirSync(guidesRoot, { withFileTypes: true }).filter((entry) => entry.isDirectory());
 
   for (const release of releases) {
-    const releaseDir = path.join(GUIDES_ROOT, release.name);
+    const releaseDir = path.join(guidesRoot, release.name);
     const files = readdirSync(releaseDir).filter((f) => f.endsWith(".yaml") || f.endsWith(".yml"));
     for (const file of files.sort()) {
       guides.push({ release: release.name, file, filePath: path.join(releaseDir, file) });
@@ -48,8 +48,8 @@ export type ResolvedGuideResult =
   | { source: DiscoveredGuide; success: false; issues: GuideValidationIssue[] };
 
 /** Parses and resolves all guides per release, so extensions can only reference local bases. */
-export function resolveDiscoveredGuides(): ResolvedGuideResult[] {
-  const parsed = discoverGuides().map((source) => ({
+export function resolveDiscoveredGuides(guidesRoot = GUIDES_ROOT): ResolvedGuideResult[] {
+  const parsed = discoverGuides(guidesRoot).map((source) => ({
     source,
     result: parseAuthorGuideYaml(readFileSync(source.filePath, "utf-8")),
   }));
