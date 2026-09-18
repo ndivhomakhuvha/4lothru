@@ -81,6 +81,10 @@ guides/
 
 A guide's URL — `/g/<release>/<TICKET>` — uniquely and immutably identifies that guide version. There's no "latest" alias in the MVP.
 
+The YAML `id` is the guide's canonical identifier. `trail build` writes each guide to
+`dist/releases/<release>/<id>.json`, which is the path used by both the viewer and SDK.
+Source filenames may differ from their YAML `id`.
+
 ## Repository structure
 
 ```
