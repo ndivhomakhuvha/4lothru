@@ -1,9 +1,9 @@
 import { test, expect } from "@playwright/test";
 
 const AMOUNT_GUIDE_URL = "http://localhost:3001/payments/new?trail=PAY-1245&release=2026.08.26";
-// The Dashboard guide's first step uses action "verify", so Next is enabled immediately
+// The transaction-history guide's first step uses action "verify", so Next is enabled immediately
 // (no dependency on a required user action), giving a stable multi-control dialog to test.
-const VERIFY_GUIDE_URL = "http://localhost:3001/?trail=DASHBOARD&release=2026.08.26";
+const VERIFY_GUIDE_URL = "http://localhost:3001/transactions?trail=PAY-1261&release=2026.08.26";
 
 test.describe("Overlay keyboard focus trap", () => {
   test("dialog panel receives focus when the guide opens", async ({ page }) => {
