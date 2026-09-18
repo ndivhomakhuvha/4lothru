@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/guide-schema";
 
-type LoadState = "loading" | "found" | "not-found" | "invalid";
+type LoadState = "loading" | "found" | "not-found" | "network-error" | "server-error" | "invalid";
 
 export default function GuidePage() {
   const { release, guideId } = useParams<{ release: string; guideId: string }>();
@@ -20,13 +20,13 @@ export default function GuidePage() {
       try {
         response = await fetch(`/guides/releases/${release}/${guideId}.json`);
       } catch {
-        if (!cancelled) setState("not-found");
+        if (!cancelled) setState("network-error");
         return;
       }
       if (cancelled) return;
 
       if (!response.ok) {
-        setState("not-found");
+        setState(response.status === 404 ? "not-found" : "server-error");
         return;
       }
 
@@ -69,6 +69,24 @@ export default function GuidePage() {
         <h1>Trail Guide Not Found</h1>
         <p>{guideId}</p>
         <p>Release {release}</p>
+      </div>
+    );
+  }
+
+  if (state === "network-error") {
+    return (
+      <div className="guide-card error-card">
+        <h1>Unable to Load Trail Guide</h1>
+        <p>A network error prevented this guide from loading. Check your connection and try again.</p>
+      </div>
+    );
+  }
+
+  if (state === "server-error") {
+    return (
+      <div className="guide-card error-card">
+        <h1>Unable to Load Trail Guide</h1>
+        <p>The guide server returned an error. Try again later.</p>
       </div>
     );
   }

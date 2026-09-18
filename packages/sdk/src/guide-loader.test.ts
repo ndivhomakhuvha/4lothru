@@ -40,10 +40,16 @@ describe("loadGuide", () => {
     expect(result).toEqual({ success: false, kind: "not-found" });
   });
 
-  it("reports not-found when the network request throws", async () => {
+  it("reports a network error when the request throws", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("network down")));
     const result = await loadGuide("/guides/releases/2026.08.26/PAY-1245.json");
-    expect(result).toEqual({ success: false, kind: "not-found" });
+    expect(result).toEqual({ success: false, kind: "network-error" });
+  });
+
+  it("reports a server error for a non-404 response", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("", { status: 500 })));
+    const result = await loadGuide("/guides/releases/2026.08.26/PAY-1245.json");
+    expect(result).toEqual({ success: false, kind: "server-error" });
   });
 
   it("reports invalid for a malformed guide", async () => {
