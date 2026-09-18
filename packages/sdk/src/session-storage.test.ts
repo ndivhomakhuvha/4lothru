@@ -26,6 +26,13 @@ describe("session checkpoint storage", () => {
     expect(sessionStorage.getItem("trail:checkpoint")).toBeNull();
   });
 
+  it("clears malformed checkpoints", () => {
+    sessionStorage.setItem("trail:checkpoint", "{");
+
+    expect(loadCheckpoint(checkpoint.release, checkpoint.guideId)).toBeNull();
+    expect(sessionStorage.getItem("trail:checkpoint")).toBeNull();
+  });
+
   it("clearCheckpoint removes a saved resume point", () => {
     saveCheckpoint(checkpoint);
     clearCheckpoint();

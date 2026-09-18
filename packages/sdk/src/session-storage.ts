@@ -44,6 +44,7 @@ export function loadCheckpoint(release: string, guideId: string): GuideCheckpoin
     storage.removeItem(STORAGE_KEY);
     return null;
   } catch {
+    clearCheckpoint();
     return null;
   }
 }
