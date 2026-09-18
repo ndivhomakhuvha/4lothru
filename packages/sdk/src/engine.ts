@@ -210,6 +210,11 @@ export class TrailEngine implements TrailHandle {
       element.addEventListener("change", updateCompletion, { signal: controller.signal });
       const initiallyComplete = isExpectedValue();
       this.currentStepComplete = initiallyComplete;
+      if (initiallyComplete && step.autoAdvance) {
+        queueMicrotask(() => {
+          if (!controller.signal.aborted && !this.destroyed) complete();
+        });
+      }
       return initiallyComplete;
     }
 
