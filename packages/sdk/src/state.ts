@@ -1,4 +1,11 @@
 import type { Guide } from "@trail/guide-schema";
+import type { GuideCheckpoint } from "./session-storage.js";
+
+export function resolveCheckpointIndex(guide: Guide, checkpoint: GuideCheckpoint | null): number | null {
+  if (!checkpoint) return 0;
+  const index = guide.steps.findIndex((step) => step.id === checkpoint.stepId);
+  return index >= 0 ? index : null;
+}
 
 export class GuideState {
   readonly guide: Guide;

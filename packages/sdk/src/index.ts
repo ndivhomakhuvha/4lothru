@@ -1,7 +1,8 @@
 import { loadGuide } from "./guide-loader.js";
-import { loadCheckpoint } from "./session-storage.js";
+import { clearCheckpoint, loadCheckpoint } from "./session-storage.js";
 import { TrailEngine, type TrailHandle } from "./engine.js";
 import { Overlay } from "./overlay.js";
+import { resolveCheckpointIndex } from "./state.js";
 
 export type { TrailHandle } from "./engine.js";
 export type { Guide, GuideStep, Target } from "@trail/guide-schema";
@@ -71,7 +72,9 @@ async function init(options: TrailInitOptions = {}): Promise<TrailHandle | null>
   }
 
   const checkpoint = loadCheckpoint(request.release, result.guide.id);
-  const startIndex = checkpoint?.stepIndex ?? 0;
+  const checkpointIndex = resolveCheckpointIndex(result.guide, checkpoint);
+  if (checkpoint && checkpointIndex === null) clearCheckpoint();
+  const startIndex = checkpointIndex ?? 0;
 
   return new TrailEngine({
     guide: result.guide,
