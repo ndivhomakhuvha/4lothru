@@ -47,10 +47,10 @@ jobs:
           pnpm build
 
       - name: Publish guide schema
-        run: pnpm --dir packages/guide-schema exec npm publish --access public --provenance
+        run: pnpm --dir packages/guide-schema exec npm publish --access public --provenance --no-git-checks
 
       - name: Publish CLI
-        run: pnpm --dir packages/cli exec npm publish --access public --provenance
+        run: pnpm --dir packages/cli exec npm publish --access public --provenance --no-git-checks
 
       - name: Publish SDK
-        run: pnpm --dir packages/sdk exec npm publish --access public --provenance
+        run: pnpm --dir packages/sdk exec npm publish --access public --provenance --no-git-checks
