@@ -277,6 +277,15 @@ pnpm test        # Vitest unit tests (schema, target resolution, DOM watcher, ..
 pnpm test:e2e    # Playwright end-to-end tests
 ```
 
+## Package releases
+
+The `@trail/sdk`, `@trail/guide-schema`, and `@trail/cli` packages use
+[Changesets](https://github.com/changesets/changesets) for independent
+Semantic Versioning, changelogs, and npm releases. Applications, guides, and
+the private workspace root are not versioned or published. See
+[the release guide](docs/releases.md) for the required pull-request and
+publishing process.
+
 ## What's intentionally not built (MVP scope)
 
 Per the product spec, the following are out of scope for this MVP but the schema/architecture doesn't prevent adding them later: browser recording, AI-generated guides, Jira/Azure DevOps/GitHub integrations, test result storage, screenshots, analytics, authentication, and cloud hosting.
