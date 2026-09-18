@@ -165,7 +165,7 @@ export class Overlay {
       return;
     }
 
-    if (active === focusTarget) {
+    if (focusTarget && active === focusTarget) {
       event.preventDefault();
       (event.shiftKey ? last : panelFocusable[0] ?? focusTarget).focus();
       return;

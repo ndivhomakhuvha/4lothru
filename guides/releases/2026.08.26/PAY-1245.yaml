@@ -13,7 +13,6 @@ steps:
       label: Amount
     action: input
     value: "1000"
-    autoAdvance: true
     before: submit
     instruction: "Enter 1000 into the amount field."
 
@@ -21,6 +20,5 @@ steps:
     target:
       text: "Beneficiary"
     action: click
-    autoAdvance: true
     after: amount
     instruction: "Select the beneficiary."

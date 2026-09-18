@@ -77,14 +77,14 @@ export class Spotlight {
     const left = Math.max(0, rect.left - PADDING);
     const right = Math.min(window.innerWidth, rect.right + PADDING);
     const bottom = Math.min(window.innerHeight, rect.bottom + PADDING);
-    const dimensions = [
+    const dimensions: [number, number, number, number][] = [
       [0, 0, window.innerWidth, top],
       [0, top, left, bottom - top],
       [right, top, window.innerWidth - right, bottom - top],
       [0, bottom, window.innerWidth, window.innerHeight - bottom],
     ];
     this.blockers.forEach((blocker, index) => {
-      const [blockerLeft, blockerTop, width, height] = dimensions[index];
+      const [blockerLeft, blockerTop, width, height] = dimensions[index]!;
       Object.assign(blocker.style, {
         left: `${blockerLeft}px`,
         top: `${blockerTop}px`,

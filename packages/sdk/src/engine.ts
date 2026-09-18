@@ -208,7 +208,9 @@ export class TrailEngine implements TrailHandle {
       };
       element.addEventListener("input", updateCompletion, { signal: controller.signal });
       element.addEventListener("change", updateCompletion, { signal: controller.signal });
-      return isExpectedValue();
+      const initiallyComplete = isExpectedValue();
+      this.currentStepComplete = initiallyComplete;
+      return initiallyComplete;
     }
 
     element.addEventListener("click", complete, { once: true, signal: controller.signal });

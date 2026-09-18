@@ -15,13 +15,13 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-panel")).not.toHaveAttribute("aria-modal");
   });
 
-  test("Tab cycles through the Dashboard target and dialog controls", async ({ page }) => {
+  test("Tab cycles through the transaction-history target and dialog controls", async ({ page }) => {
     await page.goto(VERIFY_GUIDE_URL);
 
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
 
     await page.keyboard.press("Tab");
-    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
+    await expect(page.getByRole("link", { name: "Transaction History" })).toBeFocused();
 
     await page.keyboard.press("Tab");
     await expect(page.locator(".tg-exit-btn")).toBeFocused();
@@ -30,7 +30,7 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-next-btn")).toBeFocused();
 
     await page.keyboard.press("Tab");
-    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
+    await expect(page.getByRole("link", { name: "Transaction History" })).toBeFocused();
   });
 
   test("Shift+Tab from the first control wraps to the last control", async ({ page }) => {
@@ -39,7 +39,7 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
 
     await page.keyboard.press("Tab");
-    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
+    await expect(page.getByRole("link", { name: "Transaction History" })).toBeFocused();
 
     await page.keyboard.press("Shift+Tab");
     await expect(page.locator(".tg-next-btn")).toBeFocused();
