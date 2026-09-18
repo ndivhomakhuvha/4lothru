@@ -10,9 +10,9 @@ start:
 steps:
   - id: farm-name
     target:
-      text: "MyFarm"
+      text: "Dashboard"
     action: verify
-    instruction: "Verify the MyFarm page has loaded."
+    instruction: "Verify the Dashboard page has loaded."
 
   - id: view-transaction-history
     target:
