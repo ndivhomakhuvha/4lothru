@@ -97,6 +97,7 @@ export class Overlay {
   private readonly callbacks: OverlayCallbacks;
   private keydownHandler: ((event: KeyboardEvent) => void) | null = null;
   private readonly previousBodyOverflow: string;
+  private focusTarget: HTMLElement | null = null;
 
   constructor(callbacks: OverlayCallbacks) {
     injectStyles();
@@ -108,7 +109,6 @@ export class Overlay {
     this.panel = document.createElement("div");
     this.panel.className = "tg-panel";
     this.panel.setAttribute("role", "dialog");
-    this.panel.setAttribute("aria-modal", "true");
     this.panel.setAttribute("aria-label", "Trail guide");
     this.panel.setAttribute("aria-live", "polite");
     this.panel.tabIndex = -1;
@@ -135,9 +135,12 @@ export class Overlay {
 
   /** Keeps focus cycling within the panel so background controls stay unreachable. */
   private trapTabFocus(event: KeyboardEvent): void {
-    const focusable = Array.from(this.panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    const focusable = this.focusTarget && this.focusTarget.matches(FOCUSABLE_SELECTOR)
+      ? [this.focusTarget]
+      : [];
+    focusable.push(...Array.from(this.panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
       (el) => el.offsetParent !== null || el === document.activeElement,
-    );
+    ));
 
     if (focusable.length === 0) {
       event.preventDefault();
@@ -145,11 +148,11 @@ export class Overlay {
       return;
     }
 
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
+    const first = focusable[0]!;
+    const last = focusable[focusable.length - 1]!;
     const active = document.activeElement;
 
-    if (!this.panel.contains(active)) {
+    if (active === this.panel || !focusable.includes(active as HTMLElement)) {
       event.preventDefault();
       (event.shiftKey ? last : first).focus();
       return;
@@ -196,6 +199,16 @@ export class Overlay {
     this.panel.querySelector<HTMLButtonElement>(".tg-exit-btn")!.addEventListener("click", () => this.callbacks.onExit());
 
     this.focusPanel();
+  }
+
+  setFocusTarget(element: HTMLElement | null): void {
+    this.focusTarget = element;
+  }
+
+  scrollToTarget(element: HTMLElement): void {
+    document.body.style.overflow = this.previousBodyOverflow;
+    element.scrollIntoView({ behavior: "auto", block: "center", inline: "nearest" });
+    document.body.style.overflow = "hidden";
   }
 
   setNextEnabled(enabled: boolean): void {

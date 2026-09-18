@@ -12,7 +12,7 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-panel")).toBeVisible();
     await expect(page.locator(".tg-panel")).toBeFocused();
     await expect(page.locator(".tg-panel")).toHaveAttribute("role", "dialog");
-    await expect(page.locator(".tg-panel")).toHaveAttribute("aria-modal", "true");
+    await expect(page.locator(".tg-panel")).not.toHaveAttribute("aria-modal");
   });
 
   test("Tab cycles focus only among controls inside the dialog", async ({ page }) => {
@@ -43,24 +43,35 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-next-btn")).toBeFocused();
   });
 
-  test("Tab wraps to itself when only one control is focusable", async ({ page }) => {
+  test("Tab from the initially focused panel reaches the guided target", async ({ page }) => {
     await page.goto(AMOUNT_GUIDE_URL);
 
-    // Step 1 of the amount guide: Back and Next are both disabled, leaving only Exit focusable.
-    await expect(page.locator(".tg-back-btn")).toBeDisabled();
-    await expect(page.locator(".tg-next-btn")).toBeDisabled();
+    await page.keyboard.press("Tab");
+    await expect(page.locator("#amount")).toBeFocused();
+  });
+
+  test("Shift+Tab from the initially focused panel wraps to the last control", async ({ page }) => {
+    await page.goto(VERIFY_GUIDE_URL);
+
+    await expect(page.locator(".tg-next-btn")).toBeEnabled();
+
+    await page.keyboard.press("Shift+Tab");
+    await expect(page.locator(".tg-next-btn")).toBeFocused();
+  });
+
+  test("Tab cycles through the guided target and dialog controls", async ({ page }) => {
+    await page.goto(AMOUNT_GUIDE_URL);
 
     await page.keyboard.press("Tab");
-    await expect(page.locator(".tg-exit-btn")).toBeFocused();
-
+    await expect(page.locator("#amount")).toBeFocused();
     await page.keyboard.press("Tab");
     await expect(page.locator(".tg-exit-btn")).toBeFocused();
 
     await page.keyboard.press("Shift+Tab");
-    await expect(page.locator(".tg-exit-btn")).toBeFocused();
+    await expect(page.locator("#amount")).toBeFocused();
   });
 
-  test("background controls cannot receive focus while the guide is active", async ({ page }) => {
+  test("focus outside the guided target and dialog is redirected to the target", async ({ page }) => {
     await page.goto(AMOUNT_GUIDE_URL);
 
     const dashboardLink = page.getByRole("link", { name: "Dashboard" });
@@ -70,11 +81,7 @@ test.describe("Overlay keyboard focus trap", () => {
     await page.keyboard.press("Tab");
 
     await expect(dashboardLink).not.toBeFocused();
-    const activeInPanel = await page.evaluate(() => {
-      const panel = document.querySelector(".tg-panel");
-      return panel ? panel.contains(document.activeElement) : false;
-    });
-    expect(activeInPanel).toBe(true);
+    await expect(page.locator("#amount")).toBeFocused();
   });
 
   test("Escape exits the guide", async ({ page }) => {
@@ -99,4 +106,3 @@ test.describe("Overlay keyboard focus trap", () => {
     expect(restoredOverflow).not.toBe("hidden");
   });
 });
-
