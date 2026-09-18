@@ -54,6 +54,18 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
   });
 
+  test("resumes the current step after a reload", async ({ page }) => {
+    await page.goto(GUIDE_URL);
+    await page.locator("#amount").fill("1000");
+    await page.locator(".tg-next-btn").click();
+    await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
+
+    await page.reload();
+
+    await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
+    await expect(page.locator(".tg-instruction")).toHaveText("Select the beneficiary.");
+  });
+
   test("completes the full guide end to end (spec #10-16)", async ({ page }) => {
     await page.goto(GUIDE_URL);
 

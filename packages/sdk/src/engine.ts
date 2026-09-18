@@ -90,7 +90,12 @@ export class TrailEngine implements TrailHandle {
   }
 
   private persist(): void {
-    saveCheckpoint({ release: this.release, guideId: this.guide.id, stepIndex: this.state.currentIndex });
+    saveCheckpoint({
+      release: this.release,
+      guideId: this.guide.id,
+      stepIndex: this.state.currentIndex,
+      stepId: this.state.currentStep.id,
+    });
   }
 
   private activateCurrentStep(): void {
@@ -150,6 +155,7 @@ export class TrailEngine implements TrailHandle {
       release: this.release,
       guideId: this.guide.id,
       stepIndex: Math.min(this.state.currentIndex + 1, this.state.total - 1),
+      stepId: this.guide.steps[Math.min(this.state.currentIndex + 1, this.state.total - 1)]!.id,
     });
     destination.searchParams.set("trail", this.guide.id);
     destination.searchParams.set("release", this.release);
