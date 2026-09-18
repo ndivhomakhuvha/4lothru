@@ -57,4 +57,20 @@ describe("runBuild", () => {
     expect(existsSync(path.join(outputRoot, RELEASE, "old-name.json"))).toBe(false);
     expect(JSON.parse(readFileSync(path.join(outputRoot, RELEASE, "new-name.json"), "utf8")).id).toBe("RENAMED");
   });
+
+  it("preserves previous output when a guide is invalid", () => {
+    const { guidesRoot, outputRoot, releaseRoot } = createFixture();
+    const source = path.join(releaseRoot, "guide.yaml");
+    const output = path.join(outputRoot, RELEASE, "guide.json");
+    writeFileSync(source, guideYaml("VALID"));
+
+    runBuild({ guidesRoot, outputRoot });
+    const previousOutput = readFileSync(output, "utf8");
+
+    writeFileSync(source, "id: INVALID\n");
+    runBuild({ guidesRoot, outputRoot });
+
+    expect(process.exitCode).toBe(1);
+    expect(readFileSync(output, "utf8")).toBe(previousOutput);
+  });
 });
