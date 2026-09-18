@@ -42,9 +42,9 @@ afterEach(() => {
 });
 
 describe("runBuild", () => {
-  it("writes output using the guide ID when the source filename differs", () => {
+  it("builds .yml guides into JSON named after their guide IDs", () => {
     const { guidesRoot, outputRoot, releaseRoot } = createFixture();
-    const source = path.join(releaseRoot, "descriptive-name.yaml");
+    const source = path.join(releaseRoot, "descriptive-name.yml");
     const output = path.join(outputRoot, RELEASE, "RENAMED.json");
     writeFileSync(source, guideYaml("RENAMED"));
 
@@ -55,7 +55,7 @@ describe("runBuild", () => {
     expect(JSON.parse(readFileSync(output, "utf8")).id).toBe("RENAMED");
   });
 
-  it("preserves previous output when a guide is invalid", () => {
+  it("sets a failing exit code and preserves previous output when a guide is invalid", () => {
     const { guidesRoot, outputRoot, releaseRoot } = createFixture();
     const source = path.join(releaseRoot, "guide.yaml");
     const output = path.join(outputRoot, RELEASE, "VALID.json");
@@ -69,5 +69,31 @@ describe("runBuild", () => {
 
     expect(process.exitCode).toBe(1);
     expect(readFileSync(output, "utf8")).toBe(previousOutput);
+  });
+
+  it("replaces prior output so stale release assets are removed", () => {
+    const { guidesRoot, outputRoot, releaseRoot } = createFixture();
+    writeFileSync(path.join(releaseRoot, "guide.yaml"), guideYaml("CURRENT"));
+    const staleOutput = path.join(outputRoot, "old-release", "STALE.json");
+    mkdirSync(path.dirname(staleOutput), { recursive: true });
+    writeFileSync(staleOutput, "{}");
+
+    runBuild({ guidesRoot, outputRoot });
+
+    expect(existsSync(path.join(outputRoot, RELEASE, "CURRENT.json"))).toBe(true);
+    expect(existsSync(staleOutput)).toBe(false);
+  });
+
+  it("removes stale output when no guides are discovered", () => {
+    const { guidesRoot, outputRoot } = createFixture();
+    const staleOutput = path.join(outputRoot, RELEASE, "STALE.json");
+    mkdirSync(path.dirname(staleOutput), { recursive: true });
+    writeFileSync(staleOutput, "{}");
+
+    rmSync(guidesRoot, { recursive: true });
+    runBuild({ guidesRoot, outputRoot });
+
+    expect(existsSync(outputRoot)).toBe(false);
+    expect(process.exitCode).toBeUndefined();
   });
 });
