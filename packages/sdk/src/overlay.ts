@@ -97,11 +97,13 @@ export class Overlay {
   private readonly callbacks: OverlayCallbacks;
   private keydownHandler: ((event: KeyboardEvent) => void) | null = null;
   private readonly previousBodyOverflow: string;
+  private readonly previouslyFocusedElement: HTMLElement | null;
   private focusTarget: HTMLElement | null = null;
 
   constructor(callbacks: OverlayCallbacks) {
     injectStyles();
     this.callbacks = callbacks;
+    this.previouslyFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
     this.root = document.createElement("div");
     this.root.className = "tg-root";
@@ -133,14 +135,19 @@ export class Overlay {
     document.addEventListener("keydown", this.keydownHandler, true);
   }
 
-  /** Keeps focus cycling within the panel so background controls stay unreachable. */
+  /** Keeps focus cycling between the guided target and the panel controls. */
   private trapTabFocus(event: KeyboardEvent): void {
-    const focusable = this.focusTarget && this.focusTarget.matches(FOCUSABLE_SELECTOR)
-      ? [this.focusTarget]
-      : [];
-    focusable.push(...Array.from(this.panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
+    const panelFocusable = Array.from(this.panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)).filter(
       (el) => el.offsetParent !== null || el === document.activeElement,
-    ));
+    );
+    const focusTarget =
+      this.focusTarget &&
+      this.focusTarget.isConnected &&
+      this.focusTarget.matches(FOCUSABLE_SELECTOR) &&
+      (this.focusTarget.offsetParent !== null || this.focusTarget === document.activeElement)
+        ? this.focusTarget
+        : null;
+    const focusable = focusTarget ? [focusTarget, ...panelFocusable] : panelFocusable;
 
     if (focusable.length === 0) {
       event.preventDefault();
@@ -155,6 +162,18 @@ export class Overlay {
     if (active === this.panel || !focusable.includes(active as HTMLElement)) {
       event.preventDefault();
       (event.shiftKey ? last : first).focus();
+      return;
+    }
+
+    if (active === focusTarget) {
+      event.preventDefault();
+      (event.shiftKey ? last : panelFocusable[0] ?? focusTarget).focus();
+      return;
+    }
+
+    if (event.shiftKey && focusTarget && active === panelFocusable[0]) {
+      event.preventDefault();
+      focusTarget.focus();
       return;
     }
 
@@ -290,5 +309,8 @@ export class Overlay {
     }
     document.body.style.overflow = this.previousBodyOverflow;
     this.root.remove();
+    if (this.previouslyFocusedElement?.isConnected) {
+      this.previouslyFocusedElement.focus({ preventScroll: true });
+    }
   }
 }
