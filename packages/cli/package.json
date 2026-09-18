@@ -4,6 +4,10 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndivhomakhuvha/trail.git"
+  },
   "type": "module",
   "bin": {
     "trail": "./bin/trail.js"

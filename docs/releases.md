@@ -68,12 +68,12 @@ packages has one tag per released package, all pointing to the same commit.
 ## Publishing
 
 The versioned packages are configured for public npm publication. Before the
-first publication, a maintainer must confirm that the `@trail` npm organization
-owns all three package names and configure npm trusted publishing for this
-repository/workflow on each package. Configure the `npm-publish` GitHub
-environment with the required protection rules. The `Publish packages`
-workflow publishes with npm provenance through its `id-token: write`
-permission.
+first publication, a maintainer must confirm that the `@trail-cli` npm organization
+owns all three package names and create a granular `NPM_TOKEN` with
+stage-only access to the `@trail-cli` scope. Save that token in the
+`npm-publish` GitHub environment. The `Publish packages` workflow stages
+each package; a maintainer must approve each staged package with npm 2FA
+before it becomes publicly available.
 
 Test each package's contents before announcing a release:
 
@@ -85,8 +85,9 @@ pnpm --dir packages/sdk exec npm pack --dry-run
 
 From the tagged release commit, manually dispatch the **Publish packages**
 workflow, select the release tag as its ref, and confirm publishing. It
-validates the release before publishing `@trail-cli/guide-schema`, then
-`@trail-cli/cli`, and then `@trail-cli/sdk`.
+validates the release before staging `@trail-cli/guide-schema`, then
+`@trail-cli/cli`, and then `@trail-cli/sdk`. Review and approve each package
+from npm's **Staged Packages** page before announcing the release.
 
 Run `npm view @trail-cli/<package> version` after each publication and verify the
 generated changelog and tarball contents before announcing the release.
