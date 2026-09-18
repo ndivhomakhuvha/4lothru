@@ -5,7 +5,7 @@ import { Overlay } from "./overlay.js";
 import { resolveCheckpointIndex } from "./state.js";
 
 export type { TrailHandle } from "./engine.js";
-export type { Guide, GuideStep, Target } from "@trail/guide-schema";
+export type { Guide, GuideStep, Target } from "@trail-cli/guide-schema";
 
 export interface TrailInitOptions {
   /** Explicit URL to a guide document (JSON or YAML). Overrides URL-based auto-detection. */

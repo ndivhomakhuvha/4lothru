@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 const GUIDE_URL = "http://localhost:3002/?trail=NG-1&release=2026.08.26";
 
 test.describe("Angular compatibility (spec #17)", () => {
-  test("the same @trail/sdk drives a guide inside an Angular app", async ({ page }) => {
+  test("the same @trail-cli/sdk drives a guide inside an Angular app", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");

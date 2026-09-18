@@ -4,9 +4,9 @@ Trail publishes three independently versioned npm packages:
 
 | Package | Purpose |
 | --- | --- |
-| `@trail/sdk` | Browser-side guide runtime |
-| `@trail/guide-schema` | Guide schema, types, and parsing |
-| `@trail/cli` | `trail` validation, build, and preview command |
+| `@trail-cli/sdk` | Browser-side guide runtime |
+| `@trail-cli/guide-schema` | Guide schema, types, and parsing |
+| `@trail-cli/cli` | `trail` validation, build, and preview command |
 
 The workspace root, applications, and guide content are private deployment
 artifacts. They are not npm packages and do not receive package releases.
@@ -22,8 +22,8 @@ Package versions follow [Semantic Versioning](https://semver.org/):
 
 Until `1.0.0`, breaking changes still use a minor bump. A package that did not
 change directly may receive a patch bump when its published dependency range
-must be updated. `@trail/sdk` and `@trail/cli` depend on
-`@trail/guide-schema`, so release their dependency update whenever Changesets
+must be updated. `@trail-cli/sdk` and `@trail-cli/cli` depend on
+`@trail-cli/guide-schema`, so release their dependency update whenever Changesets
 selects it.
 
 All packages begin at `0.1.0`, recorded as the initial-development baseline in
@@ -62,7 +62,7 @@ pnpm version-packages
 package versions and internal dependency ranges, and writes per-package
 `CHANGELOG.md` files. Review and commit those generated changes in a dedicated
 release pull request. Tag the merged release commit with a package-specific
-annotated tag, for example `@trail/sdk@0.2.0`. A release that updates multiple
+annotated tag, for example `@trail-cli/sdk@0.2.0`. A release that updates multiple
 packages has one tag per released package, all pointing to the same commit.
 
 ## Publishing
@@ -85,8 +85,8 @@ pnpm --dir packages/sdk exec npm pack --dry-run
 
 From the tagged release commit, manually dispatch the **Publish packages**
 workflow, select the release tag as its ref, and confirm publishing. It
-validates the release before publishing `@trail/guide-schema`, then
-`@trail/cli`, and then `@trail/sdk`.
+validates the release before publishing `@trail-cli/guide-schema`, then
+`@trail-cli/cli`, and then `@trail-cli/sdk`.
 
-Run `npm view @trail/<package> version` after each publication and verify the
+Run `npm view @trail-cli/<package> version` after each publication and verify the
 generated changelog and tarball contents before announcing the release.

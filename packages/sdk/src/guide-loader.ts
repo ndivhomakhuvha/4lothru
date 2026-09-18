@@ -1,4 +1,4 @@
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail-cli/guide-schema";
 
 export type LoadGuideResult =
   | { success: true; guide: Guide }

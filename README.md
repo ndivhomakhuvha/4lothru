@@ -93,9 +93,9 @@ apps/
   demo-app/           React demo banking app with the SDK installed
   angular-fixture/    Minimal Angular app proving SDK framework independence
 packages/
-  sdk/                @trail/sdk — pure TypeScript, runs inside the app under test
-  guide-schema/       @trail/guide-schema — Zod schema + types for guides
-  cli/                @trail/cli — validate / build / preview
+  sdk/                @trail-cli/sdk — pure TypeScript, runs inside the app under test
+  guide-schema/       @trail-cli/guide-schema — Zod schema + types for guides
+  cli/                @trail-cli/cli — validate / build / preview
 guides/
   releases/<release>/<TICKET>.yaml
 tests/                Playwright end-to-end tests
@@ -192,13 +192,13 @@ Extension steps are additive: each one declares exactly one `before` or `after` 
 ## Install the SDK
 
 ```bash
-npm install @trail/sdk
+npm install @trail-cli/sdk
 ```
 
 The smallest integration, run once at app startup:
 
 ```ts
-import { Trail } from "@trail/sdk";
+import { Trail } from "@trail-cli/sdk";
 
 Trail.init();
 ```
@@ -234,7 +234,7 @@ A guide's URL (`/g/<release>/<TICKET>`) is immutable — release + ticket unique
 The SDK is pure TypeScript with zero framework dependencies. It works identically in:
 
 - **React** — see `apps/demo-app`
-- **Angular** — see `apps/angular-fixture` (same `@trail/sdk` package, no Angular-specific code)
+- **Angular** — see `apps/angular-fixture` (same `@trail-cli/sdk` package, no Angular-specific code)
 - **Vue**, **Svelte**, **plain HTML/JS** — the SDK only touches `document`/`window`; the plain global build (`dist/index.global.js`) can be dropped in with a `<script>` tag
 
 SPA route changes (React Router, Vue Router, Angular Router, or anything else) are detected generically by wrapping `history.pushState`/`replaceState` and listening for `popstate` — no framework-specific router integration is required.
@@ -242,7 +242,7 @@ SPA route changes (React Router, Vue Router, Angular Router, or anything else) a
 ## CLI
 
 ```bash
-npm install -g @trail/cli   # or use it from the workspace directly
+npm install -g @trail-cli/cli   # or use it from the workspace directly
 ```
 
 ```bash
@@ -279,7 +279,7 @@ pnpm test:e2e    # Playwright end-to-end tests
 
 ## Package releases
 
-The `@trail/sdk`, `@trail/guide-schema`, and `@trail/cli` packages use
+The `@trail-cli/sdk`, `@trail-cli/guide-schema`, and `@trail-cli/cli` packages use
 [Changesets](https://github.com/changesets/changesets) for independent
 Semantic Versioning, changelogs, and npm releases. Applications, guides, and
 the private workspace root are not versioned or published. See

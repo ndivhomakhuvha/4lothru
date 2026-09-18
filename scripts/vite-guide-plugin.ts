@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { parseAuthorGuideYaml, resolveGuide, type AuthorGuide } from "@trail/guide-schema";
+import { parseAuthorGuideYaml, resolveGuide, type AuthorGuide } from "@trail-cli/guide-schema";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const GUIDES_ROOT = path.resolve(here, "../guides/releases");

@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), guideDevServerPlugin()],
   // workspace packages rebuild their own dist via `tsup --watch`; excluding them
   // from dep pre-bundling stops Vite serving a stale cached bundle on edit.
-  optimizeDeps: { exclude: ["@trail/sdk", "@trail/guide-schema"] },
+  optimizeDeps: { exclude: ["@trail-cli/sdk", "@trail-cli/guide-schema"] },
   server: { port: 3001, strictPort: true },
   preview: { port: 3001 },
 });

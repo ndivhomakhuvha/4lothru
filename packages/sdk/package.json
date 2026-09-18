@@ -1,5 +1,5 @@
 {
-  "name": "@trail/sdk",
+  "name": "@trail-cli/sdk",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
@@ -24,7 +24,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@trail/guide-schema": "workspace:*"
+    "@trail-cli/guide-schema": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^24.1.3",

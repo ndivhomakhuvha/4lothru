@@ -1,5 +1,5 @@
 {
-  "name": "@trail/angular-fixture",
+  "name": "@trail-cli/angular-fixture",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -15,12 +15,12 @@
     "@angular/core": "^18.2.13",
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
-    "@trail/sdk": "workspace:*",
+    "@trail-cli/sdk": "workspace:*",
     "rxjs": "^7.8.1",
     "zone.js": "^0.14.10"
   },
   "devDependencies": {
-    "@trail/guide-schema": "workspace:*",
+    "@trail-cli/guide-schema": "workspace:*",
     "typescript": "^5.5.4",
     "vite": "^5.4.4"
   }

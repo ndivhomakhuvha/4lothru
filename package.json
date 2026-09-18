@@ -7,10 +7,10 @@
   },
   "packageManager": "pnpm@12.1.0",
   "scripts": {
-    "postinstall": "pnpm --filter @trail/guide-schema build && pnpm --filter @trail/sdk build",
-    "dev": "concurrently -k -n schema,sdk,viewer,demo -c yellow,magenta,blue,green \"pnpm --filter @trail/guide-schema dev\" \"pnpm --filter @trail/sdk dev\" \"pnpm --filter @trail/viewer dev\" \"pnpm --filter @trail/demo-app dev\"",
+    "postinstall": "pnpm --filter @trail-cli/guide-schema build && pnpm --filter @trail-cli/sdk build",
+    "dev": "concurrently -k -n schema,sdk,viewer,demo -c yellow,magenta,blue,green \"pnpm --filter @trail-cli/guide-schema dev\" \"pnpm --filter @trail-cli/sdk dev\" \"pnpm --filter @trail-cli/viewer dev\" \"pnpm --filter @trail-cli/demo-app dev\"",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
-    "predev": "pnpm --filter @trail/guide-schema build && pnpm --filter @trail/sdk build",
+    "predev": "pnpm --filter @trail-cli/guide-schema build && pnpm --filter @trail-cli/sdk build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

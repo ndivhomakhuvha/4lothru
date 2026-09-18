@@ -47,16 +47,16 @@ jobs:
           pnpm build
 
       - name: Publish guide schema
-        run: pnpm --filter @trail/guide-schema publish --access public --no-git-checks
+        run: pnpm --filter @trail-cli/guide-schema publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI
-        run: pnpm --filter @trail/cli publish --access public --no-git-checks
+        run: pnpm --filter @trail-cli/cli publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish SDK
-        run: pnpm --filter @trail/sdk publish --access public --no-git-checks
+        run: pnpm --filter @trail-cli/sdk publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

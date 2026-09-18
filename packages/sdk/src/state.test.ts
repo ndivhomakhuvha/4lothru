@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Guide } from "@trail/guide-schema";
+import type { Guide } from "@trail-cli/guide-schema";
 import { GuideState, resolveCheckpointIndex } from "./state.js";
 import type { GuideCheckpoint } from "./session-storage.js";
 

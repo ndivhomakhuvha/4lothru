@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail-cli/guide-schema";
 
 type LoadState = "loading" | "found" | "not-found" | "network-error" | "server-error" | "invalid";
 

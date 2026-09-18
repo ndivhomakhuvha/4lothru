@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       // scripts/ is not a workspace package, so root-level tests resolve the
       // workspace schema package via this alias instead of node_modules.
-      "@trail/guide-schema": path.resolve(here, "packages/guide-schema/src/index.ts"),
+      "@trail-cli/guide-schema": path.resolve(here, "packages/guide-schema/src/index.ts"),
     },
   },
   test: {

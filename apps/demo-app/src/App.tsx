@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
-import { Trail } from "@trail/sdk";
+import { Trail } from "@trail-cli/sdk";
 import { guardOnce } from "./sdk-init";
 import Dashboard from "./pages/Dashboard";
 import Payments from "./pages/Payments";
