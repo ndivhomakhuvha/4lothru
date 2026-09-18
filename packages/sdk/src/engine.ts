@@ -99,6 +99,7 @@ export class TrailEngine implements TrailHandle {
     this.cancelStepCompletion?.();
     this.cancelStepCompletion = null;
     this.currentStepComplete = false;
+    this.overlay.setFocusTarget(null);
     this.persist();
 
     const step = this.state.currentStep;
@@ -225,6 +226,7 @@ export class TrailEngine implements TrailHandle {
 
   private complete(): void {
     this.cancelWait?.();
+    this.overlay.setFocusTarget(null);
     clearCheckpoint();
     this.overlay.renderComplete(this.guide.title, this.state.total, () => this.restart());
   }

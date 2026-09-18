@@ -15,10 +15,13 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-panel")).not.toHaveAttribute("aria-modal");
   });
 
-  test("Tab cycles focus only among controls inside the dialog", async ({ page }) => {
+  test("Tab cycles through the Dashboard target and dialog controls", async ({ page }) => {
     await page.goto(VERIFY_GUIDE_URL);
 
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
+
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
 
     await page.keyboard.press("Tab");
     await expect(page.locator(".tg-exit-btn")).toBeFocused();
@@ -26,9 +29,8 @@ test.describe("Overlay keyboard focus trap", () => {
     await page.keyboard.press("Tab");
     await expect(page.locator(".tg-next-btn")).toBeFocused();
 
-    // Tabbing past the last focusable control wraps back to the first.
     await page.keyboard.press("Tab");
-    await expect(page.locator(".tg-exit-btn")).toBeFocused();
+    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
   });
 
   test("Shift+Tab from the first control wraps to the last control", async ({ page }) => {
@@ -37,7 +39,7 @@ test.describe("Overlay keyboard focus trap", () => {
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
 
     await page.keyboard.press("Tab");
-    await expect(page.locator(".tg-exit-btn")).toBeFocused();
+    await expect(page.getByRole("link", { name: "Dashboard" })).toBeFocused();
 
     await page.keyboard.press("Shift+Tab");
     await expect(page.locator(".tg-next-btn")).toBeFocused();
@@ -46,6 +48,7 @@ test.describe("Overlay keyboard focus trap", () => {
   test("Tab from the initially focused panel reaches the guided target", async ({ page }) => {
     await page.goto(AMOUNT_GUIDE_URL);
 
+    await expect(page.locator(".tg-next-btn")).toBeVisible();
     await page.keyboard.press("Tab");
     await expect(page.locator("#amount")).toBeFocused();
   });
@@ -62,6 +65,7 @@ test.describe("Overlay keyboard focus trap", () => {
   test("Tab cycles through the guided target and dialog controls", async ({ page }) => {
     await page.goto(AMOUNT_GUIDE_URL);
 
+    await expect(page.locator(".tg-next-btn")).toBeVisible();
     await page.keyboard.press("Tab");
     await expect(page.locator("#amount")).toBeFocused();
     await page.keyboard.press("Tab");
@@ -82,6 +86,48 @@ test.describe("Overlay keyboard focus trap", () => {
 
     await expect(dashboardLink).not.toBeFocused();
     await expect(page.locator("#amount")).toBeFocused();
+  });
+
+  test("locating a later target excludes the previous target from the focus scope", async ({ page }) => {
+    await page.route("**/guides/releases/2026.08.26/PAY-1245.json", async (route) => {
+      await route.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          id: "PAY-1245",
+          title: "Create a Payment",
+          application: "demo-bank",
+          release: "2026.08.26",
+          start: { url: "http://localhost:3001/payments/new" },
+          steps: [
+            {
+              id: "amount",
+              action: "input",
+              target: { label: "Amount" },
+              value: "1000",
+              autoAdvance: true,
+              instruction: "Enter 1000 into the amount field.",
+            },
+            {
+              id: "missing",
+              action: "wait",
+              target: { selector: "#missing-target" },
+              timeoutMs: 1,
+              instruction: "Wait for a missing target.",
+            },
+          ],
+        }),
+      });
+    });
+    await page.goto(AMOUNT_GUIDE_URL);
+
+    await page.locator("#amount").fill("1000");
+    await expect(page.getByRole("heading", { name: "Target Not Found" })).toBeVisible();
+
+    const dashboardLink = page.getByRole("link", { name: "Dashboard" });
+    await dashboardLink.evaluate((el: HTMLElement) => el.focus());
+    await page.keyboard.press("Tab");
+
+    await expect(page.locator(".tg-exit-btn")).toBeFocused();
   });
 
   test("Escape exits the guide", async ({ page }) => {
