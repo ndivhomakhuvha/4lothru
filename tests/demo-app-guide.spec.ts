@@ -29,35 +29,23 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     await expect(page).toHaveURL(/\/payments\/new/);
   });
 
-  test("Next remains disabled until the required action is completed", async ({ page }) => {
+  test("does not advance until the required input value is entered", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
-    await expect(page.locator(".tg-back-btn")).toBeDisabled();
     await expect(page.locator(".tg-next-btn")).toBeDisabled();
 
     await page.locator("#amount").fill("999");
     await expect(page.locator(".tg-next-btn")).toBeDisabled();
 
     await page.locator("#amount").fill("1000");
-    await expect(page.locator(".tg-next-btn")).toBeEnabled();
-
-    await page.locator(".tg-next-btn").click();
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
     await expect(page.locator(".tg-instruction")).toHaveText("Select the beneficiary.");
-
-    await expect(page.locator(".tg-next-btn")).toBeDisabled();
-    await page.getByRole("button", { name: "Beneficiary" }).click();
-    await expect(page.locator(".tg-next-btn")).toBeEnabled();
-
-    await page.locator(".tg-back-btn").click();
-    await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
   });
 
   test("resumes the current step after a reload", async ({ page }) => {
     await page.goto(GUIDE_URL);
     await page.locator("#amount").fill("1000");
-    await page.locator(".tg-next-btn").click();
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
 
     await page.reload();
@@ -69,21 +57,18 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
   test("completes the full guide end to end (spec #10-16)", async ({ page }) => {
     await page.goto(GUIDE_URL);
 
-    // Step 1: input the amount (tester performs the real action; SDK only highlights).
+    // Step 1: input the amount and automatically advance.
     await expect(page.locator(".tg-instruction")).toHaveText("Enter 1000 into the amount field.");
     await page.locator("#amount").fill("1000");
-    await page.locator(".tg-next-btn").click();
 
-    // Step 2: select the beneficiary.
+    // Step 2: select the beneficiary and automatically advance.
     await expect(page.locator(".tg-instruction")).toHaveText("Select the beneficiary.");
     await page.getByRole("button", { name: "Beneficiary" }).click();
     await expect(page.getByText("Selected: Jane Doe")).toBeVisible();
-    await page.locator(".tg-next-btn").click();
 
-    // Step 3: submit the payment (triggers an SPA route change to /payments/success).
+    // Step 3: submit the payment and automatically advance through SPA navigation.
     await expect(page.locator(".tg-instruction")).toHaveText("Submit the payment.");
     await page.getByRole("button", { name: "Submit Payment" }).click();
-    await page.locator(".tg-next-btn").click();
 
     // Step 4: verify the dynamically-rendered success message, reached via SPA navigation.
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 4 of 4");
@@ -104,5 +89,17 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     await expect(page).toHaveURL(/\/payments\/new\?trail=PAY-1245&release=2026\.08\.26/);
     await expect(page.locator(".tg-progress-text")).toHaveText("Step 1 of 4");
     await expect(page.locator(".tg-instruction")).toHaveText("Enter 1000 into the amount field.");
+  });
+
+  test("automatically advances after completing autoAdvance steps", async ({ page }) => {
+    await page.goto(GUIDE_URL);
+
+    await page.locator("#amount").fill("1000");
+    await expect(page.locator(".tg-progress-text")).toHaveText("Step 2 of 4");
+    await expect(page.locator(".tg-instruction")).toHaveText("Select the beneficiary.");
+
+    await page.getByRole("button", { name: "Beneficiary" }).click();
+    await expect(page.locator(".tg-progress-text")).toHaveText("Step 3 of 4");
+    await expect(page.locator(".tg-instruction")).toHaveText("Submit the payment.");
   });
 });
