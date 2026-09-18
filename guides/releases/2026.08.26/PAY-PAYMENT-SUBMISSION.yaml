@@ -12,6 +12,7 @@ steps:
       role: button
       name: "Submit Payment"
     action: click
+    autoAdvance: true
     instruction: "Submit the payment."
 
   - id: success
