@@ -1,11 +1,20 @@
 {
   "name": "@trail/cli",
   "version": "0.1.0",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "bin": {
     "trail": "./bin/trail.js"
   },
+  "files": [
+    "bin",
+    "src/cli.ts",
+    "src/build.ts",
+    "src/preview.ts",
+    "src/validate.ts"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit"
   },

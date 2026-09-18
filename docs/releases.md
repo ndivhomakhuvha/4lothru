@@ -67,28 +67,26 @@ packages has one tag per released package, all pointing to the same commit.
 
 ## Publishing
 
-The packages currently have `"private": true`, so publication is deliberately
-blocked while npm ownership and provenance are being set up. A maintainer must
-make the following reviewed change before the first publish:
+The versioned packages are configured for public npm publication. Before the
+first publication, a maintainer must confirm that the `@trail` npm organization
+owns all three package names and create an npm granular access token with
+publish permission. Save that token as the `NPM_TOKEN` repository secret and
+configure the `npm-publish` GitHub environment with the required protection
+rules. The `Publish packages` workflow uses npm provenance through its
+`id-token: write` permission.
 
-1. Remove `"private": true` only from the packages approved for npm.
-2. Set `publishConfig.access` to `"public"` for each public package.
-3. Confirm the `@trail` npm organization owns the package names and enable npm
-   provenance for the publishing workflow.
-4. Add an `NPM_TOKEN` repository secret with publish permission, protect the
-   release environment, and test with `npm pack --dry-run` for each package.
-
-After that one-time setup, publish the versioned packages from the tagged
-release commit:
+Test each package's contents before announcing a release:
 
 ```bash
-pnpm --filter @trail/guide-schema build
-pnpm --filter @trail/sdk build
-pnpm --filter @trail/guide-schema publish --access public --no-git-checks
-pnpm --filter @trail/cli publish --access public --no-git-checks
-pnpm --filter @trail/sdk publish --access public --no-git-checks
+pnpm --dir packages/guide-schema exec npm pack --dry-run
+pnpm --dir packages/cli exec npm pack --dry-run
+pnpm --dir packages/sdk exec npm pack --dry-run
 ```
 
-Publish `@trail/guide-schema` before packages that consume it. Run
-`npm view @trail/<package> version` after each publication and verify the
+From the tagged release commit, manually dispatch the **Publish packages**
+workflow, select the release tag as its ref, and confirm publishing. It
+validates the release before publishing `@trail/guide-schema`, then
+`@trail/cli`, and then `@trail/sdk`.
+
+Run `npm view @trail/<package> version` after each publication and verify the
 generated changelog and tarball contents before announcing the release.
