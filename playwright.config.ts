@@ -12,19 +12,19 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: [
     {
-      command: "pnpm --filter @trail/demo-app dev",
+      command: "cd apps/demo-app && exec node node_modules/vite/bin/vite.js --port 3001",
       url: "http://localhost:3001",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
     },
     {
-      command: "pnpm --filter @trail/viewer dev",
+      command: "cd apps/viewer && exec node node_modules/vite/bin/vite.js",
       url: "http://localhost:5173",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
     },
     {
-      command: "pnpm --filter @trail/angular-fixture dev",
+      command: "cd apps/angular-fixture && exec node node_modules/vite/bin/vite.js --port 3002",
       url: "http://localhost:3002",
       reuseExistingServer: !process.env.CI,
       timeout: 30_000,
