@@ -1,43 +1,57 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { REPO_ROOT, resolveDiscoveredGuides } from "./validate.js";
 
 const OUTPUT_ROOT = path.join(REPO_ROOT, "dist", "releases");
 
-export function runBuild(): void {
-  const guides = resolveDiscoveredGuides();
+export interface BuildOptions {
+  guidesRoot?: string;
+  outputRoot?: string;
+}
+
+export function runBuild(options: BuildOptions = {}): void {
+  const outputRoot = options.outputRoot ?? OUTPUT_ROOT;
+  const guidesRoot = options.guidesRoot;
+  const guides = resolveDiscoveredGuides(guidesRoot);
 
   if (guides.length === 0) {
-    console.log("No guides found under guides/releases/.");
+    rmSync(outputRoot, { recursive: true, force: true });
+    console.log(`No guides found under ${guidesRoot ?? "guides/releases/"}.`);
     return;
   }
 
-  let hasErrors = false;
+  const failures = guides.filter((result) => !result.success);
 
-  for (const result of guides) {
-    if (!result.success) {
-      hasErrors = true;
+  if (failures.length > 0) {
+    for (const result of failures) {
       console.error(`✗ ${result.source.release}/${result.source.file}`);
       for (const issue of result.issues) {
         console.error(`  ${issue.path}: ${issue.message}`);
       }
-      continue;
     }
 
-    const outDir = path.join(OUTPUT_ROOT, result.source.release);
-    mkdirSync(outDir, { recursive: true });
-    const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
-    writeFileSync(outFile, JSON.stringify(result.guide, null, 2));
-    console.log(`✓ built ${result.source.release}/${path.basename(outFile)}`);
-  }
-
-  if (hasErrors) {
     console.log("");
     console.error("Build failed: one or more guides are invalid.");
     process.exitCode = 1;
     return;
   }
 
+  mkdirSync(path.dirname(outputRoot), { recursive: true });
+  const stagingRoot = mkdtempSync(`${outputRoot}.tmp-`);
+
+  for (const result of guides) {
+    if (!result.success) continue;
+
+    const outDir = path.join(stagingRoot, result.source.release);
+    mkdirSync(outDir, { recursive: true });
+    const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
+    writeFileSync(outFile, JSON.stringify(result.guide, null, 2));
+    console.log(`✓ built ${result.source.release}/${path.basename(outFile)}`);
+  }
+
+  rmSync(outputRoot, { recursive: true, force: true });
+  renameSync(stagingRoot, outputRoot);
+
   console.log("");
-  console.log(`Built ${guides.length} guide(s) to dist/releases/.`);
+  console.log(`Built ${guides.length} guide(s) to ${outputRoot}.`);
 }
