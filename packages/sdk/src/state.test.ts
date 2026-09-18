@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Guide } from "@trail/guide-schema";
-import { GuideState } from "./state.js";
+import { GuideState, resolveCheckpointIndex } from "./state.js";
+import type { GuideCheckpoint } from "./session-storage.js";
 
 function makeGuide(stepCount: number): Guide {
   return {
@@ -52,5 +53,30 @@ describe("GuideState", () => {
     const state = new GuideState(makeGuide(3), 2);
     state.reset();
     expect(state.currentIndex).toBe(0);
+  });
+
+  it("resumes a reordered guide by step ID", () => {
+    const guide = makeGuide(3);
+    const checkpoint: GuideCheckpoint = {
+      release: guide.release,
+      guideId: guide.id,
+      stepIndex: 1,
+      stepId: "step-1",
+    };
+    guide.steps.splice(0, 3, guide.steps[2]!, guide.steps[0]!, guide.steps[1]!);
+
+    expect(resolveCheckpointIndex(guide, checkpoint)).toBe(2);
+  });
+
+  it("rejects a checkpoint for a removed step", () => {
+    const guide = makeGuide(2);
+    const checkpoint: GuideCheckpoint = {
+      release: guide.release,
+      guideId: guide.id,
+      stepIndex: 1,
+      stepId: "removed",
+    };
+
+    expect(resolveCheckpointIndex(guide, checkpoint)).toBeNull();
   });
 });
