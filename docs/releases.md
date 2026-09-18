@@ -69,11 +69,11 @@ packages has one tag per released package, all pointing to the same commit.
 
 The versioned packages are configured for public npm publication. Before the
 first publication, a maintainer must confirm that the `@trail` npm organization
-owns all three package names and create an npm granular access token with
-publish permission. Save that token as the `NPM_TOKEN` repository secret and
-configure the `npm-publish` GitHub environment with the required protection
-rules. The `Publish packages` workflow uses npm provenance through its
-`id-token: write` permission.
+owns all three package names and configure npm trusted publishing for this
+repository/workflow on each package. Configure the `npm-publish` GitHub
+environment with the required protection rules. The `Publish packages`
+workflow publishes with npm provenance through its `id-token: write`
+permission.
 
 Test each package's contents before announcing a release:
 
