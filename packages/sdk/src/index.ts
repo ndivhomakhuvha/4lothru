@@ -1,9 +1,8 @@
 import { loadGuide } from "./guide-loader.js";
-import { loadCheckpoint } from "./session-storage.js";
+import { clearCheckpoint, loadCheckpoint } from "./session-storage.js";
 import { TrailEngine, type TrailHandle } from "./engine.js";
 import { Overlay } from "./overlay.js";
 import { resolveCheckpointIndex } from "./state.js";
-import { clearCheckpoint } from "./session-storage.js";
 
 export type { TrailHandle } from "./engine.js";
 export type { Guide, GuideStep, Target } from "@trail/guide-schema";
