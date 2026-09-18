@@ -2,7 +2,11 @@ import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail/gu
 
 export type LoadGuideResult =
   | { success: true; guide: Guide }
-  | { success: false; kind: "not-found" | "invalid"; issues?: GuideValidationIssue[] };
+  | {
+      success: false;
+      kind: "not-found" | "network-error" | "server-error" | "invalid";
+      issues?: GuideValidationIssue[];
+    };
 
 /**
  * Fetches a built guide JSON asset and validates it. The SDK only ever consumes the
@@ -14,11 +18,11 @@ export async function loadGuide(url: string): Promise<LoadGuideResult> {
   try {
     response = await fetch(url, { credentials: "same-origin" });
   } catch {
-    return { success: false, kind: "not-found" };
+    return { success: false, kind: "network-error" };
   }
 
   if (!response.ok) {
-    return { success: false, kind: "not-found" };
+    return { success: false, kind: response.status === 404 ? "not-found" : "server-error" };
   }
 
   const text = await response.text();

@@ -65,6 +65,16 @@ async function init(options: TrailInitOptions = {}): Promise<TrailHandle | null>
     return null;
   }
 
+  if (!result.success && result.kind === "network-error") {
+    showStandaloneError("Unable to Load Trail Guide", "Check your network connection and try again.");
+    return null;
+  }
+
+  if (!result.success && result.kind === "server-error") {
+    showStandaloneError("Unable to Load Trail Guide", "The guide server returned an error. Try again later.");
+    return null;
+  }
+
   if (!result.success) {
     const detail = result.issues?.map((issue) => `${issue.path}: ${issue.message}`).join(" | ");
     showStandaloneError("Invalid Trail Guide", `${request.guideId} failed validation.`, detail);
