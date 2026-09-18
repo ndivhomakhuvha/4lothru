@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -42,26 +42,23 @@ afterEach(() => {
 });
 
 describe("runBuild", () => {
-  it("removes output for a guide renamed in the source tree", () => {
+  it("writes output using the guide ID when the source filename differs", () => {
     const { guidesRoot, outputRoot, releaseRoot } = createFixture();
-    const oldSource = path.join(releaseRoot, "old-name.yaml");
-    const newSource = path.join(releaseRoot, "new-name.yaml");
-    writeFileSync(oldSource, guideYaml("RENAMED"));
+    const source = path.join(releaseRoot, "descriptive-name.yaml");
+    const output = path.join(outputRoot, RELEASE, "RENAMED.json");
+    writeFileSync(source, guideYaml("RENAMED"));
 
     runBuild({ guidesRoot, outputRoot });
-    expect(existsSync(path.join(outputRoot, RELEASE, "old-name.json"))).toBe(true);
 
-    renameSync(oldSource, newSource);
-    runBuild({ guidesRoot, outputRoot });
-
-    expect(existsSync(path.join(outputRoot, RELEASE, "old-name.json"))).toBe(false);
-    expect(JSON.parse(readFileSync(path.join(outputRoot, RELEASE, "new-name.json"), "utf8")).id).toBe("RENAMED");
+    expect(existsSync(output)).toBe(true);
+    expect(existsSync(path.join(outputRoot, RELEASE, "descriptive-name.json"))).toBe(false);
+    expect(JSON.parse(readFileSync(output, "utf8")).id).toBe("RENAMED");
   });
 
   it("preserves previous output when a guide is invalid", () => {
     const { guidesRoot, outputRoot, releaseRoot } = createFixture();
     const source = path.join(releaseRoot, "guide.yaml");
-    const output = path.join(outputRoot, RELEASE, "guide.json");
+    const output = path.join(outputRoot, RELEASE, "VALID.json");
     writeFileSync(source, guideYaml("VALID"));
 
     runBuild({ guidesRoot, outputRoot });

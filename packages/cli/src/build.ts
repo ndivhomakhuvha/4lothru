@@ -44,7 +44,7 @@ export function runBuild(options: BuildOptions = {}): void {
 
     const outDir = path.join(stagingRoot, result.source.release);
     mkdirSync(outDir, { recursive: true });
-    const outFile = path.join(outDir, result.source.file.replace(/\.ya?ml$/, ".json"));
+    const outFile = path.join(outDir, `${result.guide.id}.json`);
     writeFileSync(outFile, JSON.stringify(result.guide, null, 2));
     console.log(`✓ built ${result.source.release}/${path.basename(outFile)}`);
   }
