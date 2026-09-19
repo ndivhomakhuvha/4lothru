@@ -36,9 +36,6 @@ jobs:
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      - name: Set up npm
-        run: npm install --global npm@12
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -50,16 +47,16 @@ jobs:
           pnpm build
 
       - name: Publish guide schema
-        run: pnpm --dir packages/guide-schema exec npm stage publish --access public
+        run: pnpm --dir packages/guide-schema exec npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI
-        run: pnpm --dir packages/cli exec npm stage publish --access public
+        run: pnpm --dir packages/cli exec npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish SDK
-        run: pnpm --dir packages/sdk exec npm stage publish --access public
+        run: pnpm --dir packages/sdk exec npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
