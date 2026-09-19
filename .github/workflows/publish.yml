@@ -47,10 +47,11 @@ jobs:
           pnpm build
 
       - name: Publish guide schema
-        run: pnpm --dir packages/guide-schema exec npm publish --access public
+        run: pnpm --dir packages/guide-schema publish --access public
+        
 
       - name: Publish CLI
-        run: pnpm --dir packages/cli exec npm publish --access public
+        run: pnpm --dir packages/cli publish --access public
 
       - name: Publish SDK
-        run: pnpm --dir packages/sdk exec npm publish --access public
+        run: pnpm --dir packages/sdk publish --access public
