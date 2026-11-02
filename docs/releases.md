@@ -75,8 +75,9 @@ the `@4lothru` npm organization are available, and create a granular `NPM_TOKEN`
 with stage-only access to the unscoped `4lothru` package and `@4lothru` scope.
 Save that token in the
 `npm-publish` GitHub environment. The `Publish packages` workflow stages
-each package; a maintainer must approve each staged package with npm 2FA
-before it becomes publicly available.
+each new package version in dependency order; versions already on npm are
+skipped. A maintainer must approve each staged package with npm 2FA before it
+becomes publicly available.
 
 Test each package's contents before announcing a release:
 
@@ -89,9 +90,10 @@ pnpm --dir packages/4lothru exec npm pack --dry-run
 
 From the tagged release commit, manually dispatch the **Publish packages**
 workflow, select the release tag as its ref, and confirm publishing. It
-validates the release before staging `@4lothru/guide-schema`, then
-`@4lothru/cli`, `@4lothru/sdk`, and finally `4lothru`. Review and approve each package
-from npm's **Staged Packages** page before announcing the release.
+validates the release before staging new versions of `@4lothru/guide-schema`,
+`@4lothru/cli`, `@4lothru/sdk`, and finally `4lothru`. Review and approve each
+new package version from npm's **Staged Packages** page before announcing the
+release.
 
 Run `npm view 4lothru version` and `npm view @4lothru/<package> version` after
 publication and verify the
