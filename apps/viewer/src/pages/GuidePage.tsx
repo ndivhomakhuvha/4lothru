@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail-cli/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@4lothru/guide-schema";
 
 type LoadState = "loading" | "found" | "not-found" | "network-error" | "server-error" | "invalid";
 
@@ -66,7 +66,7 @@ export default function GuidePage() {
   if (state === "not-found") {
     return (
       <div className="guide-card error-card">
-        <h1>Trail Guide Not Found</h1>
+        <h1>4lothru Guide Not Found</h1>
         <p>{guideId}</p>
         <p>Release {release}</p>
       </div>
@@ -76,7 +76,7 @@ export default function GuidePage() {
   if (state === "network-error") {
     return (
       <div className="guide-card error-card">
-        <h1>Unable to Load Trail Guide</h1>
+        <h1>Unable to Load 4lothru Guide</h1>
         <p>A network error prevented this guide from loading. Check your connection and try again.</p>
       </div>
     );
@@ -85,7 +85,7 @@ export default function GuidePage() {
   if (state === "server-error") {
     return (
       <div className="guide-card error-card">
-        <h1>Unable to Load Trail Guide</h1>
+        <h1>Unable to Load 4lothru Guide</h1>
         <p>The guide server returned an error. Try again later.</p>
       </div>
     );
@@ -94,7 +94,7 @@ export default function GuidePage() {
   if (state === "invalid") {
     return (
       <div className="guide-card error-card">
-        <h1>Invalid Trail Guide</h1>
+        <h1>Invalid 4lothru Guide</h1>
         <p>{guideId} failed validation.</p>
         <ul className="issue-list">
           {issues.map((issue, i) => (

@@ -1,4 +1,4 @@
-import type { Guide, GuideStep, Target } from "@trail-cli/guide-schema";
+import type { Guide, GuideStep, Target } from "@4lothru/guide-schema";
 import { GuideState } from "./state.js";
 import { Overlay } from "./overlay.js";
 import { resolveTarget } from "./target-resolver.js";

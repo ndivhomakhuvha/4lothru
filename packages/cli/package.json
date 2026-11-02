@@ -1,12 +1,12 @@
 {
-  "name": "@trail-cli/cli",
+  "name": "@4lothru/cli",
   "version": "0.1.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ndivhomakhuvha/trail.git"
+    "url": "git+https://github.com/ndivhomakhuvha/4lothru.git"
   },
   "type": "module",
   "bin": {
@@ -23,7 +23,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@trail-cli/guide-schema": "workspace:*",
+    "@4lothru/guide-schema": "workspace:*",
     "commander": "^12.1.0",
     "tsx": "^4.19.1"
   },

@@ -1,4 +1,4 @@
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@trail-cli/guide-schema";
+import { parseGuideJson, type Guide, type GuideValidationIssue } from "@4lothru/guide-schema";
 
 export type LoadGuideResult =
   | { success: true; guide: Guide }
@@ -10,7 +10,7 @@ export type LoadGuideResult =
 
 /**
  * Fetches a built guide JSON asset and validates it. The SDK only ever consumes the
- * static JSON produced by `trail build`, so the (larger) YAML parser stays out
+ * static JSON produced by `4lothru build`, so the (larger) YAML parser stays out
  * of the runtime bundle — keeping the SDK lightweight per spec #34.
  */
 export async function loadGuide(url: string): Promise<LoadGuideResult> {

@@ -1,12 +1,12 @@
 {
-  "name": "@trail-cli/sdk",
+  "name": "@4lothru/sdk",
   "version": "0.1.2",
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ndivhomakhuvha/trail.git"
+    "url": "git+https://github.com/ndivhomakhuvha/4lothru.git"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@trail-cli/guide-schema": "workspace:*"
+    "@4lothru/guide-schema": "workspace:*"
   },
   "devDependencies": {
     "jsdom": "^24.1.3",

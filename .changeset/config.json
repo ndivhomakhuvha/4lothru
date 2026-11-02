@@ -3,7 +3,11 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": [],
+  "ignore": [
+    "@4lothru/angular-fixture",
+    "@4lothru/demo-app",
+    "@4lothru/viewer"
+  ],
   "commit": false,
   "linked": [],
   "fixed": []

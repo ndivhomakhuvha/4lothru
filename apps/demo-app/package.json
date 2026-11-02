@@ -1,5 +1,5 @@
 {
-  "name": "@trail-cli/demo-app",
+  "name": "@4lothru/demo-app",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -10,13 +10,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@trail-cli/sdk": "workspace:*",
+    "4lothru": "workspace:*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@trail-cli/guide-schema": "workspace:*",
+    "@4lothru/guide-schema": "workspace:*",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

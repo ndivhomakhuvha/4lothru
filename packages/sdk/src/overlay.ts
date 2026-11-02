@@ -111,7 +111,7 @@ export class Overlay {
     this.panel = document.createElement("div");
     this.panel.className = "tg-panel";
     this.panel.setAttribute("role", "dialog");
-    this.panel.setAttribute("aria-label", "Trail guide");
+    this.panel.setAttribute("aria-label", "4lothru guide");
     this.panel.setAttribute("aria-live", "polite");
     this.panel.tabIndex = -1;
     this.root.appendChild(this.panel);
@@ -192,7 +192,7 @@ export class Overlay {
     this.panel.innerHTML = `
       <div class="tg-panel-header">
         <span class="tg-progress-text">Step ${model.stepNumber} of ${model.totalSteps}</span>
-        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>
+        <button type="button" class="tg-exit-btn" aria-label="Exit 4lothru guide">&times;</button>
       </div>
       <div class="tg-progress-bar"><div class="tg-progress-fill" style="width:${progressPct}%"></div></div>
       <h2 class="tg-title"></h2>
@@ -241,7 +241,7 @@ export class Overlay {
     this.panel.innerHTML = `
       <div class="tg-panel-header">
         <span class="tg-progress-text">Step ${model.stepNumber} of ${model.totalSteps}</span>
-        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>
+        <button type="button" class="tg-exit-btn" aria-label="Exit 4lothru guide">&times;</button>
       </div>
       <h2 class="tg-title"></h2>
       <p class="tg-instruction"></p>
@@ -258,8 +258,8 @@ export class Overlay {
     this.panel.className = "tg-panel tg-error";
     this.panel.innerHTML = `
       <div class="tg-panel-header">
-        <span class="tg-progress-text">Trail</span>
-        <button type="button" class="tg-exit-btn" aria-label="Exit Trail guide">&times;</button>
+        <span class="tg-progress-text">4lothru</span>
+        <button type="button" class="tg-exit-btn" aria-label="Exit 4lothru guide">&times;</button>
       </div>
       <h2 class="tg-title"></h2>
       <p class="tg-instruction"></p>
@@ -284,7 +284,7 @@ export class Overlay {
     this.spotlight.hide();
     this.panel.className = "tg-panel";
     this.panel.innerHTML = `
-      <h2 class="tg-title">Trail Guide Complete</h2>
+      <h2 class="tg-title">4lothru Guide Complete</h2>
       <p class="tg-instruction"></p>
       <div class="tg-panel-footer">
         <button type="button" class="tg-btn tg-restart-btn">Restart</button>

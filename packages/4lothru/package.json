@@ -1,0 +1,35 @@
+{
+  "name": "4lothru",
+  "version": "0.1.0",
+  "description": "Manual testing guides for your application",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ndivhomakhuvha/4lothru.git"
+  },
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    }
+  },
+  "bin": {
+    "4lothru": "./bin/4lothru.js"
+  },
+  "files": [
+    "bin",
+    "index.js",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "@4lothru/cli": "workspace:*",
+    "@4lothru/sdk": "workspace:*"
+  }
+}

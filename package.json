@@ -1,5 +1,5 @@
 {
-  "name": "trail",
+  "name": "4lothru-workspace",
   "private": true,
   "version": "0.1.0",
   "engines": {
@@ -7,10 +7,10 @@
   },
   "packageManager": "pnpm@12.1.0",
   "scripts": {
-    "postinstall": "pnpm --filter @trail-cli/guide-schema build && pnpm --filter @trail-cli/sdk build",
-    "dev": "concurrently -k -n schema,sdk,viewer,demo -c yellow,magenta,blue,green \"pnpm --filter @trail-cli/guide-schema dev\" \"pnpm --filter @trail-cli/sdk dev\" \"pnpm --filter @trail-cli/viewer dev\" \"pnpm --filter @trail-cli/demo-app dev\"",
+    "postinstall": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build",
+    "dev": "concurrently -k -n schema,sdk,viewer,demo -c yellow,magenta,blue,green \"pnpm --filter @4lothru/guide-schema dev\" \"pnpm --filter @4lothru/sdk dev\" \"pnpm --filter @4lothru/viewer dev\" \"pnpm --filter @4lothru/demo-app dev\"",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
-    "predev": "pnpm --filter @trail-cli/guide-schema build && pnpm --filter @trail-cli/sdk build",
+    "predev": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

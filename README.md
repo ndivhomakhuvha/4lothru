@@ -1,19 +1,19 @@
-# Trail
+# 4lothru
 
 Interactive manual-testing guides for the features you build — no database, no backend, no auth. Git + YAML is the source of truth.
 
-## What is Trail?
+## What is 4lothru?
 
 When you ship a feature, testers need to know how to test it. Today that usually means a wiki page, a Jira comment, or a Slack message that goes stale the moment the UI changes.
 
-Trail lets you describe how to test a feature once, as a YAML file committed alongside your code. Testers open a URL, click **Start Test**, and get an interactive, step-by-step guide rendered *inside the application itself* — highlighting the exact element to interact with at every step.
+4lothru lets you describe how to test a feature once, as a YAML file committed alongside your code. Testers open a URL, click **Start Test**, and get an interactive, step-by-step guide rendered *inside the application itself* — highlighting the exact element to interact with at every step.
 
 ```
 Developer builds feature
         ↓
 Developer writes guides/releases/<release>/<TICKET>.yaml
         ↓
-trail validate
+4lothru validate
         ↓
 Commit → PR → Merge → CI builds guides → Deploy
         ↓
@@ -49,7 +49,7 @@ Click **Start Test** — the demo app opens with the guide running inside it.
 ## Architecture
 
 ```
-                 Trail
+                 4lothru
                      │
           ┌──────────┴──────────┐
           │                     │
@@ -81,7 +81,7 @@ guides/
 
 A guide's URL — `/g/<release>/<TICKET>` — uniquely and immutably identifies that guide version. There's no "latest" alias in the MVP.
 
-The YAML `id` is the guide's canonical identifier. `trail build` writes each guide to
+The YAML `id` is the guide's canonical identifier. `4lothru build` writes each guide to
 `dist/releases/<release>/<id>.json`, which is the path used by both the viewer and SDK.
 Source filenames may differ from their YAML `id`.
 
@@ -93,9 +93,10 @@ apps/
   demo-app/           React demo banking app with the SDK installed
   angular-fixture/    Minimal Angular app proving SDK framework independence
 packages/
-  sdk/                @trail-cli/sdk — pure TypeScript, runs inside the app under test
-  guide-schema/       @trail-cli/guide-schema — Zod schema + types for guides
-  cli/                @trail-cli/cli — validate / build / preview
+  4lothru/             4lothru — unified SDK + CLI package
+  sdk/                @4lothru/sdk — browser-side guide runtime
+  guide-schema/       @4lothru/guide-schema — Zod schema + types for guides
+  cli/                @4lothru/cli — validate / build / preview
 guides/
   releases/<release>/<TICKET>.yaml
 tests/                Playwright end-to-end tests
@@ -189,17 +190,16 @@ steps:
 
 Extension steps are additive: each one declares exactly one `before` or `after` anchor using a stable step ID. They cannot replace or remove inherited steps. Use a new base or a standalone guide when a workflow genuinely diverges.
 
-## Install the SDK
+## Install 4lothru
 
 ```bash
-npm install @trail-cli/sdk
+npm install 4lothru
 ```
 
-The smallest integration, run once at app startup:
+This single package includes the SDK and CLI. Initialize the SDK once at app startup:
 
 ```ts
-import { Trail } from "@trail-cli/sdk";
-
+import { Trail } from "4lothru";
 Trail.init();
 ```
 
@@ -234,7 +234,7 @@ A guide's URL (`/g/<release>/<TICKET>`) is immutable — release + ticket unique
 The SDK is pure TypeScript with zero framework dependencies. It works identically in:
 
 - **React** — see `apps/demo-app`
-- **Angular** — see `apps/angular-fixture` (same `@trail-cli/sdk` package, no Angular-specific code)
+- **Angular** — see `apps/angular-fixture` (same `4lothru` package, no Angular-specific code)
 - **Vue**, **Svelte**, **plain HTML/JS** — the SDK only touches `document`/`window`; the plain global build (`dist/index.global.js`) can be dropped in with a `<script>` tag
 
 SPA route changes (React Router, Vue Router, Angular Router, or anything else) are detected generically by wrapping `history.pushState`/`replaceState` and listening for `popstate` — no framework-specific router integration is required.
@@ -242,13 +242,9 @@ SPA route changes (React Router, Vue Router, Angular Router, or anything else) a
 ## CLI
 
 ```bash
-npm install -g @trail-cli/cli   # or use it from the workspace directly
-```
-
-```bash
-trail validate   # validates every YAML guide under guides/releases/
-trail build       # converts YAML guides into static JSON under dist/releases/
-trail preview     # starts a local viewer server for manual testing
+npx 4lothru validate   # validates every YAML guide under guides/releases/
+npx 4lothru build      # converts YAML guides into static JSON under dist/releases/
+npx 4lothru preview    # starts a local viewer server for manual testing
 ```
 
 `validate` output:
@@ -279,9 +275,9 @@ pnpm test:e2e    # Playwright end-to-end tests
 
 ## Package releases
 
-The `@trail-cli/sdk`, `@trail-cli/guide-schema`, and `@trail-cli/cli` packages use
-[Changesets](https://github.com/changesets/changesets) for independent
-Semantic Versioning, changelogs, and npm releases. Applications, guides, and
+The `4lothru` package and its implementation packages use
+[Changesets](https://github.com/changesets/changesets) for Semantic Versioning,
+changelogs, and npm releases. Applications, guides, and
 the private workspace root are not versioned or published. See
 [the release guide](docs/releases.md) for the required pull-request and
 publishing process.

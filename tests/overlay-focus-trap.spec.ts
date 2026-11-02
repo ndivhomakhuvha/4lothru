@@ -11,12 +11,12 @@ test.describe("Overlay keyboard focus trap", () => {
   test("dialog panel exposes screen-reader semantics and receives focus when the guide opens", async ({ page }) => {
     await page.goto(AMOUNT_GUIDE_URL);
 
-    const dialog = page.getByRole("dialog", { name: "Trail guide" });
+    const dialog = page.getByRole("dialog", { name: "4lothru guide" });
     await expect(dialog).toBeVisible();
     await expect(dialog).toBeFocused();
     await expect(dialog).toHaveAttribute("aria-live", "polite");
     await expect(dialog).not.toHaveAttribute("aria-modal");
-    await expect(dialog.getByRole("button", { name: "Exit Trail guide" })).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "Exit 4lothru guide" })).toBeVisible();
   });
 
   test("Tab cycles through the transaction-history target and dialog controls", async ({ page }) => {

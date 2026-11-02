@@ -133,6 +133,9 @@ importers:
 
   apps/angular-fixture:
     dependencies:
+      4lothru:
+        specifier: workspace:*
+        version: link:../../packages/4lothru
       '@angular/common':
         specifier: ^18.2.13
         version: 18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2)
@@ -148,9 +151,6 @@ importers:
       '@angular/platform-browser-dynamic':
         specifier: ^18.2.13
         version: 18.2.14(@angular/common@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/compiler@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(@angular/platform-browser@18.2.14(@angular/common@18.2.14(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10))(rxjs@7.8.2))(@angular/core@18.2.14(rxjs@7.8.2)(zone.js@0.14.10)))
-      '@trail-cli/sdk':
-        specifier: workspace:*
-        version: link:../../packages/sdk
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
@@ -158,7 +158,7 @@ importers:
         specifier: ^0.14.10
         version: 0.14.10
     devDependencies:
-      '@trail-cli/guide-schema':
+      '@4lothru/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       typescript:
@@ -170,9 +170,9 @@ importers:
 
   apps/demo-app:
     dependencies:
-      '@trail-cli/sdk':
+      4lothru:
         specifier: workspace:*
-        version: link:../../packages/sdk
+        version: link:../../packages/4lothru
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -183,7 +183,7 @@ importers:
         specifier: ^6.26.2
         version: 6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
-      '@trail-cli/guide-schema':
+      '@4lothru/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       '@types/react':
@@ -204,7 +204,7 @@ importers:
 
   apps/viewer:
     dependencies:
-      '@trail-cli/guide-schema':
+      '@4lothru/guide-schema':
         specifier: workspace:*
         version: link:../../packages/guide-schema
       react:
@@ -233,9 +233,18 @@ importers:
         specifier: ^5.4.4
         version: 5.4.21(@types/node@20.19.43)
 
+  packages/4lothru:
+    dependencies:
+      '@4lothru/cli':
+        specifier: workspace:*
+        version: link:../cli
+      '@4lothru/sdk':
+        specifier: workspace:*
+        version: link:../sdk
+
   packages/cli:
     dependencies:
-      '@trail-cli/guide-schema':
+      '@4lothru/guide-schema':
         specifier: workspace:*
         version: link:../guide-schema
       commander:
@@ -270,7 +279,7 @@ importers:
 
   packages/sdk:
     dependencies:
-      '@trail-cli/guide-schema':
+      '@4lothru/guide-schema':
         specifier: workspace:*
         version: link:../guide-schema
     devDependencies:

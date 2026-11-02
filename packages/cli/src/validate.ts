@@ -7,7 +7,7 @@ import {
   type AuthorGuide,
   type Guide,
   type GuideValidationIssue,
-} from "@trail-cli/guide-schema";
+} from "@4lothru/guide-schema";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = path.resolve(here, "../../../");

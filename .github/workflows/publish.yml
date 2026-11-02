@@ -55,3 +55,6 @@ jobs:
 
       - name: Publish SDK
         run: pnpm --dir packages/sdk publish --access public
+
+      - name: Publish 4lothru
+        run: pnpm --dir packages/4lothru publish --access public

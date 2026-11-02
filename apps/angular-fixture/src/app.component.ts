@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, signal } from "@angular/core";
-import { Trail } from "@trail-cli/sdk";
+import { Trail } from "4lothru";
 
 @Component({
   selector: "app-root",

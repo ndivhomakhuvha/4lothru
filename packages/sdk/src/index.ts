@@ -5,7 +5,7 @@ import { Overlay } from "./overlay.js";
 import { resolveCheckpointIndex } from "./state.js";
 
 export type { TrailHandle } from "./engine.js";
-export type { Guide, GuideStep, Target } from "@trail-cli/guide-schema";
+export type { Guide, GuideStep, Target } from "@4lothru/guide-schema";
 
 export interface TrailInitOptions {
   /** Explicit URL to a guide document (JSON or YAML). Overrides URL-based auto-detection. */
@@ -61,23 +61,23 @@ async function init(options: TrailInitOptions = {}): Promise<TrailHandle | null>
   const result = await loadGuide(request.url);
 
   if (!result.success && result.kind === "not-found") {
-    showStandaloneError("Trail Guide Not Found", `${request.guideId}\nRelease ${request.release}`);
+    showStandaloneError("4lothru Guide Not Found", `${request.guideId}\nRelease ${request.release}`);
     return null;
   }
 
   if (!result.success && result.kind === "network-error") {
-    showStandaloneError("Unable to Load Trail Guide", "Check your network connection and try again.");
+    showStandaloneError("Unable to Load 4lothru Guide", "Check your network connection and try again.");
     return null;
   }
 
   if (!result.success && result.kind === "server-error") {
-    showStandaloneError("Unable to Load Trail Guide", "The guide server returned an error. Try again later.");
+    showStandaloneError("Unable to Load 4lothru Guide", "The guide server returned an error. Try again later.");
     return null;
   }
 
   if (!result.success) {
     const detail = result.issues?.map((issue) => `${issue.path}: ${issue.message}`).join(" | ");
-    showStandaloneError("Invalid Trail Guide", `${request.guideId} failed validation.`, detail);
+    showStandaloneError("Invalid 4lothru Guide", `${request.guideId} failed validation.`, detail);
     return null;
   }
 

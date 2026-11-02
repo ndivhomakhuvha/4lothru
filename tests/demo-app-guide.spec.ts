@@ -82,7 +82,7 @@ test.describe("Demo app — PAY-1245 guided flow", () => {
     await expect(page.locator(".tg-next-btn")).toBeEnabled();
     await page.locator(".tg-next-btn").click();
 
-    await expect(page.getByText("Trail Guide Complete")).toBeVisible();
+    await expect(page.getByText("4lothru Guide Complete")).toBeVisible();
     await expect(page.getByText("4 of 4 steps completed.")).toBeVisible();
 
     await page.getByRole("button", { name: "Restart" }).click();

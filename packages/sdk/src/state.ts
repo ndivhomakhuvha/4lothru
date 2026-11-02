@@ -1,4 +1,4 @@
-import type { Guide } from "@trail-cli/guide-schema";
+import type { Guide } from "@4lothru/guide-schema";
 import type { GuideCheckpoint } from "./session-storage.js";
 
 export function resolveCheckpointIndex(guide: Guide, checkpoint: GuideCheckpoint | null): number | null {

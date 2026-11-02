@@ -20,7 +20,7 @@ test.describe("Viewer", () => {
 
   test("shows a clear error for a guide that doesn't exist (spec #26)", async ({ page }) => {
     await page.goto("http://localhost:5173/g/2026.08.26/DOES-NOT-EXIST");
-    await expect(page.getByRole("heading", { name: "Trail Guide Not Found" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "4lothru Guide Not Found" })).toBeVisible();
   });
 
   test("distinguishes a guide server error from a missing guide", async ({ page }) => {
@@ -29,7 +29,7 @@ test.describe("Viewer", () => {
     );
     await page.goto("http://localhost:5173/g/2026.08.26/PAY-1245");
 
-    await expect(page.getByRole("heading", { name: "Unable to Load Trail Guide" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Unable to Load 4lothru Guide" })).toBeVisible();
     await expect(page.getByText("The guide server returned an error. Try again later.")).toBeVisible();
   });
 
@@ -37,7 +37,7 @@ test.describe("Viewer", () => {
     await page.route("**/guides/releases/2026.08.26/PAY-1245.json", (route) => route.abort("failed"));
     await page.goto("http://localhost:5173/g/2026.08.26/PAY-1245");
 
-    await expect(page.getByRole("heading", { name: "Unable to Load Trail Guide" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Unable to Load 4lothru Guide" })).toBeVisible();
     await expect(
       page.getByText("A network error prevented this guide from loading. Check your connection and try again."),
     ).toBeVisible();
