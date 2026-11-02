@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish:
@@ -46,16 +47,9 @@ jobs:
           pnpm build
 
       - name: Publish 4lothru
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
-          if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
-            echo "::error::NPM_TOKEN is missing from the npm-publish GitHub environment."
-            exit 1
-          fi
-
           package_version="$(node -p "require('./packages/4lothru/package.json').version")"
           set +e
           registry_result="$(npm view "4lothru@${package_version}" version 2>&1)"
