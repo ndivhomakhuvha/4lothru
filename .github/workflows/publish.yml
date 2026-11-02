@@ -64,7 +64,7 @@ jobs:
             if [ "$registry_status" -eq 0 ]; then
               echo "${package_name}@${package_version} is already published; skipping."
             elif [[ "$registry_result" == *"E404"* || "$registry_result" == *"404 Not Found"* ]]; then
-              pnpm --dir "$package_dir" publish --access public
+              pnpm --dir "$package_dir" publish --access public --no-git-checks
             else
               echo "$registry_result" >&2
               exit "$registry_status"
