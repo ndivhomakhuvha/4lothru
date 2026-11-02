@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../"
+  },
+  "include": ["../sdk/src/**/*.ts", "../guide-schema/src/**/*.ts"],
+  "exclude": ["**/*.test.ts"]
+}

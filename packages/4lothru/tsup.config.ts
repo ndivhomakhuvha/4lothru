@@ -1,0 +1,27 @@
+export default [
+  {
+    entry: { index: "src/index.ts" },
+    outDir: "../4lothru/dist",
+    format: ["esm"],
+    platform: "browser",
+    target: "es2019",
+    external: ["yaml"],
+    tsconfig: "../4lothru/tsconfig.json",
+    dts: true,
+    sourcemap: true,
+    clean: true,
+  },
+  {
+    entry: { cli: "../cli/src/cli.ts" },
+    outDir: "../4lothru/dist",
+    format: ["esm"],
+    platform: "node",
+    target: "node18",
+    bundle: true,
+    noExternal: ["@4lothru/guide-schema"],
+    external: ["commander", "yaml", "zod"],
+    dts: false,
+    sourcemap: false,
+    clean: false,
+  },
+];

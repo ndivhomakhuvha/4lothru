@@ -1,6 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import {
   parseAuthorGuideYaml,
   resolveGuide,
@@ -9,8 +8,7 @@ import {
   type GuideValidationIssue,
 } from "@4lothru/guide-schema";
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-export const REPO_ROOT = path.resolve(here, "../../../");
+export const REPO_ROOT = process.cwd();
 export const GUIDES_ROOT = path.join(REPO_ROOT, "guides", "releases");
 
 export interface DiscoveredGuide {

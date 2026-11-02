@@ -7,10 +7,10 @@
   },
   "packageManager": "pnpm@12.1.0",
   "scripts": {
-    "postinstall": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build",
+    "postinstall": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build && pnpm --filter 4lothru build",
     "dev": "concurrently -k -n schema,sdk,viewer,demo -c yellow,magenta,blue,green \"pnpm --filter @4lothru/guide-schema dev\" \"pnpm --filter @4lothru/sdk dev\" \"pnpm --filter @4lothru/viewer dev\" \"pnpm --filter @4lothru/demo-app dev\"",
     "build": "pnpm -r --filter=./packages/* build && pnpm -r --filter=./apps/* build",
-    "predev": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build",
+    "predev": "pnpm --filter @4lothru/guide-schema build && pnpm --filter @4lothru/sdk build && pnpm --filter 4lothru build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

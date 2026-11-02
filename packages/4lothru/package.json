@@ -11,25 +11,26 @@
     "url": "git+https://github.com/ndivhomakhuvha/4lothru.git"
   },
   "type": "module",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js",
-      "default": "./index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     }
   },
   "bin": {
     "4lothru": "./bin/4lothru.js"
   },
-  "files": [
-    "bin",
-    "index.js",
-    "index.d.ts"
-  ],
+  "files": ["bin", "dist"],
+  "scripts": {
+    "build": "pnpm --filter @4lothru/sdk exec tsup --config ../4lothru/tsup.config.ts",
+    "dev": "pnpm --filter @4lothru/sdk exec tsup --watch --config ../4lothru/tsup.config.ts"
+  },
   "dependencies": {
-    "@4lothru/cli": "workspace:*",
-    "@4lothru/sdk": "workspace:*"
+    "commander": "^12.1.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
   }
 }

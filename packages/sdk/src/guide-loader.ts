@@ -1,4 +1,8 @@
-import { parseGuideJson, type Guide, type GuideValidationIssue } from "@4lothru/guide-schema";
+import {
+  parseGuideJson,
+  type Guide,
+  type GuideValidationIssue,
+} from "../../guide-schema/src/index.js";
 
 export type LoadGuideResult =
   | { success: true; guide: Guide }

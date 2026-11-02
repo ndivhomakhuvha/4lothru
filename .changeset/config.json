@@ -5,7 +5,10 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "@4lothru/angular-fixture",
+    "@4lothru/cli",
     "@4lothru/demo-app",
+    "@4lothru/guide-schema",
+    "@4lothru/sdk",
     "@4lothru/viewer"
   ],
   "commit": false,

@@ -1,6 +1,6 @@
 # 4lothru
 
-Install the SDK and CLI together:
+Install the SDK and CLI from one self-contained package:
 
 ```bash
 npm install 4lothru

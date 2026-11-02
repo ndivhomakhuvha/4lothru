@@ -1,5 +1,5 @@
-import type { Target } from "@4lothru/guide-schema";
-import { TARGET_STRATEGY_ORDER } from "@4lothru/guide-schema";
+import type { Target } from "../../guide-schema/src/index.js";
+import { TARGET_STRATEGY_ORDER } from "../../guide-schema/src/index.js";
 
 export interface ResolveAttempt {
   strategy: string;

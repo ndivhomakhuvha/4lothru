@@ -2,4 +2,4 @@
 "4lothru": minor
 ---
 
-Add a unified `4lothru` package that installs the SDK and CLI together.
+Bundle the SDK and CLI so users install only the `4lothru` package.

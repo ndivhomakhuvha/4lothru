@@ -1,16 +1,15 @@
-name: Publish packages
+name: Publish 4lothru
 
 on:
   workflow_dispatch:
     inputs:
       confirm:
-        description: Publish new package versions from the selected release commit
+        description: Publish 4lothru from the selected release commit
         required: true
         type: boolean
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   publish:
@@ -46,27 +45,28 @@ jobs:
           pnpm guides:validate
           pnpm build
 
-      - name: Publish new package versions
+      - name: Publish 4lothru
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
-          for package_dir in packages/guide-schema packages/cli packages/sdk packages/4lothru; do
-            package_name="$(node -p "require('./${package_dir}/package.json').name")"
-            package_version="$(node -p "require('./${package_dir}/package.json').version")"
+          if [[ -z "${NODE_AUTH_TOKEN:-}" ]]; then
+            echo "::error::NPM_TOKEN is missing from the npm-publish GitHub environment."
+            exit 1
+          fi
 
-            set +e
-            registry_result="$(npm view "${package_name}@${package_version}" version 2>&1)"
-            registry_status=$?
-            set -e
+          package_version="$(node -p "require('./packages/4lothru/package.json').version")"
+          set +e
+          registry_result="$(npm view "4lothru@${package_version}" version 2>&1)"
+          registry_status=$?
+          set -e
 
-            if [ "$registry_status" -eq 0 ]; then
-              echo "${package_name}@${package_version} is already published; skipping."
-            elif [[ "$registry_result" == *"E404"* || "$registry_result" == *"404 Not Found"* ]]; then
-              pnpm --dir "$package_dir" publish --access public --no-git-checks
-            else
-              echo "$registry_result" >&2
-              exit "$registry_status"
-            fi
-          done
+          if [ "$registry_status" -eq 0 ]; then
+            echo "4lothru@${package_version} is already published; skipping."
+          elif [[ "$registry_result" == *"E404"* || "$registry_result" == *"404 Not Found"* ]]; then
+            pnpm --dir packages/4lothru publish --access public --no-git-checks
+          else
+            echo "$registry_result" >&2
+            exit "$registry_status"
+          fi

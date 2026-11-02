@@ -1,4 +1,4 @@
-import type { Guide } from "@4lothru/guide-schema";
+import type { Guide } from "../../guide-schema/src/index.js";
 import type { GuideCheckpoint } from "./session-storage.js";
 
 export function resolveCheckpointIndex(guide: Guide, checkpoint: GuideCheckpoint | null): number | null {
